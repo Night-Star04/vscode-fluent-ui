@@ -239,9 +239,9 @@ html {
     border-bottom: none !important;
 }
 
-.tabs-container {
+/* .tabs-container {
     height: 32px !important;
-}
+} */
 
 .tabs-container > .tab {
     background-color: transparent !important;
@@ -1346,6 +1346,15 @@ canvas.decorationsOverviewRuler {
         transform: translateX(0);
         opacity: 1;
     }
+}
+
+.replace-input {
+    max-width: calc(100% - 60px) !important;
+}
+
+.split-view-container .split-view-view .pane-composite-part {
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 :root {

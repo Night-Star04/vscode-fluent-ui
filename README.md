@@ -37,10 +37,10 @@ own risk**.
 
 If you ran the command as regular user, here's how you can fix your installation:
 
-1.  On Windows, go to
-    `C:\Users\{username}\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\code\electron-sandbox\workbench`.
-2.  Open the file `workbench.html` as admin
-3.  Remove everything between the comments `<!-- FUI-CSS-START -->` and `<!-- FUI-CSS-END -->`.
+1. On Windows, go to
+   `C:\Users\{username}\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\code\electron-sandbox\workbench`.
+2. Open the file `workbench.html` as admin
+3. Remove everything between the comments `<!-- FUI-CSS-START -->` and `<!-- FUI-CSS-END -->`.
 
     1. Your `workbench.html` file should look like this after removing the patched code:
 
@@ -69,7 +69,7 @@ If you ran the command as regular user, here's how you can fix your installation
 
     2. If that doesn't work, reinstalling VSCode will fix it.
 
-4.  Save and reload VSCode
+4. Save and reload VSCode
 
 ## Known issues
 
@@ -235,3 +235,12 @@ Some of the great themes that go along with this UI (in no particular order):
 ![VSCode light theme preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/vscode-default-light.png?raw=true 'VSCode light')
 
 ---
+
+## Remarks
+
+### Testing platform
+
+-   System: Windows 11 23H2
+-   Fluent UI version: 3.9.0
+-   Visual Studio Code version: 1.88.1
+-   Date: 2024-05-25
