@@ -200,7 +200,7 @@ html {
     border-left: none !important;
     border-right: none !important;
     border-bottom: var(--border) !important;
-    border-radius: var(--border-radius) !important;
+    /* border-radius: var(--border-radius) !important; */
     margin-right: var(--s3);
 }
 
@@ -237,11 +237,22 @@ html {
 .tabs-and-actions-container {
     padding-left: var(--s4);
     border-bottom: none !important;
+    height: 32px !important;
 }
 
 /* .tabs-container {
     height: 32px !important;
 } */
+
+.tabs-container.has-text {
+    height: auto !important;
+    width: auto !important;
+    max-width: 97% !important;
+}
+
+.replace-input {
+    max-width: calc(100% - 60px) !important;
+}
 
 .tabs-container > .tab {
     background-color: transparent !important;
@@ -779,8 +790,8 @@ html {
 }
 
 .monaco-action-bar .action-item.checked,
-.monaco-action-bar .action-item:hover,
-.monaco-action-bar .action-item.checked .active-item-indicator {
+.monaco-action-bar .action-item:hover
+/*,.monaco-action-bar .action-item.checked .active-item-indicator  */ {
     background: var(--active-action-item-bg) !important;
     border-radius: var(--s3) !important;
 }
@@ -1346,10 +1357,6 @@ canvas.decorationsOverviewRuler {
         transform: translateX(0);
         opacity: 1;
     }
-}
-
-.replace-input {
-    max-width: calc(100% - 60px) !important;
 }
 
 .split-view-container .split-view-view .pane-composite-part {

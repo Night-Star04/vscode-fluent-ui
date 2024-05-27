@@ -1,5 +1,20 @@
 # ChangeLog
 
+## 4.1.0 (2024-05-27)
+
+-   Adjust the fillet transition between the path column and the editor container.
+-   Adjust the tabs and path column white space between.
+-   Adjust the color overlap error for selected items in the sidebar.
+
+## 4.0.0 (2024-05-25)
+
+-   Fix terminal tabs cut off
+    -   [Repair Source](https://github.com/TheOld/vscode-fluent-ui/issues/56)
+-   Fix search widget replacement input cut off
+    -   [Repair Source](https://github.com/TheOld/vscode-fluent-ui/pull/58)
+-   Fix sidebar shifts the contents of the bar upwards
+    -   [Repair Source](https://github.com/TheOld/vscode-fluent-ui/pull/59)
+
 ## 3.8.0 (2022-10-21)
 
 -   Optional features can now be controlled via settings.

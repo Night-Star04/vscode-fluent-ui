@@ -242,5 +242,4 @@ Some of the great themes that go along with this UI (in no particular order):
 
 -   System: Windows 11 23H2
 -   Fluent UI version: 3.9.0
--   Visual Studio Code version: 1.88.1
--   Date: 2024-05-25
+-   Date: 2024-05-27
