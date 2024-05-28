@@ -1,9 +1,19 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+
+# VsCode extensions files
+*.vsix
+!/release/*.vsix
+
+# build
 out
 dist
-node_modules
 .vscode-test/
-*.vsix
 **/*.map
+
+# tests
 src/extension.js
 src/messages.js
 src/backup-helper.js

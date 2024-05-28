@@ -1,14 +1,18 @@
 {
-    "author": "Leandro Rodrigues",
-    "publisher": "leandro-rodrigues",
-    "name": "fluent-ui-vscode",
+    "author": "Night Star",
+    "contributors": [
+        "Leandro Rodrigues",
+        "NightSky Studio"
+    ],
+    "publisher": "NightSky Studio",
+    "name": "fluentui-vscode",
     "displayName": "Fluent UI for VSCode",
     "description": "Fluent UI for VSCode based on concept designs from u/zeealeidahmad.",
     "version": "4.1.0",
-    "icon": "icon.png",
+    "icon": "images/icon.png",
     "repository": {
         "type": "git",
-        "url": "https://github.com/TheOld/vscode-fluent-ui"
+        "url": "https://github.com/Night-Star04/vscode-fluent-ui"
     },
     "engines": {
         "vscode": "^1.78.0"
@@ -29,15 +33,15 @@
     "contributes": {
         "commands": [
             {
-                "command": "fluent-ui-vscode.enableEffects",
+                "command": "fluentui.enableEffects",
                 "title": "Fluent UI: Enable"
             },
             {
-                "command": "fluent-ui-vscode.reloadEffects",
+                "command": "fluentui.reloadEffects",
                 "title": "Fluent UI: Reload"
             },
             {
-                "command": "fluent-ui-vscode.disableEffects",
+                "command": "fluentui.disableEffects",
                 "title": "Fluent UI: Disable"
             }
         ],
@@ -45,37 +49,37 @@
             "title": "Fluent UI",
             "type": "object",
             "properties": {
-                "fluent-ui-vscode.compact": {
+                "fluentui.compact": {
                     "type": "boolean",
                     "default": false,
                     "description": "Applies slight less padding around some of the elements. The difference is subtle but can help those with limited space.",
                     "scope": "application"
                 },
-                "fluent-ui-vscode.enableWallpaper": {
+                "fluentui.enableWallpaper": {
                     "type": "boolean",
                     "default": false,
                     "description": "Enable background image",
                     "scope": "application"
                 },
-                "fluent-ui-vscode.wallpaperPath": {
+                "fluentui.wallpaperPath": {
                     "type": "string",
                     "default": "C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg",
                     "description": "Path to image. By default, it will use the default Windows 11 wallpaper for the Windows light theme.",
                     "scope": "application"
                 },
-                "fluent-ui-vscode.accent": {
+                "fluentui.accent": {
                     "type": "string",
                     "default": "#005fb8",
                     "description": "Accent color (default #005fb8). Only HEX values are supported.",
                     "scope": "application"
                 },
-                "fluent-ui-vscode.darkBackground": {
+                "fluentui.darkBackground": {
                     "type": "string",
                     "default": "#202020",
                     "description": "Background color for dark mode (default #202020). Only HEX values are supported.",
                     "scope": "application"
                 },
-                "fluent-ui-vscode.lightBackground": {
+                "fluentui.lightBackground": {
                     "type": "string",
                     "default": "#ffffff",
                     "description": "Background color for light mode (default #ffffff). Only HEX values are supported.",
