@@ -101,19 +101,19 @@ background for VSCode.
 
 For example, my current wallpaper is this:
 
-![Wallpaper](https://github.com/TheOld/vscode-fluent-ui/blob/main/wallpaper.png?raw=true 'Wallpaper')
+![Wallpaper](images/wallpaper.png 'Wallpaper')
 
 VSCode will look like this after sampling the image:
 
-![Wallpaper](https://github.com/TheOld/vscode-fluent-ui/blob/main/vscode-sample-wp.png?raw=true 'Wallpaper')
+![Wallpaper](images/vscode-sample-wp.png 'Wallpaper')
 
-![Wallpaper](https://github.com/TheOld/vscode-fluent-ui/blob/main/vscode-sample-wp-content.png?raw=true 'Wallpaper')
+![Wallpaper](images/vscode-sample-wp-content.png 'Wallpaper')
 
 Disabling the background in the settings results in VSCode looking like this:
 
-![Wallpaper](https://github.com/TheOld/vscode-fluent-ui/blob/main/vscode-sample-no-wp.png?raw=true 'Wallpaper')
+![Wallpaper](images/vscode-sample-no-wp.png 'Wallpaper')
 
-![Wallpaper](https://github.com/TheOld/vscode-fluent-ui/blob/main/vscode-sample-no-wp-content.png?raw=true 'Wallpaper')
+![Wallpaper](images/vscode-sample-no-wp-content.png 'Wallpaper')
 
 If you change your wallpaper and want to refresh your VSCode you'll have to disable and enable the
 theme again (as admin):
@@ -141,13 +141,11 @@ subtle but can help those with limited space.
 
 #### Normal mode
 
-![Normal
-mode](https://github.com/TheOld/vscode-fluent-ui/blob/main/normal-mode.png?raw=true 'Normal mode')
+![Normal mode](images/normal-mode.png 'Normal mode')
 
 #### Compact mode
 
-![Compact
-mode](https://github.com/TheOld/vscode-fluent-ui/blob/main/compact-mode.png?raw=true 'Normal mode')
+![Compact mode](images/compact-mode.png 'Normal mode')
 
 ### Custom colors
 
@@ -184,55 +182,55 @@ recommend downloading and installing it. If you don't, the theme will fallback t
 
 #### Sidebar
 
-![Sidebar preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/sidebar.png?raw=true 'Sidebar')
+![Sidebar preview](images/sidebar.png 'Sidebar')
 
 #### Activity bar
 
-![Activity bar preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/activitybar.png?raw=true 'Activity bar')
+![Activity bar preview](images/activitybar.png 'Activity bar')
 
 #### Tabs
 
-![Tabs preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/tab-list.png?raw=true 'Tabs')
+![Tabs preview](images/tab-list.png 'Tabs')
 
 #### Terminal
 
-![Terminal preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/terminal.png?raw=true 'Terminal')
+![Terminal preview](images/terminal.png 'Terminal')
 
 #### Search widget
 
-![Search widget preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/search-widget.png?raw=true 'Search widget')
+![Search widget preview](images/search-widget.png 'Search widget')
 
 #### Command palette
 
-![Command palette preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/command-palette-light.png?raw=true 'Command palette')
+![Command palette preview](images/command-palette-light.png 'Command palette')
 
 Some of the great themes that go along with this UI (in no particular order):
 
 ## [Serendipity](https://marketplace.visualstudio.com/items?itemName=wicked-labs.wvsc-serendipity)
 
-![Serendipity Light theme preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/serendipity-light.png?raw=true 'Serendipity Light')
-![Serendipity Dark theme preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/serendipity-dark.png?raw=true 'Serendipity Dard')
+![Serendipity Light theme preview](images/serendipity-light.png 'Serendipity Light')
+![Serendipity Dark theme preview](images/serendipity-dark.png 'Serendipity Dard')
 
 ## [Copilot](https://marketplace.visualstudio.com/items?itemName=BenjaminBenais.copilot-theme)
 
-![Copilot theme preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/copilot.png?raw=true 'Copilot')
+![Copilot theme preview](images/copilot.png 'Copilot')
 
 ## [Mariana Pro](https://marketplace.visualstudio.com/items?itemName=rickynormandeau.mariana-pro)
 
-![Mariana Prot theme preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/mariana-pro.png?raw=true 'Mariana Pro')
+![Mariana Prot theme preview](images/mariana-pro.png 'Mariana Pro')
 
 ## [Night Owl](https://marketplace.visualstudio.com/items?itemName=sdras.night-owl)
 
-![Night Owl Light theme preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/night-owl-light.png?raw=true 'Night Owl Light')
-![Night Owl Dark theme preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/night-owl-dark.png?raw=true 'Night Owl Dark')
+![Night Owl Light theme preview](images/night-owl-light.png 'Night Owl Light')
+![Night Owl Dark theme preview](images/night-owl-dark.png 'Night Owl Dark')
 
 ## [One Dark Pro](https://marketplace.visualstudio.com/items?itemName=zhuangtongfa.Material-theme)
 
-![One Dark Pro theme preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/one-dark-pro.png?raw=true 'One Dark Pro ')
+![One Dark Pro theme preview](images/one-dark-pro.png 'One Dark Pro ')
 
 ## VSCode default white
 
-![VSCode light theme preview](https://github.com/TheOld/vscode-fluent-ui/blob/main/vscode-default-light.png?raw=true 'VSCode light')
+![VSCode light theme preview](images/vscode-default-light.png 'VSCode light')
 
 ---
 
