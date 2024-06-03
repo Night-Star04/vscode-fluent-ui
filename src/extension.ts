@@ -105,7 +105,7 @@ export async function getBase64Image(wallPath: string) {
 }
 
 async function getCSSTag() {
-    const config = vscode.workspace.getConfiguration('fluent-ui-vscode');
+    const config = vscode.workspace.getConfiguration('fluentui');
     const activeTheme = vscode.window.activeColorTheme;
     const isDark = activeTheme.kind === 2;
     const isCompact = config.get('compact');
@@ -158,7 +158,7 @@ async function getCSSTag() {
 async function buildJsFile(jsFile: string) {
     try {
         const url = '/js/theme_template.js';
-        const config = vscode.workspace.getConfiguration('fluent-ui-vscode');
+        const config = vscode.workspace.getConfiguration('fluentui');
         const jsTemplate = await fs.readFile(__dirname + url);
         let buffer = jsTemplate.toString();
 
@@ -254,18 +254,12 @@ export function activate(context: vscode.ExtensionContext) {
         }
     }
 
-    const installFUI = vscode.commands.registerCommand('fluent-ui-vscode.enableEffects', install);
-    const reloadFUI = vscode.commands.registerCommand(
-        'fluent-ui-vscode.reloadEffects',
-        async () => {
-            await clearPatch();
-            install(true);
-        },
-    );
-    const uninstallFUI = vscode.commands.registerCommand(
-        'fluent-ui-vscode.disableEffects',
-        uninstall,
-    );
+    const installFUI = vscode.commands.registerCommand('fluentui.enableEffects', install);
+    const reloadFUI = vscode.commands.registerCommand('fluentui.reloadEffects', async () => {
+        await clearPatch();
+        install(true);
+    });
+    const uninstallFUI = vscode.commands.registerCommand('fluentui.disableEffects', uninstall);
 
     context.subscriptions.push(installFUI);
     context.subscriptions.push(reloadFUI);

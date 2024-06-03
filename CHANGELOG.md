@@ -1,5 +1,9 @@
 # ChangeLog
 
+## 4.2.1 (2024-06-04)
+
+-   Fix command not found error.
+
 ## 4.1.0 (2024-05-27)
 
 -   Adjust the fillet transition between the path column and the editor container.
