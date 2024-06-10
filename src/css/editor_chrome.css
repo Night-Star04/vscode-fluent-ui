@@ -728,7 +728,7 @@ html {
 .monaco-button,
 .monaco-text-button {
     border-radius: var(--button-radius);
-    background: var(--accent) !important;
+    /* background: var(--accent) !important; */
     color: #ffffff !important;
     text-align: center;
     font-feature-settings: 'rclt' off;
@@ -739,7 +739,7 @@ html {
 
 .monaco-button:hover,
 .monaco-text-button:hover {
-    background: var(--accent-hover) !important;
+    /* background: var(--accent-hover) !important; */
 }
 
 .monaco-button:active,
@@ -1362,6 +1362,22 @@ canvas.decorationsOverviewRuler {
 .split-view-container .split-view-view .pane-composite-part {
     display: flex !important;
     flex-direction: column !important;
+}
+
+.monaco-scrollable-element .split-view-view .centered-layout-margin {
+    opacity: 0 !important;
+}
+
+.monaco-icon-label:after {
+    margin-top: 0 !important;
+}
+.monaco-tl-contents .monaco-icon-label:after {
+    margin-left: 0 !important;
+}
+
+.monaco-scrollable-element .split-view-view .editor-container {
+    border-bottom-left-radius: var(--border-radius) !important;
+    border-bottom-right-radius: var(--border-radius) !important;
 }
 
 :root {

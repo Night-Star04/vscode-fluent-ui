@@ -239,5 +239,5 @@ Some of the great themes that go along with this UI (in no particular order):
 ### Testing platform
 
 -   System: Windows 11 23H2
--   Fluent UI version: 4.1.1
--   Date: 2024-06-04
+-   Fluent UI version: 4.2.0
+-   Date: 2024-06-10

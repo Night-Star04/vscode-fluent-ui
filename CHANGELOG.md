@@ -1,6 +1,26 @@
 # ChangeLog
 
-## 4.2.1 (2024-06-04)
+## 4.2.0 (2024-06-10)
+
+1.  Adjust icon misalignment.
+
+    -   Address alignment issues with icons to ensure they are displayed correctly.
+
+2.  Remove black background on sides when using centered layout.
+
+    -   Remove the black side panels that appear when employing a centered layout to prevent
+        distractions and maintain focus on the central content.
+
+3.  Add rounded corners to the editing area when using centered layout.
+
+    -   Introduce rounded corners to the editing area in the centered layout to enhance the
+        aesthetic appeal.
+
+4.  Correct the erroneous background colors of certain buttons.
+
+    -   Fix the background colors of specific buttons that are currently incorrect.
+
+## 4.1.1 (2024-06-04)
 
 -   Fix command not found error.
 
