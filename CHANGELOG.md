@@ -1,5 +1,10 @@
 # ChangeLog
 
+## 4.2.1 (2024-06-15)
+
+1. Update the README file.
+2. Update the extension icon.
+
 ## 4.2.0 (2024-06-10)
 
 1.  Adjust icon misalignment.

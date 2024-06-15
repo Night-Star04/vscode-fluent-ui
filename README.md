@@ -1,11 +1,24 @@
-# Fluent UI theme for VS Code
+<p align="center">
+  <img width="128" align="center" src="/images/icon.png">
+</p>
+<h1 align="center">
+    VS Code Fluent UI
+</h1>
+<p align="center">
+  A Fluent UI theme for Visual Studio Code
+</p>
+<p align="center">
+    <img alt="VS Code" src="https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white">
+    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/Night-Star04/vscode-fluent-ui">
+</p>
 
 Inspired by and based on the awesome concept designs by
 [u/zeealeidahmad](https://www.reddit.com/r/Windows11/comments/orbgzl/visual_studio_vs_code_and_github_desktop_with/).
+
 Using CSS3 I tried as much as possible to replicate his designs. Some transparency effects are not
 possible at the momend due to the current Electron version that VSCode is using.
 
-## Disclaimer
+## ⚠️Disclaimer⚠️
 
 This is a workbench theme. That means that VS Code's UI is being heavily modified for aestethic
 purposes only. There's no intention to enhance or compete with the original look. Is merely an
@@ -13,21 +26,31 @@ alternative. Also, please bear in mind that this theme is considered an experime
 beta software, since there's no official support for this type of modification, **so used it at your
 own risk**.
 
-# Install
+## Features
+
+-   Fluent UI theme for VS Code
+-   Support light/dark theme
+-   Customizable accent, dark and light background colors
+-   Customizable wallpaper background
+-   Support Compact mode
+
+## Install
 
 1. Run VSCode as admin.
-    1. This is important, the extension won't work otherwise
-2. Install the extension from the
-   [Marketplace](https://marketplace.visualstudio.com/items?itemName=leandro-rodrigues.fluent-ui-vscode)
-    1. Optiona: Go to settings and adjust the colors (this can be done at any time)
-3. Run `> Fluent UI: Enable` and reload when prompted
+    - This is important, the extension won't work otherwise
+2. Download the latest version of the installation file from
+   [Github](https://github.com/Night-Star04/vscode-fluent-ui/releases)
+    - Optiona: Go to settings and adjust the colors (this can be done at any time)
+3. Install the extension via the `Install from VSIX` option in the extensions view
+    - You can also install it via the command line with `code --install-extension <path-to-vsix>`
+4. Run `> Fluent UI: Enable` and reload when prompted
 
 > VSCode will display a notification saying that the installtion is corrupt. That's normal, VSCode
 > sees the installation as corrupt because the HTML (workbench.html) file is now changed.
 >
 > Just click the lil' cog on the message and select `Don't show again` and you should be good to go.
 
-# Uninstall
+## Uninstall
 
 1. Run VSCode as admin.
     1. This is important, you'll end up with a messed up `workbench.html` file if you run the
@@ -67,9 +90,31 @@ If you ran the command as regular user, here's how you can fix your installation
     </html>
     ```
 
-    2. If that doesn't work, reinstalling VSCode will fix it.
+    If that doesn't work, reinstalling VSCode will fix it.
 
 4. Save and reload VSCode
+
+## Settings
+
+See [STEEING](/STEEING.MD) for the settings.
+
+## App background
+
+The background feature is intended to mimic, to an extent, the Mica material used by Windows 11
+native applications.
+
+## Note
+
+When you install the extension, it will sample the current desktop wallpaper you have set, generate
+a blurred version of it and set VSCode window to use that as background. In some cases thay may
+cause low contrast or make stuff hard to read, depending on what you have for a wallpaper, so keep
+that in mind when running the default installation.
+
+You can disale this feature by unchecking the `Enable background image` in the settings page.
+
+## Screenshots
+
+See [SCREENSHOTS](/SCREENSHOTS.MD) for the screenshots.
 
 ## Known issues
 
@@ -84,160 +129,29 @@ If you ran the command as regular user, here's how you can fix your installation
 }
 ```
 
-## Features
+## Recommended appearance
 
-The default installtion (via `> Fluent UI: enable`) has all features enabled by default (provided
-you didn't disable some of them via settings before activating). You can disable some features via
-settings, just search for `Fluent` there.
-
-> After changing one of the settings, you'll have to run `> Fluent UI: reload` to reapply the
-> styles.
-
-### App background
-
-The background feature is intended to mimic, to an extent, the Mica material used by Windows 11
-native applications. Your current wallpaper will be sampled once during installation and used as a
-background for VSCode.
-
-For example, my current wallpaper is this:
-
-![Wallpaper](images/wallpaper.png 'Wallpaper')
-
-VSCode will look like this after sampling the image:
-
-![Wallpaper](images/vscode-sample-wp.png 'Wallpaper')
-
-![Wallpaper](images/vscode-sample-wp-content.png 'Wallpaper')
-
-Disabling the background in the settings results in VSCode looking like this:
-
-![Wallpaper](images/vscode-sample-no-wp.png 'Wallpaper')
-
-![Wallpaper](images/vscode-sample-no-wp-content.png 'Wallpaper')
-
-If you change your wallpaper and want to refresh your VSCode you'll have to disable and enable the
-theme again (as admin):
-
-1. `> Fluent UI: disable`
-2. Restart (close and open VSCode)
-3. `> Fluent UI: enable`
-4. Restart (again :/)
-
-### Please note
-
-> When you install the extension, it will sample the current desktop wallpaper you have set,
-> generate a blurred version of it and set VSCode window to use that as background. In some cases
-> thay may cause low contrast or make stuff hard to read, depending on what you have for a
-> wallpaper, so keep that in mind when running the default installation.
-
-You can disale this feature by unchecking the `Enable background image` in the settings page.
-
-### Compact mode
-
-`Settings -> Fluent UI: Compact`
-
-This will apply the theme using slight less padding around some of the elements. The difference is
-subtle but can help those with limited space.
-
-#### Normal mode
-
-![Normal mode](images/normal-mode.png 'Normal mode')
-
-#### Compact mode
-
-![Compact mode](images/compact-mode.png 'Normal mode')
-
-### Custom colors
-
-You can set custom colors for the accent, dark and light background colors via settings. Any HEX
-value will work, but bear in mind that the extension can't account for contrast issues as a result
-of a custom color.
-
-### Dynamic light/dark theme
-
-The UI is dynamic and will apply the light and dark themes based on the current syntax theme type.
-For example, if you're using
-[One Dark Pro](https://marketplace.visualstudio.com/items?itemName=zhuangtongfa.Material-theme),
-when you run `> Fluent UI: Enable`, the extension will identify
-[One Dark Pro](https://marketplace.visualstudio.com/items?itemName=zhuangtongfa.Material-theme) as a
-`dark` syntax theme and apply the correct UI mode. Same for light themes.
-
-The extension will also do the same on the fly as you preview your syntax theme using
-`Ctrl/Cmd + k Ctrl/Cmd + t`
-
-## And to complete the look
-
-Product icon themes:
+### Product icon themes
 
 -   [Fluent Icons](https://marketplace.visualstudio.com/items?itemName=miguelsolorio.fluent-icons)
     (the one you see in the screenshots)
 -   [Carbon](https://marketplace.visualstudio.com/items?itemName=antfu.icons-carbon)
 
-The workbench is set to use Segoe UI Variable (the new standard font for Windows 11). I highly
-recommend downloading and installing it. If you don't, the theme will fallback to the default font.
+### Standard font
+
+The workbench is set to use Segoe UI Variable (the new standard font for Windows 11). I
+highlyrecommend downloading and installing it. If you don't, the theme will fallback to the default
+font.
 
 -   [Segoe UI variable](https://docs.microsoft.com/en-us/windows/apps/design/downloads/#fonts)
 
-### Screenshots
+## Special Thanks
 
-#### Sidebar
+### Main contributors
 
-![Sidebar preview](images/sidebar.png 'Sidebar')
+[TheOld](https://github.com/TheOld) for the
+[VSCode-FluentUI](https://github.com/TheOld/vscode-fluent-ui) theme.
 
-#### Activity bar
+### Contributors
 
-![Activity bar preview](images/activitybar.png 'Activity bar')
-
-#### Tabs
-
-![Tabs preview](images/tab-list.png 'Tabs')
-
-#### Terminal
-
-![Terminal preview](images/terminal.png 'Terminal')
-
-#### Search widget
-
-![Search widget preview](images/search-widget.png 'Search widget')
-
-#### Command palette
-
-![Command palette preview](images/command-palette-light.png 'Command palette')
-
-Some of the great themes that go along with this UI (in no particular order):
-
-## [Serendipity](https://marketplace.visualstudio.com/items?itemName=wicked-labs.wvsc-serendipity)
-
-![Serendipity Light theme preview](images/serendipity-light.png 'Serendipity Light')
-![Serendipity Dark theme preview](images/serendipity-dark.png 'Serendipity Dard')
-
-## [Copilot](https://marketplace.visualstudio.com/items?itemName=BenjaminBenais.copilot-theme)
-
-![Copilot theme preview](images/copilot.png 'Copilot')
-
-## [Mariana Pro](https://marketplace.visualstudio.com/items?itemName=rickynormandeau.mariana-pro)
-
-![Mariana Prot theme preview](images/mariana-pro.png 'Mariana Pro')
-
-## [Night Owl](https://marketplace.visualstudio.com/items?itemName=sdras.night-owl)
-
-![Night Owl Light theme preview](images/night-owl-light.png 'Night Owl Light')
-![Night Owl Dark theme preview](images/night-owl-dark.png 'Night Owl Dark')
-
-## [One Dark Pro](https://marketplace.visualstudio.com/items?itemName=zhuangtongfa.Material-theme)
-
-![One Dark Pro theme preview](images/one-dark-pro.png 'One Dark Pro ')
-
-## VSCode default white
-
-![VSCode light theme preview](images/vscode-default-light.png 'VSCode light')
-
----
-
-## Remarks
-
-### Testing platform
-
--   System: Windows 11 23H2
--   Fluent UI version: 4.2.0
--   Date: 2024-06-10
+[Benno Vasconcellos](https://github.com/MrTadeu), [Night Star](https://github.com/Night-Star04)
