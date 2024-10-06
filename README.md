@@ -12,6 +12,13 @@
     <img alt="GitHub Release" src="https://img.shields.io/github/v/release/Night-Star04/vscode-fluent-ui">
 </p>
 
+> **⚠️Warning⚠️**
+>
+> # Currently cannot run properly in Visual Studio Code 1.94
+>
+> Please see the [announcement](https://github.com/Night-Star04/vscode-fluent-ui/discussions/3) for
+> detailed instructions
+
 Inspired by and based on the awesome concept designs by
 [u/zeealeidahmad](https://www.reddit.com/r/Windows11/comments/orbgzl/visual_studio_vs_code_and_github_desktop_with/).
 
@@ -96,7 +103,7 @@ If you ran the command as regular user, here's how you can fix your installation
 
 ## Settings
 
-See [STEEING](/STEEING.MD) for the settings.
+See [STEEING](/STEEING.md) for the settings.
 
 ## App background
 
@@ -114,7 +121,7 @@ You can disale this feature by unchecking the `Enable background image` in the s
 
 ## Screenshots
 
-See [SCREENSHOTS](/SCREENSHOTS.MD) for the screenshots.
+See [SCREENSHOTS](/SCREENSHOTS.md) for the screenshots.
 
 ## Known issues
 
