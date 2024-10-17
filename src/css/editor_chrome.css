@@ -514,14 +514,10 @@ html {
 
 .sidebar.left {
     margin-left: var(--s4);
-    animation: sidebarLeftIn var(--easing-timing-fast) var(--easing-curve-in) forwards !important;
-    animation-delay: 180ms;
 }
 
 .sidebar.right {
     margin-right: var(--s4);
-    animation: sidebarRightIn var(--easing-timing-normal) var(--easing-curve-in) forwards !important;
-    animation-delay: 180ms;
 }
 
 .sidebar.compact {
