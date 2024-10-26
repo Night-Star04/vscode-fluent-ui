@@ -1,14 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/naming-convention
-const UglifyJS = require('uglify-js');
-const sharp = require('sharp');
+import * as vscode from 'vscode';
+import * as path from 'path';
+import * as fs from 'fs/promises';
+import UglifyJS from 'uglify-js';
+import sharp from 'sharp';
 import minify from '@node-minify/core';
 import cssnano from '@node-minify/cssnano';
-import * as fs from 'fs/promises';
-import * as path from 'path';
-import * as Url from 'url';
-import * as vscode from 'vscode';
-import { nanoid } from 'nanoid';
-import { RequestInfo, RequestInit } from 'node-fetch';
 
 import {
     buildBackupFilePath,
@@ -18,9 +15,6 @@ import {
     restoreBackup,
 } from './backup-helper';
 import { messages } from './messages';
-
-const fetch = (url: RequestInfo, init?: RequestInit) =>
-    import('node-fetch').then(({ default: fetch }) => fetch(url, init));
 
 export const CONTAINER = 'electron-sandbox';
 
@@ -41,16 +35,6 @@ function reloadWindow() {
     vscode.commands.executeCommand('workbench.action.reloadWindow');
 }
 
-const minifyCss = async (css: Buffer) => {
-    try {
-        const output = await postcss([cssnano]).process(css);
-
-        return output.css;
-    } catch (error) {
-        vscode.window.showErrorMessage(error);
-    }
-};
-
 /**
  * Removes injected files from workbench.html file
  * @param  {} html
@@ -62,10 +46,10 @@ function clearHTML(html: string) {
     return html;
 }
 
-async function buildCSSTag(url: string, useThemeColors?: boolean) {
+async function buildCSSTag(url: string) {
     try {
         const fileName = path.join(__dirname, url);
-        const fetched = await fs.readFile(fileName);
+        // const fetched = await fs.readFile(fileName);
 
         const mini = await minify({
             compressor: cssnano,
@@ -86,6 +70,7 @@ async function buildCSSTag(url: string, useThemeColors?: boolean) {
     } catch (error) {
         vscode.window.showErrorMessage(error);
         vscode.window.showWarningMessage(messages.cannotLoad + url);
+        return undefined;
     }
 }
 
@@ -108,13 +93,13 @@ async function getCSSTag() {
     const config = vscode.workspace.getConfiguration('fluentui');
     const activeTheme = vscode.window.activeColorTheme;
     const isDark = activeTheme.kind === 2;
-    const isCompact = config.get('compact');
-    const enableBg = config.get('enableWallpaper');
-    const bgURL = config.get('wallpaperPath');
+    // const isCompact = config.get<boolean>('compact', false);
+    const enableBg = config.get<boolean>('enableWallpaper', false);
+    const bgURL = config.get<string>('wallpaperPath', '');
 
-    const accent = `${config.get('accent')}`;
-    const darkBgColor = `${config.get('darkBackground')}b3`;
-    const lightBgColor = `${config.get('lightBackground')}b3`;
+    const accent = `${config.get<string>('accent', '#005fb8')}`;
+    const darkBgColor = `${config.get<string>('darkBackground', '#202020')}b3`;
+    const lightBgColor = `${config.get<string>('lightBackground', '#ffffff')}b3`;
 
     let encodedImage: boolean | string = false;
 
@@ -190,6 +175,7 @@ interface PatchArgs {
     jsFile: string;
     bypassMessage?: boolean;
 }
+
 async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
     let html = await fs.readFile(htmlFile, 'utf-8');
     html = clearHTML(html);
@@ -267,4 +253,6 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+    // No need to do anything here
+}

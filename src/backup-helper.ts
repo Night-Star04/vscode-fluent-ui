@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as fs from 'node:fs/promises';
+import * as fs from 'fs/promises';
 import { messages } from './messages';
 import { CONTAINER } from './extension';
 
@@ -11,7 +11,7 @@ import { CONTAINER } from './extension';
  */
 export async function deleteBackupFiles(htmlFile: string, jsFile: string) {
     try {
-        const htmlDir = path.dirname(htmlFile);
+        // const htmlDir = path.dirname(htmlFile);
 
         await fs.unlink(htmlFile);
         console.log('Successfully removed backup file');
@@ -22,21 +22,18 @@ export async function deleteBackupFiles(htmlFile: string, jsFile: string) {
     }
 }
 
-function clearExistingPatches(html: string) {
-    html = html.replace(
-        /^.*(<!-- FUI-JS-START --><script src="fui.js"><\/script><!-- FUI-JS-END -->).*\n?/gm,
-        '',
-    );
-
-    return html;
-}
+/**
+ * Generates the path for the backup file we're creating
+ */
+export const buildBackupFilePath = (base: string) =>
+    path.join(base, CONTAINER, 'workbench', `workbench.fui`);
 
 /**
  * Creates a backup file from the current workspace.html
  */
 export async function createBackup(base: string, htmlFile: string) {
     try {
-        let html = await fs.readFile(htmlFile, 'utf-8');
+        const html = await fs.readFile(htmlFile, 'utf-8');
 
         await fs.writeFile(buildBackupFilePath(base), html, 'utf-8');
     } catch (e) {
@@ -58,6 +55,7 @@ export async function getBackupUuid(htmlFilePath: string) {
         }
     } catch (e) {
         vscode.window.showInformationMessage(`${messages.genericError}${e}`);
+        return null;
     }
 }
 
@@ -76,9 +74,3 @@ export async function restoreBackup(backupFilePath: string, htmlFile: string) {
         throw e;
     }
 }
-
-/**
- * Generates the path for the backup file we're creating
- */
-export const buildBackupFilePath = (base: string) =>
-    path.join(base, CONTAINER, 'workbench', `workbench.fui`);
