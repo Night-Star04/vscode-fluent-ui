@@ -1,8 +1,8 @@
-import * as vscode from 'vscode';
-import * as path from 'path';
 import * as fs from 'fs/promises';
+import * as vscode from 'vscode';
+
+import { backupHtmlFilePath } from './tools/file';
 import { messages } from './messages';
-import { CONTAINER } from './extension';
 
 /**
  * Deletes backup files matching UUID
@@ -23,19 +23,13 @@ export async function deleteBackupFiles(htmlFile: string, jsFile: string) {
 }
 
 /**
- * Generates the path for the backup file we're creating
- */
-export const buildBackupFilePath = (base: string) =>
-    path.join(base, CONTAINER, 'workbench', `workbench.fui`);
-
-/**
  * Creates a backup file from the current workspace.html
  */
-export async function createBackup(base: string, htmlFile: string) {
+export async function createBackup(htmlFile: string) {
     try {
         const html = await fs.readFile(htmlFile, 'utf-8');
 
-        await fs.writeFile(buildBackupFilePath(base), html, 'utf-8');
+        await fs.writeFile(backupHtmlFilePath, html, 'utf-8');
     } catch (e) {
         vscode.window.showInformationMessage(messages.admin);
         throw e;

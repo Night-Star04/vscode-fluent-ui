@@ -7,16 +7,9 @@ import sharp from 'sharp';
 import minify from '@node-minify/core';
 import cssnano from '@node-minify/cssnano';
 
-import {
-    buildBackupFilePath,
-    createBackup,
-    deleteBackupFiles,
-    getBackupUuid,
-    restoreBackup,
-} from './backup-helper';
+import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from './backup-helper';
 import { messages } from './messages';
-
-export const CONTAINER = 'electron-sandbox';
+import { backupHtmlFilePath, fetchHtmlFile, workbenchJsFilePath } from './tools/file';
 
 function enabledRestart() {
     vscode.window
@@ -202,12 +195,9 @@ async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-    const appDir = path.dirname(require!.main!.filename);
-
-    const base = path.join(appDir, 'vs', 'code');
-    const htmlFile = path.join(base, CONTAINER, 'workbench', 'workbench.html');
-    const htmlBakFile = path.join(base, CONTAINER, 'workbench', 'workbench.fui');
-    const jsFile = path.join(base, CONTAINER, 'workbench', 'fui.js');
+    const htmlFile = fetchHtmlFile();
+    const htmlBakFile = backupHtmlFilePath;
+    const jsFile = workbenchJsFilePath;
 
     /**
      * Installs full version
@@ -221,7 +211,7 @@ export function activate(context: vscode.ExtensionContext) {
             }
         }
 
-        await createBackup(base, htmlFile);
+        await createBackup(htmlFile);
         await patch({ htmlFile, jsFile, bypassMessage });
     }
 
@@ -232,8 +222,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     async function clearPatch() {
         try {
-            const backupPath = buildBackupFilePath(base);
-            await restoreBackup(backupPath, htmlFile);
+            await restoreBackup(htmlBakFile, htmlFile);
             await deleteBackupFiles(htmlBakFile, jsFile);
         } catch (error) {
             vscode.window.showErrorMessage(error);
