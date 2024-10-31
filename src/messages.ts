@@ -8,4 +8,7 @@ export const messages = {
     restartIde: 'Restart Visual Studio Code',
     cannotLoad: 'Error: ',
     restart: 'You need to reload for the change(s) to take effect.',
+    pathLookupFailed: 'Unable to locate the installation path of VSCode.',
 };
+
+export default messages;
