@@ -1,31 +1,31 @@
-// eslint-disable-next-line @typescript-eslint/naming-convention
-import * as vscode from 'vscode';
-import * as path from 'path';
-import * as fs from 'fs/promises';
-import UglifyJS from 'uglify-js';
-import sharp from 'sharp';
+import { readFile, writeFile } from 'fs/promises';
+import { join } from 'path';
+
 import minify from '@node-minify/core';
 import cssnano from '@node-minify/cssnano';
+import sharp from 'sharp';
+import UglifyJS from 'uglify-js';
+import { type ExtensionContext, commands, window, workspace } from 'vscode';
 
 import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from './backup-helper';
 import { messages } from './messages';
 import { backupHtmlFilePath, fetchHtmlFile, workbenchJsFilePath } from './tools/file';
 
 function enabledRestart() {
-    vscode.window
+    window
         .showInformationMessage(messages.enabled, { title: messages.restartIde })
         .then(reloadWindow);
 }
 
 function restart() {
-    vscode.window
+    window
         .showInformationMessage(messages.disabled, { title: messages.restartIde })
         .then(reloadWindow);
 }
 
 function reloadWindow() {
     // reload vscode-window
-    vscode.commands.executeCommand('workbench.action.reloadWindow');
+    commands.executeCommand('workbench.action.reloadWindow');
 }
 
 /**
@@ -41,13 +41,13 @@ function clearHTML(html: string) {
 
 async function buildCSSTag(url: string) {
     try {
-        const fileName = path.join(__dirname, url);
-        // const fetched = await fs.readFile(fileName);
+        const fileName = join(__dirname, url);
+        // const fetched = await readFile(fileName);
 
         const mini = await minify({
             compressor: cssnano,
             input: fileName,
-            output: path.join(__dirname, '/css/chrome-min.css'),
+            output: join(__dirname, '/css/chrome-min.css'),
         })
             .then(function (min) {
                 console.log('CSS min');
@@ -61,8 +61,8 @@ async function buildCSSTag(url: string) {
 
         return `<style>${mini}</style>\n`;
     } catch (error) {
-        vscode.window.showErrorMessage(error);
-        vscode.window.showWarningMessage(messages.cannotLoad + url);
+        window.showErrorMessage(error);
+        window.showWarningMessage(messages.cannotLoad + url);
         return undefined;
     }
 }
@@ -77,14 +77,14 @@ export async function getBase64Image(wallPath: string) {
 
         return false;
     } catch (e) {
-        vscode.window.showInformationMessage(messages.admin);
+        window.showInformationMessage(messages.admin);
         throw e;
     }
 }
 
 async function getCSSTag() {
-    const config = vscode.workspace.getConfiguration('fluentui');
-    const activeTheme = vscode.window.activeColorTheme;
+    const config = workspace.getConfiguration('fluentui');
+    const activeTheme = window.activeColorTheme;
     const isDark = activeTheme.kind === 2;
     // const isCompact = config.get<boolean>('compact', false);
     const enableBg = config.get<boolean>('enableWallpaper', false);
@@ -136,8 +136,8 @@ async function getCSSTag() {
 async function buildJsFile(jsFile: string) {
     try {
         const url = '/js/theme_template.js';
-        const config = vscode.workspace.getConfiguration('fluentui');
-        const jsTemplate = await fs.readFile(__dirname + url);
+        const config = workspace.getConfiguration('fluentui');
+        const jsTemplate = await readFile(__dirname + url);
         let buffer = jsTemplate.toString();
 
         const isCompact = config.get('compact');
@@ -152,11 +152,11 @@ async function buildJsFile(jsFile: string) {
 
         const uglyJS = UglifyJS.minify(buffer);
 
-        await fs.writeFile(jsFile, uglyJS.code, 'utf-8');
+        await writeFile(jsFile, uglyJS.code, 'utf-8');
 
         return;
     } catch (error) {
-        vscode.window.showErrorMessage(error);
+        window.showErrorMessage(error);
     }
 }
 
@@ -170,7 +170,7 @@ interface PatchArgs {
 }
 
 async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
-    let html = await fs.readFile(htmlFile, 'utf-8');
+    let html = await readFile(htmlFile, 'utf-8');
     html = clearHTML(html);
 
     const styleTags = await getCSSTag();
@@ -178,11 +178,11 @@ async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
     html = html.replace(/(<\/head>)/, '\n' + styleTags + '\n</head>');
 
     await buildJsFile(jsFile);
-    // Injext JS tag into <body>
+    // Inject JS tag into <body>
     html = html.replace(/(<\/html>)/, '\n' + '<script src="fui.js"></script>' + '\n</html>');
 
     try {
-        await fs.writeFile(htmlFile, html, 'utf-8');
+        await writeFile(htmlFile, html, 'utf-8');
 
         if (bypassMessage) {
             reloadWindow();
@@ -190,11 +190,11 @@ async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
             enabledRestart();
         }
     } catch (e) {
-        vscode.window.showInformationMessage(messages.admin);
+        window.showInformationMessage(messages.admin);
     }
 }
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: ExtensionContext) {
     const htmlFile = fetchHtmlFile();
     const htmlBakFile = backupHtmlFilePath;
     const jsFile = workbenchJsFilePath;
@@ -206,7 +206,7 @@ export function activate(context: vscode.ExtensionContext) {
         if (!bypassMessage) {
             const backupUuid = await getBackupUuid(htmlFile);
             if (backupUuid) {
-                vscode.window.showInformationMessage(messages.alreadySet);
+                window.showInformationMessage(messages.alreadySet);
                 return;
             }
         }
@@ -225,16 +225,16 @@ export function activate(context: vscode.ExtensionContext) {
             await restoreBackup(htmlBakFile, htmlFile);
             await deleteBackupFiles(htmlBakFile, jsFile);
         } catch (error) {
-            vscode.window.showErrorMessage(error);
+            window.showErrorMessage(error);
         }
     }
 
-    const installFUI = vscode.commands.registerCommand('fluentui.enableEffects', install);
-    const reloadFUI = vscode.commands.registerCommand('fluentui.reloadEffects', async () => {
+    const installFUI = commands.registerCommand('fluentui.enableEffects', install);
+    const reloadFUI = commands.registerCommand('fluentui.reloadEffects', async () => {
         await clearPatch();
         install(true);
     });
-    const uninstallFUI = vscode.commands.registerCommand('fluentui.disableEffects', uninstall);
+    const uninstallFUI = commands.registerCommand('fluentui.disableEffects', uninstall);
 
     context.subscriptions.push(installFUI);
     context.subscriptions.push(reloadFUI);

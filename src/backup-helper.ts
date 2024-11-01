@@ -1,8 +1,9 @@
-import * as fs from 'fs/promises';
-import * as vscode from 'vscode';
+import { copyFile, readFile, stat, unlink, writeFile } from 'fs/promises';
 
-import { backupHtmlFilePath } from './tools/file';
+import { window } from 'vscode';
+
 import { messages } from './messages';
+import { backupHtmlFilePath } from './tools/file';
 
 /**
  * Deletes backup files matching UUID
@@ -11,14 +12,12 @@ import { messages } from './messages';
  */
 export async function deleteBackupFiles(htmlFile: string, jsFile: string) {
     try {
-        // const htmlDir = path.dirname(htmlFile);
-
-        await fs.unlink(htmlFile);
+        await unlink(htmlFile);
         console.log('Successfully removed backup file');
-        await fs.unlink(jsFile);
+        await unlink(jsFile);
         console.log('Successfully removed js file');
     } catch (error) {
-        vscode.window.showErrorMessage(error);
+        window.showErrorMessage(error);
     }
 }
 
@@ -27,18 +26,18 @@ export async function deleteBackupFiles(htmlFile: string, jsFile: string) {
  */
 export async function createBackup(htmlFile: string) {
     try {
-        const html = await fs.readFile(htmlFile, 'utf-8');
+        const html = await readFile(htmlFile, 'utf-8');
 
-        await fs.writeFile(backupHtmlFilePath, html, 'utf-8');
+        await writeFile(backupHtmlFilePath, html, 'utf-8');
     } catch (e) {
-        vscode.window.showInformationMessage(messages.admin);
+        window.showInformationMessage(messages.admin);
         throw e;
     }
 }
 
 export async function getBackupUuid(htmlFilePath: string) {
     try {
-        const htmlContent = await fs.readFile(htmlFilePath, 'utf-8');
+        const htmlContent = await readFile(htmlFilePath, 'utf-8');
 
         const match = htmlContent.match(/fui/);
 
@@ -48,7 +47,7 @@ export async function getBackupUuid(htmlFilePath: string) {
             return match[0];
         }
     } catch (e) {
-        vscode.window.showInformationMessage(`${messages.genericError}${e}`);
+        window.showInformationMessage(`${messages.genericError}${e}`);
         return null;
     }
 }
@@ -58,13 +57,13 @@ export async function getBackupUuid(htmlFilePath: string) {
  */
 export async function restoreBackup(backupFilePath: string, htmlFile: string) {
     try {
-        const stat = await fs.stat(backupFilePath);
-        if (stat.isFile()) {
-            await fs.unlink(htmlFile);
-            await fs.copyFile(backupFilePath, htmlFile);
+        const fileStats = await stat(backupFilePath);
+        if (fileStats.isFile()) {
+            await unlink(htmlFile);
+            await copyFile(backupFilePath, htmlFile);
         }
     } catch (e) {
-        vscode.window.showInformationMessage(messages.admin);
+        window.showInformationMessage(messages.admin);
         throw e;
     }
 }
