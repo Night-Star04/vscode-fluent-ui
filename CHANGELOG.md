@@ -1,4 +1,18 @@
-# ChangeLog
+# Fluent UI for VsCode ChangeLog
+
+## 4.3.0 (2024-11-01)
+
+### Fixed
+
+-   Fixed an issue where the extension could not run properly.
+-   Fixed an issue where the source control sidebar was appearing beneath the code view.
+
+### Chore
+
+-   Updated import statements and function calls.
+-   Improved error handling and resolved test running errors.
+-   Updated ESLint configuration and package settings.
+-   Removed unused code and related files.
 
 ## 4.2.1 (2024-06-15)
 

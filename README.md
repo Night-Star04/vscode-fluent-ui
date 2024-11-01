@@ -12,13 +12,6 @@
     <img alt="GitHub Release" src="https://img.shields.io/github/v/release/Night-Star04/vscode-fluent-ui">
 </p>
 
-> **⚠️Warning⚠️**
->
-> # Currently cannot run properly in Visual Studio Code 1.94
->
-> Please see the [announcement](https://github.com/Night-Star04/vscode-fluent-ui/discussions/3) for
-> detailed instructions
-
 Inspired by and based on the awesome concept designs by
 [u/zeealeidahmad](https://www.reddit.com/r/Windows11/comments/orbgzl/visual_studio_vs_code_and_github_desktop_with/).
 
