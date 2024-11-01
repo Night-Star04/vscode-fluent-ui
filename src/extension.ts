@@ -61,7 +61,7 @@ async function buildCSSTag(url: string) {
 
         return `<style>${mini}</style>\n`;
     } catch (error) {
-        window.showErrorMessage(error);
+        window.showErrorMessage(String(error));
         window.showWarningMessage(messages.cannotLoad + url);
         return undefined;
     }
@@ -156,7 +156,7 @@ async function buildJsFile(jsFile: string) {
 
         return;
     } catch (error) {
-        window.showErrorMessage(error);
+        window.showErrorMessage(String(error));
     }
 }
 
@@ -225,7 +225,7 @@ export function activate(context: ExtensionContext) {
             await restoreBackup(htmlBakFile, htmlFile);
             await deleteBackupFiles(htmlBakFile, jsFile);
         } catch (error) {
-            window.showErrorMessage(error);
+            window.showErrorMessage(String(error));
         }
     }
 

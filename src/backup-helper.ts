@@ -17,7 +17,7 @@ export async function deleteBackupFiles(htmlFile: string, jsFile: string) {
         await unlink(jsFile);
         console.log('Successfully removed js file');
     } catch (error) {
-        window.showErrorMessage(error);
+        window.showErrorMessage(String(error));
     }
 }
 
