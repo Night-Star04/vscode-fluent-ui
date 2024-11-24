@@ -1,4 +1,6 @@
-# Fluent UI Theme settings
+# Fluent UI Theme Settings
+
+[back to main README](/README.md)
 
 After making any changes to the settings, it is essential to perform the following action to ensure
 that the new configurations take effect.
@@ -20,10 +22,12 @@ If `> Fluent UI: Reload` does not work, be use the alternative method:
 ## Color settings
 
 The UI is dynamic and will apply the light and dark themes based on the current syntax theme type.
+
 For example, if you're using
 [One Dark Pro](https://marketplace.visualstudio.com/items?itemName=zhuangtongfa.Material-theme),
-when you run the `> Fluent UI: Reload` command, the UI will switch to the dark theme. If you're
-using the default VSCode light theme, the UI will switch to the light theme.
+when you run the `> Fluent UI: Reload` command, the UI will switch to the dark theme.
+
+If you're using the default VSCode light theme, the UI will switch to the light theme.
 
 ### Accent color
 
@@ -95,3 +99,11 @@ Enabling compact mode will make VSCode appear like this:
 Disabling compact mode will make VSCode appear like this:
 
 ![Compact mode off](/images/normal-mode.png)
+
+---
+
+_Give your Visual Studio Code a modern, Fluent UI-inspired makeover today!_
+
+_If you like this fluently themed extension, please consider giving it a ⭐!_
+
+[Back to top](#fluent-ui-theme-settings)
