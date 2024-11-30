@@ -42,11 +42,12 @@ VS Code Fluent UI 是一個主題套件，將微軟 Fluent UI 設計的流暢美
   <img
     src="https://raw.githubusercontent.com/Night-Star04/vscode-fluent-ui/refs/heads/main/images/vscode-sample-wp-content.png"
     alt="Preview"
-    height="600"
   />
 </div>
 
-> [!WARNING] 免責聲明
+> [!CAUTION]
+>
+> ## ⚠️ 免責聲明 ⚠️
 >
 > 這是一個工作台主題，旨在大幅修改 VS Code 的 UI，純粹為了美學目的。它並不打算增強或與原始設計競爭，
 > 而是提供一種替代外觀。
@@ -124,7 +125,7 @@ VS Code Fluent UI 是一個主題套件，將微軟 Fluent UI 設計的流暢美
 
 7. 享受 Fluent UI 主題！
 
-> [!NOTE] 提示
+> [!TIP]
 >
 > 如果您遇到任何問題，請參閱 [常見問題](#常見問題) 部分。
 >
@@ -156,6 +157,8 @@ VS Code Fluent UI 是一個主題套件，將微軟 Fluent UI 設計的流暢美
 
 4. 享受默認的 VS Code 主題！
 
+> [!TIP]
+>
 > 如果您遇到任何問題，請參閱 [常見問題](#常見問題) 部分。
 
 ## 配置選項

@@ -42,11 +42,12 @@ Inspired by and based on the awesome concept designs by
   <img
     src="https://raw.githubusercontent.com/Night-Star04/vscode-fluent-ui/refs/heads/main/images/vscode-sample-wp-content.png"
     alt="Preview"
-    height="600"
   />
 </div>
 
-> [!WARNING] DISCLAIMER
+> [!CAUTION]
+>
+> ## ⚠️DISCLAIMER⚠️
 >
 > This is a workbench theme designed to heavily modify VS Code's UI purely for aesthetic purposes.
 > It is not intended to enhance or compete with the original design but rather to offer an
@@ -126,7 +127,7 @@ Inspired by and based on the awesome concept designs by
 
 7. Enjoy the Fluent UI theme!
 
-> [!NOTE] TIP
+> [!TIP]
 >
 > If you encounter any issues, please refer to the [FAQ](#faq) section.
 >
@@ -160,6 +161,8 @@ Inspired by and based on the awesome concept designs by
 
 4. Enjoy the default VS Code theme!
 
+> [!TIP]
+>
 > If you encounter any issues, please refer to the [FAQ](#faq) section.
 
 ## Configuration Options
