@@ -534,6 +534,7 @@ html {
 
 .sidebar > .title {
     height: auto !important;
+    background-color: transparent !important;
     margin-top: var(--s4);
     margin-bottom: var(--s2);
     border-bottom: var(--border);
