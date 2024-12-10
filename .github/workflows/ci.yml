@@ -1,0 +1,49 @@
+name: Continuous Integration
+
+on:
+    workflow_dispatch: # Use this to run the workflow manually
+
+jobs:
+    compile:
+        strategy:
+            matrix:
+                include:
+                    - os: windows-latest
+                      platform: win32
+                      arch: x64
+                      npm_config_arch: x64
+                    - os: windows-latest
+                      platform: win32
+                      arch: arm64
+                      npm_config_arch: arm
+                    - os: ubuntu-latest
+                      platform: linux
+                      arch: x64
+                      npm_config_arch: x64
+                    - os: ubuntu-latest
+                      platform: linux
+                      arch: arm64
+                      npm_config_arch: arm64
+                    - os: ubuntu-latest
+                      platform: linux
+                      arch: armhf
+                      npm_config_arch: arm
+                    - os: ubuntu-latest
+                      platform: alpine
+                      arch: x64
+                      npm_config_arch: x64
+                    - os: macos-latest # macOS on Intel
+                      platform: darwin
+                      arch: x64
+                      npm_config_arch: x64
+                    - os: macos-latest # macOS on M series
+                      platform: darwin
+                      arch: arm64
+                      npm_config_arch: arm64
+                node-version: [20.x]
+        uses: ./.github/workflows/compile.yml
+        with:
+            os: ${{ matrix.os }}
+            platform: ${{ matrix.platform }}
+            arch: ${{ matrix.arch }}
+            npm_config_arch: ${{ matrix.npm_config_arch }}
