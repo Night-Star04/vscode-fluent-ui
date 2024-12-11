@@ -69,8 +69,8 @@
         > settings.
 
     2. **Navigate to the workbench directory**:
-        - Inside the installation directory, navigate to the `resources\app\out\vs\workbench`
-          directory.
+        - Inside the installation directory, navigate to the
+          `resources\app\out\vs\code\electron-sandbox\workbench` directory.
     3. **Check for Workbench files**:
         - Look for following files in the directory:
             - `workbench.html`
