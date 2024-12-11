@@ -100,9 +100,6 @@
         "vscode:prepublish": "node esbuild.mjs --production"
     },
     "dependencies": {
-        "@node-minify/core": "^8.0.6",
-        "@node-minify/cssnano": "^8.0.6",
-        "@node-minify/uglify-js": "^8.0.6",
         "file-url": "^4.0.0",
         "node-fetch": "^3.3.1",
         "sharp": "^0.32.1",
@@ -122,6 +119,7 @@
         "eslint": "^9.13.0",
         "glob": "^10.2.3",
         "mocha": "^10.2.0",
-        "typescript": "^5.6.3"
+        "typescript": "^5.6.3",
+        "vsce": "^2.15.0"
     }
 }

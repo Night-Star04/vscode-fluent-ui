@@ -1,8 +1,6 @@
 import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
-import minify from '@node-minify/core';
-import cssnano from '@node-minify/cssnano';
 import sharp from 'sharp';
 import UglifyJS from 'uglify-js';
 import { type ExtensionContext, commands, window, workspace } from 'vscode';
@@ -39,27 +37,16 @@ function clearHTML(html: string) {
     return html;
 }
 
+/**
+ * Builds a CSS tag to be injected into the main HTML document
+ * @remarks In production mode, the file has been compressed using esbuild, so it can be read directly.
+ * @param {string} url - The URL of the CSS file to be injected
+ */
 async function buildCSSTag(url: string) {
     try {
         const fileName = join(__dirname, url);
-        // const fetched = await readFile(fileName);
-
-        const mini = await minify({
-            compressor: cssnano,
-            input: fileName,
-            output: join(__dirname, '/css/chrome-min.css'),
-        })
-            .then(function (min) {
-                console.log('CSS min');
-                return min;
-            })
-            .catch(function (error) {
-                throw error;
-            });
-
-        // const miniCSS = fetched.toString(); //await minifyCss(fetched);
-
-        return `<style>${mini}</style>\n`;
+        const fileContent = await readFile(fileName);
+        return `<style>${fileContent}</style>\n`;
     } catch (error) {
         window.showErrorMessage(String(error));
         window.showWarningMessage(messages.cannotLoad + url);

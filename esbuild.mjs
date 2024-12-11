@@ -42,7 +42,7 @@ async function buildExtension() {
     }
 }
 
-/** Build the CSS */
+/** Build the CSS files, used for minifying. */
 async function buildCss() {
     return await build({
         entryPoints: glob.sync('./src/css/*.css'),
@@ -51,7 +51,7 @@ async function buildCss() {
     });
 }
 
-/** Build the JS */
+/** Build the JS files, used for minifying. */
 async function buildJs() {
     return await build({
         entryPoints: glob.sync('./src/js/*.js'),
@@ -68,7 +68,8 @@ async function main() {
             console.log('✔ [SUCCESS] Build completed successfully');
         })
         .catch((err) => {
-            console.error(`✘ [ERROR] ${err.message}`);
+            console.error('✘ [ERROR] Build failed');
+            console.error(err);
             process.exit(1);
         });
 }
