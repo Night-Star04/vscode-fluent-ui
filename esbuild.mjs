@@ -29,7 +29,7 @@ async function buildExtension() {
         platform: 'node',
         target: 'es2022',
         outfile: 'out/main.js',
-        external: ['vscode', 'sharp', 'uglify-js'],
+        external: ['vscode', 'sharp'],
         logLevel: 'silent',
     });
 

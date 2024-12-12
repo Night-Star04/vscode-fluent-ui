@@ -2,7 +2,6 @@ import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
 import sharp from 'sharp';
-import UglifyJS from 'uglify-js';
 import { type ExtensionContext, commands, window, workspace } from 'vscode';
 
 import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from './backup-helper';
@@ -120,6 +119,12 @@ async function getCSSTag() {
     return res;
 }
 
+/**
+ * Builds the JS file to be injected into the main HTML document
+ *
+ * @remarks In production mode, the file has been compressed using esbuild, so it can be read directly and injected.
+ * @param {string} jsFile - The path to the JS file to be built
+ */
 async function buildJsFile(jsFile: string) {
     try {
         const url = '/js/theme_template.js';
@@ -137,13 +142,12 @@ async function buildJsFile(jsFile: string) {
         buffer = buffer.replace(/\[DARK_BG\]/g, `"${darkBgColor}"`);
         buffer = buffer.replace(/\[ACCENT\]/g, `"${accent}"`);
 
-        const uglyJS = UglifyJS.minify(buffer);
-
-        await writeFile(jsFile, uglyJS.code, 'utf-8');
+        await writeFile(jsFile, buffer, 'utf-8');
 
         return;
     } catch (error) {
         window.showErrorMessage(String(error));
+        return;
     }
 }
 
