@@ -1,0 +1,100 @@
+# This GitHub Actions workflow is designed to compile a Visual Studio Code extension.
+#
+# Workflow Name: Compile extension
+#
+# Triggers:
+# - workflow_call: Allows this workflow to be called by other workflows.
+# - workflow_dispatch: Allows this workflow to be manually triggered.
+#
+# Inputs:
+# - os: The operating system to run the workflow on. Default is 'ubuntu-latest'.
+# - platform: The platform for which the extension is being compiled. Default is 'linux'.
+# - arch: The architecture of the system. Default is 'x64'.
+# - npm_config_arch: The architecture for NPM. Default is 'x64'.
+#
+# Jobs:
+# - compile: The job that compiles the extension.
+#   - runs-on: Specifies the operating system to run the job on, based on the input 'os'.
+#   - steps:
+#     - Checkout code: Checks out the repository code using actions/checkout@v4.
+#     - Setup Node.js: Sets up Node.js environment using actions/setup-node@v4 with specified node version and architecture.
+#     - Install dependencies: Installs the necessary dependencies using npm ci.
+#     - Set target: Sets the target environment variable based on the platform and architecture inputs.
+#     - Compile extension: Compiles the extension using npx vsce package with the specified target.
+#     - Upload extension file: Uploads the compiled extension file as an artifact using actions/upload-artifact@v4.
+name: Compile extension
+
+on:
+    workflow_call: # Use the workflow_call event to trigger the workflow
+        inputs:
+            os:
+                description: 'Operating system'
+                required: true
+                default: 'ubuntu-latest'
+                type: string
+            platform:
+                description: 'Platform'
+                required: true
+                default: 'linux'
+                type: string
+            arch:
+                description: 'Architecture'
+                required: true
+                default: 'x64'
+                type: string
+            npm_config_arch:
+                description: 'NPM architecture'
+                required: true
+                default: 'x64'
+                type: string
+    workflow_dispatch: # Use this to run the workflow manually
+        inputs:
+            os:
+                description: 'Operating system'
+                required: true
+                default: 'ubuntu-latest'
+                type: string
+            platform:
+                description: 'Platform'
+                required: true
+                default: 'linux'
+                type: string
+            arch:
+                description: 'Architecture'
+                required: true
+                default: 'x64'
+                type: string
+            npm_config_arch:
+                description: 'NPM architecture'
+                required: true
+                default: 'x64'
+                type: string
+
+jobs:
+    compile:
+        runs-on: ${{ github.event.inputs.os }}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20.x
+                  architecture: ${{ github.event.inputs.arch }}
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Set target
+              run: |
+                  echo "target=${{ github.event.inputs.platform }}-${{ github.event.inputs.arch }}"  >> $GITHUB_ENV
+
+            - name: Compile extension
+              run: npx vsce package --target ${{ env.target }}
+
+            - name: Upload extension file
+              uses: actions/upload-artifact@v4
+              with:
+                  name: ${{ env.target }}
+                  path: '*.vsix'

@@ -1,18 +1,41 @@
+# Git-related files
 .github/
 .gitignore
+
+# Documentation files
+*.md
+!README.md
+
+# Image files
+images/**
+!images/icon.png
+
+# VS Code-related files
 .vscode-test/**
 .vscode/**
+
+# Configuration files
 .yarnrc
-*.txt
-*.vsix
 **/.eslintrc.json
-**/*.map
-**/*.ts
 **/tsconfig.json
 **/.editorconfig.json
-**/.eslintrc.json
 **/.prettierrc
 
-package-lock.json
+# Miscellaneous files
+*.txt
+**/*.map
+**/*.ts
+
+# Source files
 src/**
-vsc-extension-quickstart.md
+
+# Lock files
+package-lock.json
+
+# Release files
+dist/**
+release/**
+
+# Build files
+esbuild.mjs
+eslint.config.js
