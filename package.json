@@ -116,7 +116,7 @@
         "@types/uglify-js": "^3.17.5",
         "@types/vscode": "^1.93.0",
         "@typescript-eslint/eslint-plugin": "^8.10.0",
-        "@typescript-eslint/parser": "^8.7.0",
+        "@typescript-eslint/parser": "^8.15.0",
         "@vscode/test-electron": "^2.4.1",
         "esbuild": "^0.17.19",
         "eslint": "^9.13.0",
