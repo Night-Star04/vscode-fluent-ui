@@ -13,8 +13,8 @@
       />
     </a>
     <img
-      src="https://img.shields.io/github/downloads/Night-Star04/vscode-fluent-ui/latest/total?style=for-the-badge&logo=github&logoColor=white&label=Downloads"
-      alt="GitHub Downloads (latest release)"
+      src="https://img.shields.io/github/downloads/Night-Star04/vscode-fluent-ui/total?style=for-the-badge&logo=github&logoColor=white&label=Downloads"
+      alt="GitHub Downloads (all release)"
     />
     <img
       src="https://img.shields.io/github/issues/Night-Star04/vscode-fluent-ui?style=for-the-badge&logo=github&logoColor=white&label=Issues"
@@ -23,11 +23,7 @@
   </div>
 </div>
 
-<div align="center">
-  <a href="README.md">English</a>
-  |
-  <a href="README-zh-TW.md">繁體中文</a>
-</div>
+<div align="center">English | <a href="README-zh-TW.md">繁體中文</a></div>
 
 Enhance your Visual Studio Code experience with a modern, Fluent UI-inspired theme.
 

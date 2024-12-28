@@ -1,5 +1,19 @@
 # Fluent UI for VsCode ChangeLog
 
+## 4.4.0 (2024-12-28)
+
+### Features
+
+- Enhance Sidebar Title Rendering: Improved the visual rendering of sidebar titles for better visual integration and consistency. #9
+
+### Chore
+
+- Optimize Image File Sizes: Reduced the file size of all images used in the repository, leading to faster loading times and reduced memory usage. #5
+- README enhancements:
+  - Rewritten for improved readability and usability.
+  - Added new sections: Preview and Troubleshooting, providing users with a more comprehensive guide.
+  - Included a Traditional Chinese version of the README to support multilingual users.
+
 ## 4.3.0 (2024-11-01)
 
 ### Fixed
