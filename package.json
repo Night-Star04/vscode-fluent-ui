@@ -111,7 +111,7 @@
     "devDependencies": {
         "@types/glob": "^8.1.0",
         "@types/mocha": "^10.0.9",
-        "@types/node": "20.x",
+        "@types/node": "22.9.3",
         "@types/node-fetch": "^2.6.3",
         "@types/uglify-js": "^3.17.5",
         "@types/vscode": "^1.93.0",
