@@ -1383,6 +1383,15 @@ canvas.decorationsOverviewRuler {
     padding-bottom: 0 !important;
 }
 
+/* Single Tab mode titlebar */
+.monaco-workbench .part.editor > .content .editor-group-container > .title:not(.tabs) {
+    background: var(--card-bg) !important;
+    padding-right: var(--s5) !important;
+    > .label-container .monaco-breadcrumbs {
+        background-color: transparent !important;
+    }
+}
+
 :root {
     --flyout-bg: rgba(252, 252, 252, 0.5);
     --menu-bg: rgba(252, 252, 252, 0.5);
