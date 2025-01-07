@@ -1377,6 +1377,12 @@ canvas.decorationsOverviewRuler {
     border-bottom-right-radius: var(--border-radius) !important;
 }
 
+/* Creating File/Directory input box  */
+.explorer-folders-view .explorer-item .monaco-inputbox {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
 /* Single Tab mode titlebar */
 .monaco-workbench .part.editor > .content .editor-group-container > .title:not(.tabs) {
     background: var(--card-bg) !important;
