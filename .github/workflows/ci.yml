@@ -1,11 +1,16 @@
 name: Continuous Integration
 
 on:
-    workflow_dispatch: # Use this to run the workflow manually
+    workflow_dispatch: # Use to run the workflow manually
+    push:
+        tags: # Use to run the workflow when a tag is pushed
+            - '*'
 
 jobs:
-    compile:
+    ci-compile:
+        name: Compile extension
         strategy:
+            fail-fast: false # If one job fails, the others will still run
             matrix:
                 include:
                     - os: windows-latest
@@ -41,9 +46,16 @@ jobs:
                       arch: arm64
                       npm_config_arch: arm64
                 node-version: [20.x]
-        uses: ./.github/workflows/compile.yml
-        with:
-            os: ${{ matrix.os }}
-            platform: ${{ matrix.platform }}
-            arch: ${{ matrix.arch }}
-            npm_config_arch: ${{ matrix.npm_config_arch }}
+        runs-on: ${{ matrix.os }}
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Run compile workflow
+              id: compile
+              uses: ./.github/workflows/compile.yml
+              with:
+                  os: ${{ matrix.os }}
+                  platform: ${{ matrix.platform }}
+                  arch: ${{ matrix.arch }}
+                  npm_config_arch: ${{ matrix.npm_config_arch }}

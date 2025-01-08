@@ -72,7 +72,12 @@ on:
 
 jobs:
     compile:
-        runs-on: ${{ github.event.inputs.os }}
+        name: Compile extension
+        runs-on: ${{ inputs.os }}
+
+        outputs:
+            ARTIFACT_PATH: ${{ steps.set_target.outputs.TARGET }}.vsix
+
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -81,20 +86,30 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 20.x
-                  architecture: ${{ github.event.inputs.arch }}
+                  architecture: ${{ inputs.arch }}
+                  cache: 'npm'
+                  cache-dependency-path: package-lock.json
 
             - name: Install dependencies
               run: npm ci
 
             - name: Set target
+              id: set_target
               run: |
-                  echo "target=${{ github.event.inputs.platform }}-${{ github.event.inputs.arch }}"  >> $GITHUB_ENV
+                  target="${{ inputs.platform }}-${{ inputs.arch }}"
+                  echo "TARGET=$target" >> $GITHUB_OUTPUT
 
             - name: Compile extension
-              run: npx vsce package --target ${{ env.target }}
+              run: |
+                  target="${{ steps.set_target.outputs.TARGET }}"
+                  echo "::notice::Compiling extension for target: $target"
+                  if ! npx vsce package --target "$target"; then
+                      echo "::error::Failed to compile extension"
+                      exit 1
+                  fi
 
             - name: Upload extension file
               uses: actions/upload-artifact@v4
               with:
-                  name: ${{ env.target }}
+                  name: ${{ steps.set_target.outputs.TARGET }}
                   path: '*.vsix'
