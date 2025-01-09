@@ -13,6 +13,7 @@ jobs:
             fail-fast: false # If one job fails, the others will still run
             matrix:
                 include:
+                    # Windows
                     - os: windows-latest
                       platform: win32
                       arch: x64
@@ -21,6 +22,8 @@ jobs:
                       platform: win32
                       arch: arm64
                       npm_config_arch: arm
+
+                    # Linux
                     - os: ubuntu-latest
                       platform: linux
                       arch: x64
@@ -37,15 +40,21 @@ jobs:
                       platform: alpine
                       arch: x64
                       npm_config_arch: x64
-                    - os: macos-latest # macOS on Intel
+
+                    # macOS
+                    - os: macos-latest
                       platform: darwin
                       arch: x64
                       npm_config_arch: x64
-                    - os: macos-latest # macOS on M series
+                      comment: 'Intel Mac'
+                    - os: macos-latest
                       platform: darwin
                       arch: arm64
                       npm_config_arch: arm64
+                      comment: 'Apple Silicon Mac'
+
                 node-version: [20.x]
+
         runs-on: ${{ matrix.os }}
         steps:
             - name: Checkout repository
@@ -59,3 +68,36 @@ jobs:
                   platform: ${{ matrix.platform }}
                   arch: ${{ matrix.arch }}
                   npm_config_arch: ${{ matrix.npm_config_arch }}
+
+    ci-release:
+        name: Release extension
+        runs-on: ubuntu-latest
+        needs: ci-compile
+
+        steps:
+            - name: Download all compiled releases
+              uses: actions/download-artifact@v4
+              with:
+                  path: release
+
+            - name: Get all extensions paths
+              id: get_paths
+              run: |
+                  extensions_paths=$(find . -iname *.vsix -type f | tr '\n' ' ')
+                  echo "EXTENSIONS_PATHS=$extensions_paths" >> "$GITHUB_OUTPUT"
+                  echo "::notice::Found extensions: $extensions_paths"
+
+            - name: Validate extensions
+              run: |
+                  if [ -z "${{ steps.get_paths.outputs.EXTENSIONS_PATHS }}" ]; then
+                      echo "::error::No extensions found to release."
+                      exit 1
+                  fi
+
+            - name: Create GitHub Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  tag_name: ${{ github.ref_name }}
+                  draft: true
+                  files: ${{ steps.get_paths.outputs.EXTENSIONS_PATHS }}
+                  fail_on_unmatched_files: true
