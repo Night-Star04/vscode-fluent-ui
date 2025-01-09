@@ -30,7 +30,7 @@
         "color": "#ffffff",
         "theme": "light"
     },
-    "main": "./out/extension.js",
+    "main": "./out/main.js",
     "contributes": {
         "commands": [
             {
@@ -90,30 +90,25 @@
         }
     },
     "scripts": {
-        "vscode:prepublish": "npm run esbuild-base -- --minify",
-        "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
-        "esbuild": "npm run esbuild-base -- --sourcemap",
-        "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
-        "compile": "tsc -p ./",
-        "lint": "eslint src --ext ts",
-        "watch": "tsc -watch -p ./",
-        "test-compile": "tsc -p ./"
+        "check-types": "tsc -p ./ --noEmit",
+        "watch": "npm-run-all -p watch:*",
+        "watch:tsc": "tsc -watch -p ./",
+        "watch:esbuild": "node esbuild.mjs --watch",
+        "compile": "tsc -p ./ --noEmit && node esbuild.mjs",
+        "compile:tsc": "tsc -p ./",
+        "lint": "eslint src",
+        "vscode:prepublish": "node esbuild.mjs --production"
     },
     "dependencies": {
-        "@node-minify/core": "^8.0.6",
-        "@node-minify/cssnano": "^8.0.6",
-        "@node-minify/uglify-js": "^8.0.6",
         "file-url": "^4.0.0",
         "node-fetch": "^3.3.1",
-        "sharp": "^0.32.1",
-        "uglify-js": "^3.17.4"
+        "sharp": "^0.32.1"
     },
     "devDependencies": {
         "@types/glob": "^8.1.0",
         "@types/mocha": "^10.0.9",
         "@types/node": "20.x",
         "@types/node-fetch": "^2.6.3",
-        "@types/uglify-js": "^3.17.5",
         "@types/vscode": "^1.93.0",
         "@typescript-eslint/eslint-plugin": "^8.10.0",
         "@typescript-eslint/parser": "^8.7.0",
@@ -122,6 +117,7 @@
         "eslint": "^9.13.0",
         "glob": "^10.2.3",
         "mocha": "^10.2.0",
-        "typescript": "^5.6.3"
+        "typescript": "^5.6.3",
+        "vsce": "^2.15.0"
     }
 }

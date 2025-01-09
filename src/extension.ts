@@ -1,10 +1,7 @@
 import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
-import minify from '@node-minify/core';
-import cssnano from '@node-minify/cssnano';
 import sharp from 'sharp';
-import UglifyJS from 'uglify-js';
 import { type ExtensionContext, commands, window, workspace } from 'vscode';
 
 import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from './backup-helper';
@@ -39,27 +36,16 @@ function clearHTML(html: string) {
     return html;
 }
 
+/**
+ * Builds a CSS tag to be injected into the main HTML document
+ * @remarks In production mode, the file has been compressed using esbuild, so it can be read directly.
+ * @param {string} url - The URL of the CSS file to be injected
+ */
 async function buildCSSTag(url: string) {
     try {
         const fileName = join(__dirname, url);
-        // const fetched = await readFile(fileName);
-
-        const mini = await minify({
-            compressor: cssnano,
-            input: fileName,
-            output: join(__dirname, '/css/chrome-min.css'),
-        })
-            .then(function (min) {
-                console.log('CSS min');
-                return min;
-            })
-            .catch(function (error) {
-                throw error;
-            });
-
-        // const miniCSS = fetched.toString(); //await minifyCss(fetched);
-
-        return `<style>${mini}</style>\n`;
+        const fileContent = await readFile(fileName);
+        return `<style>${fileContent}</style>\n`;
     } catch (error) {
         window.showErrorMessage(String(error));
         window.showWarningMessage(messages.cannotLoad + url);
@@ -133,6 +119,12 @@ async function getCSSTag() {
     return res;
 }
 
+/**
+ * Builds the JS file to be injected into the main HTML document
+ *
+ * @remarks In production mode, the file has been compressed using esbuild, so it can be read directly and injected.
+ * @param {string} jsFile - The path to the JS file to be built
+ */
 async function buildJsFile(jsFile: string) {
     try {
         const url = '/js/theme_template.js';
@@ -150,13 +142,12 @@ async function buildJsFile(jsFile: string) {
         buffer = buffer.replace(/\[DARK_BG\]/g, `"${darkBgColor}"`);
         buffer = buffer.replace(/\[ACCENT\]/g, `"${accent}"`);
 
-        const uglyJS = UglifyJS.minify(buffer);
-
-        await writeFile(jsFile, uglyJS.code, 'utf-8');
+        await writeFile(jsFile, buffer, 'utf-8');
 
         return;
     } catch (error) {
         window.showErrorMessage(String(error));
+        return;
     }
 }
 

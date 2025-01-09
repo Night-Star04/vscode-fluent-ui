@@ -1,0 +1,72 @@
+name: Auto tag release
+
+on:
+    workflow_dispatch:
+    push:
+        branches: [main]
+
+jobs:
+    tag-release:
+        name: Create version tag
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Configure Git
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+            - name: Extract version from commit
+              id: version_info
+              run: |
+                  commit_message=$(git log --format=%B -n 1 ${{ github.sha }})
+                  message_summary=$(echo "$commit_message" | head -n1)
+                  version=$(echo "$message_summary" | sed -n 's/feat(release): Version \([0-9]\+\.[0-9]\+\.[0-9]\+\)/\1/p')
+
+                  {
+                    echo "COMMIT_MESSAGE<<EOF"
+                    echo "$commit_message"
+                    echo "EOF"
+                    echo "SUMMARY=$message_summary"
+                    echo "VERSION=$version"
+                  } >> "$GITHUB_OUTPUT"
+
+                  if [ -z "$version" ]; then
+                    echo "::notice::No version number found in commit message"
+                    exit 0
+                  fi
+
+            - name: Validate version format
+              id: validate_version
+              run: |
+                  version="${{ steps.version_info.outputs.VERSION }}"
+                  tag_name="v$version"
+
+                  if ! [[ $version =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+                    echo "::error::Invalid version format: $tag_name"
+                    exit 1
+                  fi
+
+                  if git fetch --tags && git tag -l | grep -q "^$tag_name$"; then
+                    echo "::warning::Tag $tag_name already exists"
+                    exit 1
+                  fi
+
+                  echo "TAG_NAME=$tag_name" >> "$GITHUB_OUTPUT"
+
+            - name: Create and push tag
+              run: |
+                  tag_name="${{ steps.validate_version.outputs.TAG_NAME }}"
+                  commit_message="${{ steps.version_info.outputs.COMMIT_MESSAGE }}"
+
+                  echo "::notice::Creating tag $tag_name"
+
+                  if git tag -a "$tag_name" -m "$commit_message" && git push origin "$tag_name"; then
+                    echo "::notice::Successfully created and pushed tag $tag_name"
+                  else
+                    echo "::error::Failed to create or push tag $tag_name"
+                    exit 1
+                  fi
