@@ -36,11 +36,15 @@ jobs:
 
                   if [ -z "$version" ]; then
                     echo "::notice::No version number found in commit message"
-                    exit 0
+                    echo "error=true" >> "$GITHUB_OUTPUT"
+                  else
+                    echo "::notice::Found version number: $version"
+                    echo "error=false" >> "$GITHUB_OUTPUT"
                   fi
 
             - name: Validate version format
               id: validate_version
+              if: ${{ steps.version_info.outputs.error == 'false' }}
               run: |
                   version="${{ steps.version_info.outputs.VERSION }}"
                   tag_name="v$version"
@@ -58,6 +62,7 @@ jobs:
                   echo "TAG_NAME=$tag_name" >> "$GITHUB_OUTPUT"
 
             - name: Create and push tag
+              if: ${{ steps.version_info.outputs.error == 'false' }}
               run: |
                   tag_name="${{ steps.validate_version.outputs.TAG_NAME }}"
                   commit_message="${{ steps.version_info.outputs.COMMIT_MESSAGE }}"
