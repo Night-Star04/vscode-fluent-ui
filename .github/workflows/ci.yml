@@ -22,20 +22,20 @@ jobs:
                     - os: windows-latest
                       platform: win32
                       arch: x64
-                    - os: windows-latest
-                      platform: win32
-                      arch: arm64
+                    # - os: windows-latest
+                    #   platform: win32
+                    #   arch: arm64
 
                     # Linux
                     - os: ubuntu-latest
                       platform: linux
                       arch: x64
-                    - os: ubuntu-latest
-                      platform: linux
-                      arch: arm64
-                    - os: ubuntu-latest
-                      platform: linux
-                      arch: armhf
+                    # - os: ubuntu-latest
+                    #   platform: linux
+                    #   arch: arm64
+                    # - os: ubuntu-latest
+                    #   platform: linux
+                    #   arch: armhf
                     - os: ubuntu-latest
                       platform: alpine
                       arch: x64
