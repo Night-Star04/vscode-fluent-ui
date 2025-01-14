@@ -70,7 +70,7 @@ async function buildExtension() {
 
 /** Build the CSS files, used for minifying. */
 async function buildCss() {
-    const ctx = await context(generateBundlerConfig('./src/js/*.js', 'out/css'));
+    const ctx = await context(generateBundlerConfig('./src/css/*.css', 'out/css'));
 
     return performBuildTask(ctx);
 }

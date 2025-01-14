@@ -2,6 +2,11 @@ name: Continuous Integration
 
 on:
     workflow_dispatch: # Use to run the workflow manually
+        inputs:
+            tag:
+                description: 'Tag to release'
+                required: false
+                type: string
     push:
         tags: # Use to run the workflow when a tag is pushed
             - '*'
@@ -17,57 +22,39 @@ jobs:
                     - os: windows-latest
                       platform: win32
                       arch: x64
-                      npm_config_arch: x64
-                    - os: windows-latest
-                      platform: win32
-                      arch: arm64
-                      npm_config_arch: arm
+                    # - os: windows-latest
+                    #   platform: win32
+                    #   arch: arm64
 
                     # Linux
                     - os: ubuntu-latest
                       platform: linux
                       arch: x64
-                      npm_config_arch: x64
-                    - os: ubuntu-latest
-                      platform: linux
-                      arch: arm64
-                      npm_config_arch: arm64
-                    - os: ubuntu-latest
-                      platform: linux
-                      arch: armhf
-                      npm_config_arch: arm
+                    # - os: ubuntu-latest
+                    #   platform: linux
+                    #   arch: arm64
+                    # - os: ubuntu-latest
+                    #   platform: linux
+                    #   arch: armhf
                     - os: ubuntu-latest
                       platform: alpine
                       arch: x64
-                      npm_config_arch: x64
 
                     # macOS
                     - os: macos-latest
                       platform: darwin
                       arch: x64
-                      npm_config_arch: x64
                       comment: 'Intel Mac'
                     - os: macos-latest
                       platform: darwin
                       arch: arm64
-                      npm_config_arch: arm64
                       comment: 'Apple Silicon Mac'
 
-                node-version: [20.x]
-
-        runs-on: ${{ matrix.os }}
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-
-            - name: Run compile workflow
-              id: compile
-              uses: ./.github/workflows/compile.yml
-              with:
-                  os: ${{ matrix.os }}
-                  platform: ${{ matrix.platform }}
-                  arch: ${{ matrix.arch }}
-                  npm_config_arch: ${{ matrix.npm_config_arch }}
+        uses: ./.github/workflows/compile.yml
+        with:
+            os: ${{ matrix.os }}
+            platform: ${{ matrix.platform }}
+            arch: ${{ matrix.arch }}
 
     ci-release:
         name: Release extension
@@ -78,26 +65,32 @@ jobs:
             - name: Download all compiled releases
               uses: actions/download-artifact@v4
               with:
-                  path: release
+                  path: artifact
 
-            - name: Get all extensions paths
-              id: get_paths
+            - name: Validate artifact
               run: |
-                  extensions_paths=$(find . -iname *.vsix -type f | tr '\n' ' ')
-                  echo "EXTENSIONS_PATHS=$extensions_paths" >> "$GITHUB_OUTPUT"
-                  echo "::notice::Found extensions: $extensions_paths"
-
-            - name: Validate extensions
-              run: |
-                  if [ -z "${{ steps.get_paths.outputs.EXTENSIONS_PATHS }}" ]; then
-                      echo "::error::No extensions found to release."
+                  artifact_paths=$(find ./artifact -iname "*.vsix" -type f | sort | tr '\n' ',')
+                  if [ -z $artifact_paths ]; then
+                      echo "::error::No artifact found to release"
                       exit 1
                   fi
+                  echo "::notice::Found artifact: $artifact_paths"
+
+            - name: Set tag name
+              id: set_tag_name
+              run: |
+                  if [ -n "${{ inputs.tag }}" ]; then
+                      tag_name="${{ inputs.tag }}"
+                  else
+                      tag_name="${{ github.ref_name }}"
+                  fi
+                  echo "TAG_NAME=$tag_name" >> "$GITHUB_OUTPUT"
 
             - name: Create GitHub Release
-              uses: softprops/action-gh-release@v2
+              uses: ncipollo/release-action@v1
               with:
-                  tag_name: ${{ github.ref_name }}
+                  tag: ${{ steps.set_tag_name.outputs.TAG_NAME }}
                   draft: true
-                  files: ${{ steps.get_paths.outputs.EXTENSIONS_PATHS }}
-                  fail_on_unmatched_files: true
+                  artifacts: '${{ github.workspace }}/artifact/**/*.vsix'
+                  artifactErrorsFailBuild: true
+                  generateReleaseNotes: true
