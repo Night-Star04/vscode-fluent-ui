@@ -65,21 +65,22 @@ jobs:
             - name: Download all compiled releases
               uses: actions/download-artifact@v4
               with:
-                  path: release
+                  path: artifact
 
-            - name: Get all extensions paths
+            - name: Get all artifact paths
               id: get_paths
               run: |
-                  extensions_paths=$(find . -iname *.vsix -type f | tr '\n' ' ')
-                  echo "EXTENSIONS_PATHS=$extensions_paths" >> "$GITHUB_OUTPUT"
-                  echo "::notice::Found extensions: $extensions_paths"
+                  artifact_paths=$(find . -iname "*.vsix" -type f | sort | tr '\n' ',')
+                  echo "ARTIFACT_PATHS=$artifact_paths" >> "$GITHUB_OUTPUT"
 
-            - name: Validate extensions
+            - name: Validate artifact
               run: |
-                  if [ -z "${{ steps.get_paths.outputs.EXTENSIONS_PATHS }}" ]; then
-                      echo "::error::No extensions found to release."
+                  artifact_paths="${{ steps.get_paths.outputs.ARTIFACT_PATHS }}"
+                  if [ -z $artifact_paths ]; then
+                      echo "::error::No artifact found to release"
                       exit 1
                   fi
+                  echo "::notice::Found artifact: $artifact_paths"
 
             - name: Set tag name
               id: set_tag_name
@@ -92,9 +93,10 @@ jobs:
                   echo "TAG_NAME=$tag_name" >> "$GITHUB_OUTPUT"
 
             - name: Create GitHub Release
-              uses: softprops/action-gh-release@v2
+              uses: ncipollo/release-action@v1
               with:
-                  tag_name: ${{ steps.set_tag_name.outputs.TAG_NAME }}
+                  tag: ${{ steps.set_tag_name.outputs.TAG_NAME }}
                   draft: true
-                  files: ${{ steps.get_paths.outputs.EXTENSIONS_PATHS }}
-                  fail_on_unmatched_files: true
+                  artifacts: ${{ steps.get_paths.outputs.ARTIFACT_PATHS }}
+                  artifactErrorsFailBuild: true
+                  generateReleaseNotes: true
