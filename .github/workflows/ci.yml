@@ -91,6 +91,6 @@ jobs:
               with:
                   tag: ${{ steps.set_tag_name.outputs.TAG_NAME }}
                   draft: true
-                  artifacts: '${{ github.workspace }}/artifact/*.vsix'
+                  artifacts: '${{ github.workspace }}/artifact/**/*.vsix'
                   artifactErrorsFailBuild: true
                   generateReleaseNotes: true
