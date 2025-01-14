@@ -67,15 +67,9 @@ jobs:
               with:
                   path: artifact
 
-            - name: Get all artifact paths
-              id: get_paths
-              run: |
-                  artifact_paths=$(find . -iname "*.vsix" -type f | sort | tr '\n' ',')
-                  echo "ARTIFACT_PATHS=$artifact_paths" >> "$GITHUB_OUTPUT"
-
             - name: Validate artifact
               run: |
-                  artifact_paths="${{ steps.get_paths.outputs.ARTIFACT_PATHS }}"
+                  artifact_paths=$(find ./artifact -iname "*.vsix" -type f | sort | tr '\n' ',')
                   if [ -z $artifact_paths ]; then
                       echo "::error::No artifact found to release"
                       exit 1
@@ -97,6 +91,6 @@ jobs:
               with:
                   tag: ${{ steps.set_tag_name.outputs.TAG_NAME }}
                   draft: true
-                  artifacts: ${{ steps.get_paths.outputs.ARTIFACT_PATHS }}
+                  artifacts: '${{ github.workspace }}/artifact/*.vsix'
                   artifactErrorsFailBuild: true
                   generateReleaseNotes: true
