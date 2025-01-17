@@ -1,18 +1,39 @@
 # Fluent UI for VsCode ChangeLog
 
+## 4.5.0 (2025-01-17)
+
+### Features
+
+-   Use theme colors in single-tab mode title bar. (#21)
+-   Add padding and update breadcrumbs background in single-tab mode title bar.
+
+### Fixes
+
+-   Correct padding for file/directory input box in Explorer. (#22)
+-   Update dependencies to resolve npm warnings (#26)
+
+### Refactors
+
+-   Reorganize esbuild configuration for better maintainability. (#11)
+-   Minify CSS/JS directly during the build process.
+-   Add GitHub workflows for CI, release tagging, and extension builds.
+
 ## 4.4.0 (2024-12-28)
 
 ### Features
 
-- Enhance Sidebar Title Rendering: Improved the visual rendering of sidebar titles for better visual integration and consistency. #9
+-   Enhance Sidebar Title Rendering: Improved the visual rendering of sidebar titles for better
+    visual integration and consistency. #9
 
 ### Chore
 
-- Optimize Image File Sizes: Reduced the file size of all images used in the repository, leading to faster loading times and reduced memory usage. #5
-- README enhancements:
-  - Rewritten for improved readability and usability.
-  - Added new sections: Preview and Troubleshooting, providing users with a more comprehensive guide.
-  - Included a Traditional Chinese version of the README to support multilingual users.
+-   Optimize Image File Sizes: Reduced the file size of all images used in the repository, leading
+    to faster loading times and reduced memory usage. #5
+-   README enhancements:
+    -   Rewritten for improved readability and usability.
+    -   Added new sections: Preview and Troubleshooting, providing users with a more comprehensive
+        guide.
+    -   Included a Traditional Chinese version of the README to support multilingual users.
 
 ## 4.3.0 (2024-11-01)
 

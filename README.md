@@ -221,19 +221,23 @@ the [Troubleshooting](/TROUBLESHOOTING.md) page or open an new issue on the gith
 ### Latest version changes
 
 ```markdown
-Version 4.3.0 (2024-11-01)
+Version 4.5.0 (2025-01-17)
 
-# Fixed
+# Features
 
--   Fixed an issue where the extension could not run properly.
--   Fixed an issue where the source control sidebar was appearing beneath the code view.
+-   Use theme colors in single-tab mode title bar. (#21)
+-   Add padding and update breadcrumbs background in single-tab mode title bar.
 
-# Chore
+# Fixes
 
--   Updated import statements and function calls.
--   Improved error handling and resolved test running errors.
--   Updated ESLint configuration and package settings.
--   Removed unused code and related files.
+-   Correct padding for file/directory input box in Explorer. (#22)
+-   Update dependencies to resolve npm warnings (#26)
+
+# Refactors
+
+-   Reorganize esbuild configuration for better maintainability. (#11)
+-   Minify CSS/JS directly during the build process.
+-   Add GitHub workflows for CI, release tagging, and extension builds.
 ```
 
 You can find the full changelog in the [Changelog](/CHANGELOG.md) page.
