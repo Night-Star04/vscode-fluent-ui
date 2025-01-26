@@ -102,7 +102,7 @@
     "dependencies": {
         "file-url": "^4.0.0",
         "node-fetch": "^3.3.1",
-        "sharp": "^0.32.1"
+        "sharp": "^0.33.5"
     },
     "devDependencies": {
         "@types/glob": "^8.1.0",
