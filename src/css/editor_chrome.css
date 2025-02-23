@@ -1071,7 +1071,7 @@ html {
     box-shadow: var(--depth-2);
 }
 
-/* Tooltips? */
+/* Tooltips */
 .workbench-hover {
     background-color: var(--noise-bg) repeat var(--hover-bg) !important;
     background-blend-mode: exclusion;
@@ -1081,6 +1081,35 @@ html {
 
 .workbench-hover:not(.skip-fade-in) {
     animation: slide-in var(--easing-timing-fast) var(--easing-curve-in) forwards !important;
+}
+
+/* Remove width and height cap and make custom border */
+.monaco-editor .monaco-resizable-hover > .monaco-hover {
+    height: auto !important;
+    width: auto !important;
+    border: 1px solid var(--vscode-editorHoverWidget-border) !important;
+}
+
+/* Remove original border and move upwards to account for padding */
+.monaco-editor .monaco-resizable-hover {
+    border: none;
+    transform: translateY(-1.5rem);
+}
+
+/* Remove random buttons at the edges that don't seem to do anything */
+.monaco-editor .monaco-sash {
+    display: none;
+}
+
+/* Make background of action buttons transparent */
+.monaco-editor .monaco-resizable-hover > .monaco-hover .hover-row .actions {
+    background-color: transparent;
+}
+
+/* Make hr-like lines vertically centered */
+.monaco-editor .monaco-resizable-hover > .monaco-hover .monaco-hover-content > * + * {
+    padding-top: 0.25rem;
+    margin-top: 0.25rem !important;
 }
 
 /* Dropdown container */
