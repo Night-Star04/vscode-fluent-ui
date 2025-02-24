@@ -111,7 +111,7 @@
         "@types/node-fetch": "^2.6.3",
         "@types/vscode": "^1.93.0",
         "@typescript-eslint/eslint-plugin": "^8.10.0",
-        "@typescript-eslint/parser": "^8.7.0",
+        "@typescript-eslint/parser": "^8.19.0",
         "@vscode/test-electron": "^2.4.1",
         "@vscode/vsce": "^3.2.1",
         "esbuild": "^0.17.19",
