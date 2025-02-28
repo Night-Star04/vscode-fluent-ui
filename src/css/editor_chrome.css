@@ -1071,6 +1071,12 @@ html {
     box-shadow: var(--depth-2);
 }
 
+/* Remove padding from bottom panel input box to make it horizontal center */
+.viewpane-filter-container > .viewpane-filter .monaco-inputbox > .ibwrapper > .input {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
 /* Tooltips */
 .workbench-hover {
     background-color: var(--noise-bg) repeat var(--hover-bg) !important;
