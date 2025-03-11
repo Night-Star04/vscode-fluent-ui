@@ -1,5 +1,29 @@
 # Fluent UI for VsCode ChangeLog
 
+## 4.6.0 - 2025-03-11
+
+### 🐛 Fixes
+
+-   Correctly display content tooltip on editor container hover (#37)
+-   Remove padding from bottom panel input box (#39)
+
+### 🛠️ Dependency Updates
+
+-   Upgrade `sharp` from `0.32.1` to `0.33.5`
+-   Upgrade `@types/mocha` from `10.0.9` to `10.0.10`
+-   Upgrade `@typescript-eslint/eslint-plugin` from `8.10.0` to `8.25.0`
+-   Upgrade `@typescript-eslint/parser` from `8.7.0` to `8.25.0`
+-   Upgrade `@vscode/vsce` from `3.2.1` to `3.2.2`
+-   Upgrade `esbuild` from `0.17.19` to `0.25.0`
+-   Upgrade `eslint` from `9.13.0` to `9.21.0`
+-   Upgrade `glob` from `10.2.3` to `11.0.1`
+-   Upgrade `mocha` from `11.0.1` to `11.1.0`
+-   Upgrade `typescript` from `5.6.3` to `5.7.3`
+
+### 🧹 Dependency Cleanup
+
+-   Removed unused dependencies: `file-url`, `node-fetch`, `@types/node-fetch`
+
 ## 4.5.0 (2025-01-17)
 
 ### Features

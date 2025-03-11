@@ -221,23 +221,29 @@ the [Troubleshooting](/TROUBLESHOOTING.md) page or open an new issue on the gith
 ### Latest version changes
 
 ```markdown
-Version 4.5.0 (2025-01-17)
+# [4.6.0] - 2025-03-11
 
-# Features
+## 🐛 Fixes
 
--   Use theme colors in single-tab mode title bar. (#21)
--   Add padding and update breadcrumbs background in single-tab mode title bar.
+-   Correctly display content tooltip on editor container hover (#37)
+-   Remove padding from bottom panel input box (#39)
 
-# Fixes
+## 🛠️ Dependency Updates
 
--   Correct padding for file/directory input box in Explorer. (#22)
--   Update dependencies to resolve npm warnings (#26)
+-   Upgrade `sharp` from `0.32.1` to `0.33.5`
+-   Upgrade `@types/mocha` from `10.0.9` to `10.0.10`
+-   Upgrade `@typescript-eslint/eslint-plugin` from `8.10.0` to `8.25.0`
+-   Upgrade `@typescript-eslint/parser` from `8.7.0` to `8.25.0`
+-   Upgrade `@vscode/vsce` from `3.2.1` to `3.2.2`
+-   Upgrade `esbuild` from `0.17.19` to `0.25.0`
+-   Upgrade `eslint` from `9.13.0` to `9.21.0`
+-   Upgrade `glob` from `10.2.3` to `11.0.1`
+-   Upgrade `mocha` from `11.0.1` to `11.1.0`
+-   Upgrade `typescript` from `5.6.3` to `5.7.3`
 
-# Refactors
+## 🧹 Dependency Cleanup
 
--   Reorganize esbuild configuration for better maintainability. (#11)
--   Minify CSS/JS directly during the build process.
--   Add GitHub workflows for CI, release tagging, and extension builds.
+-   Removed unused dependencies: `file-url`, `node-fetch`, `@types/node-fetch`
 ```
 
 You can find the full changelog in the [Changelog](/CHANGELOG.md) page.
