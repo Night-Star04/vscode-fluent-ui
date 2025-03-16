@@ -56,11 +56,10 @@ jobs:
             platform: ${{ matrix.platform }}
             arch: ${{ matrix.arch }}
 
-    ci-release:
-        name: Release extension
+    ci-release-validate:
+        name: Validate release
         runs-on: ubuntu-latest
         needs: ci-compile
-
         steps:
             - name: Download all compiled releases
               uses: actions/download-artifact@v4
@@ -76,6 +75,15 @@ jobs:
                   fi
                   echo "::notice::Found artifact: $artifact_paths"
 
+    ci-release-github:
+        name: Release to GitHub
+        runs-on: ubuntu-latest
+        needs: ci-release-validate
+        steps:
+            - name: Download all compiled releases
+              uses: actions/download-artifact@v4
+              with:
+                  path: artifact
             - name: Set tag name
               id: set_tag_name
               run: |
@@ -94,3 +102,29 @@ jobs:
                   artifacts: '${{ github.workspace }}/artifact/**/*.vsix'
                   artifactErrorsFailBuild: true
                   generateReleaseNotes: true
+
+    ci-release-vscode:
+        name: Release to VSCode Marketplace
+        runs-on: ubuntu-latest
+        needs: ci-release-validate
+        steps:
+            - name: Download all compiled releases
+              uses: actions/download-artifact@v4
+              with:
+                  path: artifact
+            - name: Publish to VSCode Marketplace
+              run: |
+                  npx vsce publish --pat ${{ secrets.VSCE_PAT }} --packagePath $(find ./artifact -iname *.vsix)
+
+    ci-release-openvsx:
+        name: Release to OpenVSX
+        runs-on: ubuntu-latest
+        needs: ci-release-validate
+        steps:
+            - name: Download all compiled releases
+              uses: actions/download-artifact@v4
+              with:
+                  path: artifact
+            - name: Publish to OpenVSX
+              run: |
+                  npx ovsx publish --pat ${{ secrets.OVSX_PAT }} --packagePath $(find ./artifact -iname *.vsix)
