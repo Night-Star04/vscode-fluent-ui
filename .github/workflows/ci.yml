@@ -132,10 +132,6 @@ jobs:
         if: ${{ !inputs.skip_vscode }}
         needs: ci-release-validate
         steps:
-            - name: Download all compiled releases
-              uses: actions/download-artifact@v4
-              with:
-                  path: artifact
             - name: Checkout code
               uses: actions/checkout@v4
               with:
@@ -150,6 +146,10 @@ jobs:
                   cache-dependency-path: package-lock.json
             - name: Install dependencies
               run: npm ci
+            - name: Download all compiled releases
+              uses: actions/download-artifact@v4
+              with:
+                  path: artifact
             - name: Check if the VSCE_PAT is set
               run: |
                   if [ -z "${{ secrets.VSCE_PAT }}" ]; then
@@ -171,10 +171,6 @@ jobs:
         if: ${{ !inputs.skip_openvsx }}
         needs: ci-release-validate
         steps:
-            - name: Download all compiled releases
-              uses: actions/download-artifact@v4
-              with:
-                  path: artifact
             - name: Checkout code
               uses: actions/checkout@v4
               with:
@@ -189,6 +185,10 @@ jobs:
                   cache-dependency-path: package-lock.json
             - name: Install dependencies
               run: npm ci
+            - name: Download all compiled releases
+              uses: actions/download-artifact@v4
+              with:
+                  path: artifact
             - name: Check if the OVSX_PAT is set
               run: |
                   if [ -z "${{ secrets.OVSX_PAT }}" ]; then
