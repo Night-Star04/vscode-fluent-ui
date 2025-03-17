@@ -75,6 +75,7 @@ jobs:
             os: ${{ matrix.os }}
             platform: ${{ matrix.platform }}
             arch: ${{ matrix.arch }}
+            pre_release: ${{ inputs.pre_release }}
 
     ci-release-validate:
         name: Validate release
@@ -143,12 +144,13 @@ jobs:
                   fi
             - name: Publish to VSCode Marketplace
               run: |
-                  if [ -n "${{ inputs.pre_release }}" ]; then
-                      npx vsce publish --pat ${{ secrets.VSCE_PAT }} --packagePath $(find ./artifact -iname *.vsix) --pre-release
+                  CONFIG='--pat ${{ secrets.VSCE_PAT }} --packagePath $(find ./artifact -iname *.vsix)'
+                  if [ "${{ inputs.pre_release }}" = "true" ]; then
+                      npx vsce publish $CONFIG --pre-release
                   else
-                      npx vsce publish --pat ${{ secrets.VSCE_PAT }} --packagePath $(find ./artifact -iname *.vsix)
+                      npx vsce publish $CONFIG
                   fi
-                  echo "::notice::Published to VSCode Marketplace successfully"
+                  echo "::notice::Published to VSCode Marketplace successfully for pre-release: ${{ inputs.pre_release }}"
 
     ci-release-openvsx:
         name: Release to OpenVSX
@@ -168,9 +170,10 @@ jobs:
                   fi
             - name: Publish to OpenVSX
               run: |
-                  if [ -n "${{ inputs.pre_release }}" ]; then
-                      npx ovsx publish --pat ${{ secrets.OVSX_PAT }} --packagePath $(find ./artifact -iname *.vsix) --pre-release
+                  CONFIG='--pat ${{ secrets.OVSX_PAT }} --packagePath $(find ./artifact -iname *.vsix)'
+                  if [ "${{ inputs.pre_release }}" = "true" ]; then
+                      npx ovsx publish $CONFIG --pre-release
                   else
-                      npx ovsx publish --pat ${{ secrets.OVSX_PAT }} --packagePath $(find ./artifact -iname *.vsix)
+                      npx ovsx publish $CONFIG
                   fi
-                  echo "::notice::Published to OpenVSX successfully"
+                  echo "::notice::Published to OpenVSX successfully for pre-release: ${{ inputs.pre_release }}"
