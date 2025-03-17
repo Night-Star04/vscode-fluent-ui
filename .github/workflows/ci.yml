@@ -7,6 +7,26 @@ on:
                 description: 'Tag to release'
                 required: false
                 type: string
+            pre_release:
+                description: 'Pre-release version'
+                required: false
+                type: boolean
+                default: false
+            skip_github:
+                description: 'Skip GitHub release'
+                required: false
+                type: boolean
+                default: false
+            skip_vscode:
+                description: 'Skip VSCode release'
+                required: false
+                type: boolean
+                default: false
+            skip_openvsx:
+                description: 'Skip OpenVSX release'
+                required: false
+                type: boolean
+                default: false
     push:
         tags: # Use to run the workflow when a tag is pushed
             - '*'
@@ -78,6 +98,7 @@ jobs:
     ci-release-github:
         name: Release to GitHub
         runs-on: ubuntu-latest
+        if: ${{ !inputs.skip_github }}
         needs: ci-release-validate
         steps:
             - name: Download all compiled releases
@@ -102,29 +123,54 @@ jobs:
                   artifacts: '${{ github.workspace }}/artifact/**/*.vsix'
                   artifactErrorsFailBuild: true
                   generateReleaseNotes: true
+                  prerelease: ${{ inputs.pre_release }}
 
     ci-release-vscode:
         name: Release to VSCode Marketplace
         runs-on: ubuntu-latest
+        if: ${{ !inputs.skip_vscode }}
         needs: ci-release-validate
         steps:
             - name: Download all compiled releases
               uses: actions/download-artifact@v4
               with:
                   path: artifact
+            - name: Check if the VSCE_PAT is set
+              run: |
+                  if [ -z "${{ secrets.VSCE_PAT }}" ]; then
+                      echo "::error::VSCE_PAT is not set"
+                      exit 1
+                  fi
             - name: Publish to VSCode Marketplace
               run: |
-                  npx vsce publish --pat ${{ secrets.VSCE_PAT }} --packagePath $(find ./artifact -iname *.vsix)
+                  if [ -n "${{ inputs.pre_release }}" ]; then
+                      npx vsce publish --pat ${{ secrets.VSCE_PAT }} --packagePath $(find ./artifact -iname *.vsix) --pre-release
+                  else
+                      npx vsce publish --pat ${{ secrets.VSCE_PAT }} --packagePath $(find ./artifact -iname *.vsix)
+                  fi
+                  echo "::notice::Published to VSCode Marketplace successfully"
 
     ci-release-openvsx:
         name: Release to OpenVSX
         runs-on: ubuntu-latest
+        if: ${{ !inputs.skip_openvsx }}
         needs: ci-release-validate
         steps:
             - name: Download all compiled releases
               uses: actions/download-artifact@v4
               with:
                   path: artifact
+            - name: Check if the OVSX_PAT is set
+              run: |
+                  if [ -z "${{ secrets.OVSX_PAT }}" ]; then
+                      echo "::error::OVSX_PAT is not set"
+                      exit 1
+                  fi
             - name: Publish to OpenVSX
               run: |
-                  npx ovsx publish --pat ${{ secrets.OVSX_PAT }} --packagePath $(find ./artifact -iname *.vsix)
+                  if [ -n "${{ inputs.pre_release }}" ]; then
+                      npx ovsx publish --pat ${{ secrets.OVSX_PAT }} --packagePath $(find ./artifact -iname *.vsix) --pre-release
+                  else
+                      npx ovsx publish --pat ${{ secrets.OVSX_PAT }} --packagePath $(find ./artifact -iname *.vsix)
+                  fi
+                  echo "::notice::Published to OpenVSX successfully"
