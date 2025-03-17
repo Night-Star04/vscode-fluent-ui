@@ -136,6 +136,20 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                   path: artifact
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  sparse-checkout: |
+                      package.json
+                      package-lock.json
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: 'npm'
+                  cache-dependency-path: package-lock.json
+            - name: Install dependencies
+              run: npm ci
             - name: Check if the VSCE_PAT is set
               run: |
                   if [ -z "${{ secrets.VSCE_PAT }}" ]; then
@@ -144,11 +158,10 @@ jobs:
                   fi
             - name: Publish to VSCode Marketplace
               run: |
-                  CONFIG='--pat ${{ secrets.VSCE_PAT }} --packagePath $(find ./artifact -iname *.vsix)'
                   if [ "${{ inputs.pre_release }}" = "true" ]; then
-                      npx vsce publish $CONFIG --pre-release
+                      npx vsce publish --pat ${{ secrets.VSCE_PAT }} --packagePath $(find ./artifact -iname *.vsix) --pre-release
                   else
-                      npx vsce publish $CONFIG
+                      npx vsce publish --pat ${{ secrets.VSCE_PAT }} --packagePath $(find ./artifact -iname *.vsix)
                   fi
                   echo "::notice::Published to VSCode Marketplace successfully for pre-release: ${{ inputs.pre_release }}"
 
@@ -162,6 +175,20 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                   path: artifact
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  sparse-checkout: |
+                      package.json
+                      package-lock.json
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: 'npm'
+                  cache-dependency-path: package-lock.json
+            - name: Install dependencies
+              run: npm ci
             - name: Check if the OVSX_PAT is set
               run: |
                   if [ -z "${{ secrets.OVSX_PAT }}" ]; then
@@ -170,10 +197,9 @@ jobs:
                   fi
             - name: Publish to OpenVSX
               run: |
-                  CONFIG='--pat ${{ secrets.OVSX_PAT }} --packagePath $(find ./artifact -iname *.vsix)'
                   if [ "${{ inputs.pre_release }}" = "true" ]; then
-                      npx ovsx publish $CONFIG --pre-release
+                      npx ovsx publish --pat ${{ secrets.OVSX_PAT }} --packagePath $(find ./artifact -iname *.vsix) --pre-release
                   else
-                      npx ovsx publish $CONFIG
+                      npx ovsx publish --pat ${{ secrets.OVSX_PAT }} --packagePath $(find ./artifact -iname *.vsix)
                   fi
                   echo "::notice::Published to OpenVSX successfully for pre-release: ${{ inputs.pre_release }}"
