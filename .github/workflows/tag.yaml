@@ -64,12 +64,14 @@ jobs:
             - name: Create and push tag
               if: ${{ steps.version_info.outputs.error == 'false' }}
               run: |
-                  tag_name="${{ steps.validate_version.outputs.TAG_NAME }}"
-                  commit_message="${{ steps.version_info.outputs.COMMIT_MESSAGE }}"
-
                   echo "::notice::Creating tag $tag_name"
 
-                  if git tag -a "$tag_name" -m "$commit_message" && git push origin "$tag_name"; then
+                  tag_name="${{ steps.validate_version.outputs.TAG_NAME }}"
+                  cat > tag_message.txt << EOF
+                    ${{ steps.version_info.outputs.COMMIT_MESSAGE }}
+                  EOF
+
+                  if git tag -a "$tag_name" -F tag_message.txt && git push origin "$tag_name"; then
                     echo "::notice::Successfully created and pushed tag $tag_name"
                   else
                     echo "::error::Failed to create or push tag $tag_name"
