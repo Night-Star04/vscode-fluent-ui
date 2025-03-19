@@ -41,6 +41,11 @@ on:
                 required: true
                 default: 'x64'
                 type: string
+            pre_release:
+                description: 'Pre-release version'
+                required: false
+                type: boolean
+                default: false
     workflow_dispatch: # Use this to run the workflow manually
         inputs:
             os:
@@ -58,6 +63,11 @@ on:
                 required: true
                 default: 'x64'
                 type: string
+            pre_release:
+                description: 'Pre-release version'
+                required: false
+                type: boolean
+                default: false
 
 jobs:
     compile:
@@ -94,12 +104,12 @@ jobs:
             - name: Compile extension
               run: |
                   target="${{ steps.set_target.outputs.TARGET }}"
-                  echo "::notice::Compiling extension for target: $target"
-                  if ! npx vsce package --target "$target"; then
-                      echo "::error::Failed to compile extension"
-                      exit 1
+                  if [ "${{ inputs.pre_release }}" = "true" ]; then
+                      npx vsce package --target "$target" --pre-release
+                  else
+                      npx vsce package --target "$target"
                   fi
-                  echo "::notice::Extension compiled successfully"
+                  echo "::notice::Extension compiled successfully for target: $target, pre-release: ${{ inputs.pre_release }}"
 
             - name: Upload extension file
               uses: actions/upload-artifact@v4
