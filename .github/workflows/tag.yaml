@@ -63,11 +63,13 @@ jobs:
 
             - name: Create and push tag
               if: ${{ steps.version_info.outputs.error == 'false' }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.TAG_PAT }} # Use PAT for tagging subsequent ci workflows, not the default
               run: |
                   echo "::notice::Creating tag $tag_name"
 
                   tag_name="${{ steps.validate_version.outputs.TAG_NAME }}"
-                  cat > tag_message.txt << EOF
+                  cat > tag_message.txt << 'EOF'
                     ${{ steps.version_info.outputs.COMMIT_MESSAGE }}
                   EOF
 
