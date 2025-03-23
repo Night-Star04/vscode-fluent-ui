@@ -29,7 +29,7 @@
     </a>
     <a href="https://open-vsx.org/extension/NightSky-Studio/vscode-fluent-ui-continued">
       <img
-        src="https://img.shields.io/open-vsx/dt/NightSky-Studio/vscode-fluent-ui-continued?style=for-the-badge&logo=vscodium&logoColor=#2F80ED&label=Open%20VSX"
+        src="https://img.shields.io/open-vsx/dt/NightSky-Studio/vscode-fluent-ui-continued?style=for-the-badge&logo=vscodium&logoColor=2F80ED&label=Open%20VSX"
         alt="Open VSX Downloads"
       />
     </a>
