@@ -12,14 +12,28 @@
         alt="Latest Release"
       />
     </a>
-    <img
-      src="https://img.shields.io/github/downloads/Night-Star04/vscode-fluent-ui/total?style=for-the-badge&logo=github&logoColor=white&label=Downloads"
-      alt="GitHub Downloads (all release)"
-    />
-    <img
+   <img
       src="https://img.shields.io/github/issues/Night-Star04/vscode-fluent-ui?style=for-the-badge&logo=github&logoColor=white&label=Issues"
       alt="GitHub Issues"
     />
+    <br/>
+    <img
+      src="https://img.shields.io/github/downloads/Night-Star04/vscode-fluent-ui/total?style=for-the-badge&logo=github&logoColor=white&label=GitHub%20Release"
+      alt="GitHub Downloads"
+    />
+    <a href="https://marketplace.visualstudio.com/items?itemName=NightSky-Studio.vscode-fluent-ui-continued">
+      <img
+        src="https://img.shields.io/visual-studio-marketplace/i/NightSky-Studio.vscode-fluent-ui-continued?style=for-the-badge&logo=codecrafters&logoColor=007ACC&label=Visual%20Studio%20Marketplace"
+        alt="Visual Studio Marketplace Installs"
+      />
+    </a>
+    <a href="https://open-vsx.org/extension/NightSky-Studio/vscode-fluent-ui-continued">
+      <img
+        src="https://img.shields.io/open-vsx/dt/NightSky-Studio/vscode-fluent-ui-continued?style=for-the-badge&logo=vscodium&logoColor=2F80ED&label=Open%20VSX"
+        alt="Open VSX Downloads"
+      />
+    </a>
+    <br/>
   </div>
 </div>
 
@@ -86,6 +100,63 @@ VS Code Fluent UI 是一個主題套件，將微軟 Fluent UI 設計的流暢美
 
 ## 安裝
 
+<details open>
+<summary><h3>Visual Studio Marketplace (推薦)</h3></summary>
+
+1. 開啟 Visual Studio Code
+2. 開啟延伸模組視窗 (`Ctrl+Shift+X`)
+3. 搜尋 `Fluent UI (continued)` 或 `NightSky-Studio.vscode-fluent-ui-continued`
+4. 點擊 "安裝" 按鈕安裝由 NightSky-Studio 開發的 "Fluent UI for VSCode (Continued)" 延伸模組
+5. 設定延伸模組 (選用)
+    - 開啟設定 (`Ctrl+,`)
+    - 搜尋 `@ext:NightSky-Studio.vscode-fluent-ui-continued`
+    - 根據個人喜好調整設定
+6. 啟用延伸模組
+    - 開啟命令面板 (`Ctrl+Shift+P`)
+    - 執行命令 `> Fluent: Enable`
+    - 等待命令完成
+    - 在提示時重新載入視窗
+7. 處理「安裝損壞」警告
+    - 點擊通知上的齒輪圖標
+    - 選擇 `不再顯示`
+    - 完成設定
+8. 享受 Fluent UI 主題！
+
+> 直接連結
+> ：[Visual Studio Marketplace - Fluent UI](https://marketplace.visualstudio.com/items?itemName=NightSky-Studio.vscode-fluent-ui-continued)
+
+</details>
+
+<details>
+<summary><h3>Open VSX Registry</h3></summary>
+
+1. 開啟您的 VS Code 相容編輯器（如 VSCodium）
+2. 開啟延伸模組視窗 (`Ctrl+Shift+X`)
+3. 搜尋 `Fluent UI (continued)` 或 `NightSky-Studio.vscode-fluent-ui-continued`
+4. 點擊 "安裝" 按鈕安裝由 NightSky-Studio 開發的 "Fluent UI for VSCode (Continued)" 延伸模組
+5. 設定延伸模組 (選用)
+    - 開啟設定 (`Ctrl+,`)
+    - 搜尋 `@ext:NightSky-Studio.vscode-fluent-ui-continued`
+    - 根據個人喜好調整設定
+6. 啟用延伸模組
+    - 開啟命令面板 (`Ctrl+Shift+P`)
+    - 執行命令 `> Fluent: Enable`
+    - 等待命令完成
+    - 在提示時重新載入視窗
+7. 處理「安裝損壞」警告
+    - 點擊通知上的齒輪圖標
+    - 選擇 `不再顯示`
+    - 完成設定
+8. 享受 Fluent UI 主題！
+
+> 直接連結
+> ：[Open VSX Registry - Fluent UI](https://open-vsx.org/extension/NightSky-Studio/vscode-fluent-ui-continued)
+
+</details>
+
+<details>
+<summary><h3>GitHub Release</h3></summary>
+
 1. 從 [Releases](https://github.com/Night-Star04/vscode-fluent-ui/releases/latest) 下載最新版本的安
    裝文件
 2. 以管理員身份運行 Visual Studio Code
@@ -131,6 +202,8 @@ VS Code Fluent UI 是一個主題套件，將微軟 Fluent UI 設計的流暢美
 > 這一點。
 >
 > 您可以通過在設置頁面中取消選中 `Enable background image` 來禁用此功能。
+
+</details>
 
 ## 解除安裝
 
@@ -188,21 +261,27 @@ VS Code Fluent UI 是一個主題套件，將微軟 Fluent UI 設計的流暢美
 此部分僅涵蓋最常見的問題。如果您遇到其他問題，請查看 [疑難解答](/TROUBLESHOOTING.md) 頁面或在 Github
 中打開問題。
 
-1.  **為什麼會出現安裝損壞警告？**
+1. **安裝延伸模組後顯示安裝損壞警告**
 
     這是正常的，不用擔心。這是預期行為，並且是套件正常運行所必需的。
 
     當您安裝套件時，套件會修改工作台 html 文件以應用主題。 Visual Studio Code 認為安裝已損壞，因為文
     件已被修改。
 
-2.  **為什麼在卸載後無法正常使用默認主題的 Visual Studio Code？**
+    如果您想要移除此訊息，請按照以下步驟操作：
+
+    1. 點擊通知上的齒輪圖標
+    2. 選擇 `不再顯示`
+    3. 完成設定
+
+2. **為什麼在卸載後無法正常使用默認主題的 Visual Studio Code？**
 
     這是可能的，但機會很小。
 
     如果您遇到此問題，請按照以下步驟修復。請參閱 [解除安裝](/TROUBLESHOOTING.md#uninstallation) 部分
     以獲取進一步說明。
 
-3.  **我可以與其他套件一起使用嗎？**
+3. **我可以與其他套件一起使用嗎？**
 
     是的，您可以將此主題與其他套件一起使用。但是，某些套件可能與此主題不兼容。
 
@@ -214,19 +293,29 @@ VS Code Fluent UI 是一個主題套件，將微軟 Fluent UI 設計的流暢美
 ### 最新版本變更
 
 ```markdown
-Version 4.3.0 (2024-11-01)
+# [4.6.0] - 2025-03-11
 
-# Fixed
+## 🐛 Fixes
 
--   Fixed an issue where the extension could not run properly.
--   Fixed an issue where the source control sidebar was appearing beneath the code view.
+-   Correctly display content tooltip on editor container hover (#37)
+-   Remove padding from bottom panel input box (#39)
 
-# Chore
+## 🛠️ Dependency Updates
 
--   Updated import statements and function calls.
--   Improved error handling and resolved test running errors.
--   Updated ESLint configuration and package settings.
--   Removed unused code and related files.
+-   Upgrade `sharp` from `0.32.1` to `0.33.5`
+-   Upgrade `@types/mocha` from `10.0.9` to `10.0.10`
+-   Upgrade `@typescript-eslint/eslint-plugin` from `8.10.0` to `8.25.0`
+-   Upgrade `@typescript-eslint/parser` from `8.7.0` to `8.25.0`
+-   Upgrade `@vscode/vsce` from `3.2.1` to `3.2.2`
+-   Upgrade `esbuild` from `0.17.19` to `0.25.0`
+-   Upgrade `eslint` from `9.13.0` to `9.21.0`
+-   Upgrade `glob` from `10.2.3` to `11.0.1`
+-   Upgrade `mocha` from `11.0.1` to `11.1.0`
+-   Upgrade `typescript` from `5.6.3` to `5.7.3`
+
+## 🧹 Dependency Cleanup
+
+-   Removed unused dependencies: `file-url`, `node-fetch`, `@types/node-fetch`
 ```
 
 您可以在 [更新日誌](/CHANGELOG.md) 頁面找到完整的更新日誌。

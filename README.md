@@ -37,7 +37,7 @@
   </div>
 </div>
 
-<div align="center">English | <a href="README-zh-TW.md">繁體中文</a></div>
+<div align="center">English | <a href="README.zh-TW.md">繁體中文</a></div>
 
 Enhance your Visual Studio Code experience with a modern, Fluent UI-inspired theme.
 
