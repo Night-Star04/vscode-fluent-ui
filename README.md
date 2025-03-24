@@ -12,28 +12,36 @@
         alt="Latest Release"
       />
     </a>
-   <img
+    <img
       src="https://img.shields.io/github/issues/Night-Star04/vscode-fluent-ui?style=for-the-badge&logo=github&logoColor=white&label=Issues"
       alt="GitHub Issues"
     />
-    <br/>
+    <img
+      src="https://img.shields.io/github/release-date/Night-Star04/vscode-fluent-ui?style=for-the-badge&logo=github&logoColor=white&label=Last%20Release"
+      alt="Last Release Date"
+    />
+    <br />
     <img
       src="https://img.shields.io/github/downloads/Night-Star04/vscode-fluent-ui/total?style=for-the-badge&logo=github&logoColor=white&label=GitHub%20Release"
       alt="GitHub Downloads"
     />
-    <a href="https://marketplace.visualstudio.com/items?itemName=NightSky-Studio.vscode-fluent-ui-continued">
+    <a
+      href="https://marketplace.visualstudio.com/items?itemName=NightSky-Studio.vscode-fluent-ui-continued"
+    >
       <img
         src="https://img.shields.io/visual-studio-marketplace/i/NightSky-Studio.vscode-fluent-ui-continued?style=for-the-badge&logo=codecrafters&logoColor=007ACC&label=Visual%20Studio%20Marketplace"
         alt="Visual Studio Marketplace Installs"
       />
     </a>
-    <a href="https://open-vsx.org/extension/NightSky-Studio/vscode-fluent-ui-continued">
+    <a
+      href="https://open-vsx.org/extension/NightSky-Studio/vscode-fluent-ui-continued"
+    >
       <img
         src="https://img.shields.io/open-vsx/dt/NightSky-Studio/vscode-fluent-ui-continued?style=for-the-badge&logo=vscodium&logoColor=2F80ED&label=Open%20VSX"
         alt="Open VSX Downloads"
       />
     </a>
-    <br/>
+    <br />
   </div>
 </div>
 
@@ -370,6 +378,6 @@ This project is licensed under the MIT License - see the [LICENSE](/LICENSE) fil
 
 ---
 
-_Give your Visual Studio Code a modern, Fluent UI-inspired makeover today!_
+_✨ Give your Visual Studio Code a modern, Fluent UI-inspired makeover today!_
 
-_If you like this fluently themed extension, please consider giving it a ⭐!_
+_⭐ If you like this fluently themed extension, please consider giving it a star!_
