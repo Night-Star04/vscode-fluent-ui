@@ -13,17 +13,39 @@
       />
     </a>
     <img
-      src="https://img.shields.io/github/downloads/Night-Star04/vscode-fluent-ui/total?style=for-the-badge&logo=github&logoColor=white&label=Downloads"
-      alt="GitHub Downloads (all release)"
-    />
-    <img
       src="https://img.shields.io/github/issues/Night-Star04/vscode-fluent-ui?style=for-the-badge&logo=github&logoColor=white&label=Issues"
       alt="GitHub Issues"
     />
+    <img
+      src="https://img.shields.io/github/release-date/Night-Star04/vscode-fluent-ui?style=for-the-badge&logo=github&logoColor=white&label=Last%20Release"
+      alt="Last Release Date"
+    />
+    <br />
+    <img
+      src="https://img.shields.io/github/downloads/Night-Star04/vscode-fluent-ui/total?style=for-the-badge&logo=github&logoColor=white&label=GitHub%20Release"
+      alt="GitHub Downloads"
+    />
+    <a
+      href="https://marketplace.visualstudio.com/items?itemName=NightSky-Studio.vscode-fluent-ui-continued"
+    >
+      <img
+        src="https://img.shields.io/visual-studio-marketplace/i/NightSky-Studio.vscode-fluent-ui-continued?style=for-the-badge&logo=codecrafters&logoColor=007ACC&label=Visual%20Studio%20Marketplace"
+        alt="Visual Studio Marketplace Installs"
+      />
+    </a>
+    <a
+      href="https://open-vsx.org/extension/NightSky-Studio/vscode-fluent-ui-continued"
+    >
+      <img
+        src="https://img.shields.io/open-vsx/dt/NightSky-Studio/vscode-fluent-ui-continued?style=for-the-badge&logo=vscodium&logoColor=2F80ED&label=Open%20VSX"
+        alt="Open VSX Downloads"
+      />
+    </a>
+    <br />
   </div>
 </div>
 
-<div align="center">English | <a href="README-zh-TW.md">繁體中文</a></div>
+<div align="center">English | <a href="README.zh-TW.md">繁體中文</a></div>
 
 Enhance your Visual Studio Code experience with a modern, Fluent UI-inspired theme.
 
@@ -88,6 +110,63 @@ Inspired by and based on the awesome concept designs by
 
 ## Installation
 
+<details open>
+<summary><h3>Visual Studio Marketplace (Recommended)</h3></summary>
+
+1. Open the extensions view (`Ctrl+Shift+X`) for Visual Studio Code
+2. Search for `Fluent UI (continued)` or `NightSky-Studio.vscode-fluent-ui-continued`
+3. Click the "Install" button for the "Fluent UI for VSCode (Continued)" extension by
+   NightSky-Studio
+4. Configure the extension settings (optional)
+
+    - Open the settings view (`Ctrl+,`)
+    - Search for `@ext:NightSky-Studio.vscode-fluent-ui-continued`
+    - Adjust the settings to your preference
+
+5. Enable the extension
+
+    - Open the command palette (`Ctrl+Shift+P`)
+    - Run the command `> Fluent: Enable`
+    - Wait for the command to finish
+    - Reload the window when prompted
+
+6. Enjoy the Fluent UI theme!
+
+> Direct link:
+> [Visual Studio Marketplace - Fluent UI](https://marketplace.visualstudio.com/items?itemName=NightSky-Studio.vscode-fluent-ui-continued)
+
+</details>
+
+<details>
+<summary><h3>Open VSX Registry</h3></summary>
+
+1. Open the extensions view (`Ctrl+Shift+X`) for your VS Code compatible editor (like VSCodium)
+2. Search for `Fluent UI (continued)` or `NightSky-Studio.vscode-fluent-ui-continued`
+3. Click the "Install" button for the "Fluent UI for VSCode (Continued)" extension by
+   NightSky-Studio
+4. Configure the extension settings (optional)
+
+    - Open the settings view (`Ctrl+,`)
+    - Search for `@ext:NightSky-Studio.vscode-fluent-ui-continued`
+    - Adjust the settings to your preference
+
+5. Enable the extension
+
+    - Open the command palette (`Ctrl+Shift+P`)
+    - Run the command `> Fluent: Enable`
+    - Wait for the command to finish
+    - Reload the window when prompted
+
+6. Enjoy the Fluent UI theme!
+
+> Direct link:
+> [Open VSX Registry - Fluent UI](https://open-vsx.org/extension/NightSky-Studio/vscode-fluent-ui-continued)
+
+</details>
+
+<details>
+<summary><h3>GitHub Release</h3></summary>
+
 1. Download the latest version of the installation file from
    [Releases](https://github.com/Night-Star04/vscode-fluent-ui/releases/latest)
 2. Run Visual Studio Code as administrator
@@ -103,7 +182,7 @@ Inspired by and based on the awesome concept designs by
 4. Configure the extension settings (optional)
 
     - Open the settings view (`Ctrl+,`)
-    - Search for `@ext:NightSky-Studio.vscode-fluent-ui`
+    - Search for `@ext:NightSky-Studio.vscode-fluent-ui-continued`
     - Adjust the settings to your preference
 
     > If you don't see the settings, make sure you have the extension enabled
@@ -115,13 +194,9 @@ Inspired by and based on the awesome concept designs by
     - Wait for the command to finish
     - Reload the window when prompted
 
-6. Handle "Corrupt installation" warning
+6. Enjoy the Fluent UI theme!
 
-    - Click the cog icon on the notification
-    - Select `Don't show again`
-    - You should be good to go
-
-7. Enjoy the Fluent UI theme!
+</details>
 
 > [!TIP]
 >
@@ -153,7 +228,7 @@ Inspired by and based on the awesome concept designs by
     - Click `Uninstall`
 
     > You can also uninstall it via the command line with
-    > `code --uninstall-extension NightSky-Studio.vscode-fluent-ui`
+    > `code --uninstall-extension NightSky-Studio.vscode-fluent-ui-continued`
 
 4. Enjoy the default VS Code theme!
 
@@ -193,13 +268,19 @@ Details on the available settings can be found in the [Settings](/STEEING.md) pa
 This section only covers the most common issues. If you encounter any other problems, please check
 the [Troubleshooting](/TROUBLESHOOTING.md) page or open an new issue on the github.
 
-1. **Why does the corrupt installation warning appear?**
+1. **Show Corrupt installation warning after installing the extension.**
 
     This is normal, don't worry. This is expected behavior and is necessary for the extension to
     work.
 
     When you install the extension, extensions modify the workbench html file to apply the theme.
     Visual Studio Code sees the installation as corrupt because the file has been modified.
+
+    If you want to get rid of this message, please follow the steps below:
+
+    1. Click on the cog icon on the notification
+    2. Select `Don't show again`
+    3. You should be good to go
 
 2. **Why can’t I use the default theme’s visual studio code normally after uninstalling it?**
 
@@ -297,6 +378,6 @@ This project is licensed under the MIT License - see the [LICENSE](/LICENSE) fil
 
 ---
 
-_Give your Visual Studio Code a modern, Fluent UI-inspired makeover today!_
+_✨ Give your Visual Studio Code a modern, Fluent UI-inspired makeover today!_
 
-_If you like this fluently themed extension, please consider giving it a ⭐!_
+_⭐ If you like this fluently themed extension, please consider giving it a star!_
