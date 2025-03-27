@@ -105,9 +105,9 @@ jobs:
               run: |
                   target="${{ steps.set_target.outputs.TARGET }}"
                   if [ "${{ inputs.pre_release }}" = "true" ]; then
-                      npx vsce package --target "$target" --pre-release
+                      npx vsce package --target "$target" --pre-release --readme-path README.publish.md
                   else
-                      npx vsce package --target "$target"
+                      npx vsce package --target "$target" --readme-path README.publish.md
                   fi
                   echo "::notice::Extension compiled successfully for target: $target, pre-release: ${{ inputs.pre_release }}"
 

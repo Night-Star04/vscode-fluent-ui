@@ -4,7 +4,7 @@
 
 # Documentation files
 *.md
-!README.md
+!README.publish.md
 
 # Image files
 images/**
