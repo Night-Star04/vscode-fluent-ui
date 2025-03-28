@@ -302,29 +302,24 @@ the [Troubleshooting](/TROUBLESHOOTING.md) page or open an new issue on the gith
 ### Latest version changes
 
 ```markdown
-# [4.6.0] - 2025-03-11
+# [4.7.0] - 2025-03-28
+
+## 🚀 Features
+
+-   **Enhanced CI/CD Publishing**: The extension is now automatically published to both **VS Code
+    Marketplace** and **Open VSX Registry** via GitHub Actions. (#48)
 
 ## 🐛 Fixes
 
--   Correctly display content tooltip on editor container hover (#37)
--   Remove padding from bottom panel input box (#39)
+-   **Fixed CI Auto Tagging Issues**: Resolved an issue where commit messages containing special
+    characters or line breaks could cause GitHub Actions to fail when creating version tags. (#49)
 
-## 🛠️ Dependency Updates
+## 📚 Documentation
 
--   Upgrade `sharp` from `0.32.1` to `0.33.5`
--   Upgrade `@types/mocha` from `10.0.9` to `10.0.10`
--   Upgrade `@typescript-eslint/eslint-plugin` from `8.10.0` to `8.25.0`
--   Upgrade `@typescript-eslint/parser` from `8.7.0` to `8.25.0`
--   Upgrade `@vscode/vsce` from `3.2.1` to `3.2.2`
--   Upgrade `esbuild` from `0.17.19` to `0.25.0`
--   Upgrade `eslint` from `9.13.0` to `9.21.0`
--   Upgrade `glob` from `10.2.3` to `11.0.1`
--   Upgrade `mocha` from `11.0.1` to `11.1.0`
--   Upgrade `typescript` from `5.6.3` to `5.7.3`
-
-## 🧹 Dependency Cleanup
-
--   Removed unused dependencies: `file-url`, `node-fetch`, `@types/node-fetch`
+-   **Updated README**: Added new links for **VS Code Marketplace** and **Open VSX Registry**,
+    updated installation guides, and added relevant badges. (#51)
+-   **Simplified Publishing README**: Introduced `README.publish.md` as the user-facing README for
+    the published extension and updated `.vscodeignore`. (#53)
 ```
 
 You can find the full changelog in the [Changelog](/CHANGELOG.md) page.

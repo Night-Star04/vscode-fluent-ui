@@ -1,5 +1,24 @@
 # Fluent UI for VsCode ChangeLog
 
+## 4.7.0 - 2025-03-28
+
+### 🚀 Features
+
+-   **Enhanced CI/CD Publishing**: The extension is now automatically published to both **VS Code
+    Marketplace** and **Open VSX Registry** via GitHub Actions. (#48)
+
+### 🐛 Fixes
+
+-   **Fixed CI Auto Tagging Issues**: Resolved an issue where commit messages containing special
+    characters or line breaks could cause GitHub Actions to fail when creating version tags. (#49)
+
+### 📚 Documentation
+
+-   **Updated README**: Added new links for **VS Code Marketplace** and **Open VSX Registry**,
+    updated installation guides, and added relevant badges. (#51)
+-   **Simplified Publishing README**: Introduced `README.publish.md` as the user-facing README for
+    the published extension and updated `.vscodeignore`. (#53)
+
 ## 4.6.0 - 2025-03-11
 
 ### 🐛 Fixes
