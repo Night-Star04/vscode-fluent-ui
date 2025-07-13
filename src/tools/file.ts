@@ -14,7 +14,6 @@ interface WorkbenchPaths {
 /** Get the workbench directory and html file */
 export function locateWorkbench(): WorkbenchPaths | null {
     const basePath = path.join(env.appRoot, 'out', 'vs', 'code');
-    console.log(`Looking for workbench files in: ${basePath}`);
 
     const workbenchDirCandidates = [
         // old path
@@ -45,8 +44,8 @@ export function locateWorkbench(): WorkbenchPaths | null {
                 }
                 return {
                     htmlFile: htmlPathCandidate,
-                    backupHtmlFile: path.join(workbenchDirCandidate, 'workbench.bak.html'),
-                    workbenchJsFile: path.join(workbenchDirCandidate, 'fui.js'),
+                    backupHtmlFile: path.join(basePath, workbenchDirCandidate, 'workbench.bak.html'),
+                    workbenchJsFile: path.join(basePath, workbenchDirCandidate, 'fui.js'),
                 };
             } catch (error: Error | any) {
                 if (error.code !== 'ENOENT') {
