@@ -1,34 +1,71 @@
-import { existsSync } from 'fs';
+import { statSync } from 'fs';
 import path from 'path';
 
 import { window } from 'vscode';
 
 import messages from '../messages';
 
-/** Get the workbench directory */
-export function getWorkbenchDir() {
+interface WorkbenchPaths {
+    htmlFile: string;
+    backupHtmlFile: string;
+    workbenchJsFile: string;
+}
+
+/** Get the workbench directory and html file */
+export function locateWorkbench(): WorkbenchPaths | null {
     const appDir = require.main
         ? path.dirname(require.main.filename)
-        : globalThis._VSCODE_FILE_ROOT || '';
+        : globalThis._VSCODE_FILE_ROOT;
     if (!appDir) {
-        window.showInformationMessage(messages.pathLookupFailed);
+        window.showErrorMessage(messages.installationPathLookupFailed);
+        return null;
     }
-    const base = path.join(appDir, 'vs', 'code');
-    return path.join(base, 'electron-sandbox', 'workbench');
-}
 
-/** Get workbench html file path */
-export function fetchHtmlFile() {
-    const workbenchDir = getWorkbenchDir();
-    let htmlFile = path.join(workbenchDir, 'workbench.html');
-    if (!existsSync(htmlFile)) {
-        htmlFile = path.join(workbenchDir, 'workbench.esm.html');
+    const basePath = path.join(appDir, 'vs', 'code');
+
+    const workbenchDirCandidates = [
+        // old path
+        'electron-sandbox',
+        path.join('electron-sandbox', 'workbench'),
+
+        // v1.102+ path
+        'electron-browser',
+        path.join('electron-browser', 'workbench'),
+    ];
+
+    const htmlFileNameCandidates = [
+        'workbench.html', // VSCode
+        'workbench.esm.html', // VSCode ESM
+        'workbench-dev.html', // VSCode dev
+    ];
+
+    for (const workbenchDirCandidate of workbenchDirCandidates) {
+        for (const htmlFileNameCandidate of htmlFileNameCandidates) {
+            const htmlPathCandidate = path.join(basePath, workbenchDirCandidate, htmlFileNameCandidate);
+            try {
+                const stat = statSync(htmlPathCandidate);
+                if (!stat.isFile()) {
+                    // As far as I know, there should never be a directory with a .html suffix.
+                    // We shouldn't exit the loop here, because still might be a valid workbench file
+                    window.showInformationMessage(htmlPathCandidate + messages.workbenchPathIsDirectory);
+                    continue;
+                }
+                return {
+                    htmlFile: htmlPathCandidate,
+                    backupHtmlFile: path.join(workbenchDirCandidate, 'workbench.bak.html'),
+                    workbenchJsFile: path.join(workbenchDirCandidate, 'fui.js'),
+                };
+            } catch (error: Error | any) {
+                if (error.code !== 'ENOENT') {
+                    // As long as the error is not "file not found", we should log it
+                    // We shouldn't exit the loop here, because still might be a valid workbench file
+                    window.showInformationMessage(`${messages.workbenchPathFailedStat} ${error}`);
+                }
+                continue;
+            }
+        }
     }
-    return htmlFile;
+
+    window.showErrorMessage(messages.workbenchPathLookupFailed);
+    return null;
 }
-
-/** Js file path */
-export const workbenchJsFilePath = path.join(getWorkbenchDir(), 'fui.js');
-
-/** Html backup file path */
-export const backupHtmlFilePath = path.join(getWorkbenchDir(), 'workbench.bak.html');
