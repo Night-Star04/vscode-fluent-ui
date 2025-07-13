@@ -13,15 +13,8 @@ interface WorkbenchPaths {
 
 /** Get the workbench directory and html file */
 export function locateWorkbench(): WorkbenchPaths | null {
-    const appDir = require.main
-        ? path.dirname(require.main.filename)
-        : globalThis._VSCODE_FILE_ROOT;
-    if (!appDir) {
-        window.showErrorMessage(messages.installationPathLookupFailed);
-        return null;
-    }
-
-    const basePath = path.join(appDir, 'vs', 'code');
+    const basePath = path.join(env.appRoot, 'out', 'vs', 'code');
+    console.log(`Looking for workbench files in: ${basePath}`);
 
     const workbenchDirCandidates = [
         // old path

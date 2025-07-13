@@ -8,7 +8,6 @@ export const messages = {
     restartIde: 'Restart Visual Studio Code',
     cannotLoad: 'Error: ',
     restart: 'You need to reload for the change(s) to take effect.',
-    installationPathLookupFailed: 'Unable to locate the installation path of VSCode.',
     workbenchPathLookupFailed: 'Unable to locate VSCode\'s workbench html file.',
     workbenchPathIsDirectory: ' is a directory, not a file.',
     workbenchPathFailedStat: 'Failed to check workbench path: ',
