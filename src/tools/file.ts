@@ -1,7 +1,7 @@
 import { statSync } from 'fs';
 import path from 'path';
 
-import { window } from 'vscode';
+import { window, env } from 'vscode';
 
 import messages from '../messages';
 
