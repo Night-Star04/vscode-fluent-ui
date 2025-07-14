@@ -42,20 +42,17 @@ jobs:
                     - os: windows-latest
                       platform: win32
                       arch: x64
-                    # - os: windows-latest
-                    #   platform: win32
-                    #   arch: arm64
+                    - os: windows-11-arm
+                      platform: win32
+                      arch: arm64
 
                     # Linux
                     - os: ubuntu-latest
                       platform: linux
                       arch: x64
-                    # - os: ubuntu-latest
-                    #   platform: linux
-                    #   arch: arm64
-                    # - os: ubuntu-latest
-                    #   platform: linux
-                    #   arch: armhf
+                    - os: ubuntu-24.04-arm
+                      platform: linux
+                      arch: arm64
                     - os: ubuntu-latest
                       platform: alpine
                       arch: x64
@@ -75,7 +72,7 @@ jobs:
             os: ${{ matrix.os }}
             platform: ${{ matrix.platform }}
             arch: ${{ matrix.arch }}
-            pre_release: ${{ inputs.pre_release }}
+            pre_release: ${{ inputs.pre_release || false }}
 
     ci-release-validate:
         name: Validate release
@@ -124,7 +121,7 @@ jobs:
                   artifacts: '${{ github.workspace }}/artifact/**/*.vsix'
                   artifactErrorsFailBuild: true
                   generateReleaseNotes: true
-                  prerelease: ${{ inputs.pre_release }}
+                  prerelease: ${{ inputs.pre_release || false }}
 
     ci-release-vscode:
         name: Release to VSCode Marketplace
