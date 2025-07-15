@@ -11,6 +11,8 @@ interface WorkbenchPaths {
     workbenchJsFile: string;
 }
 
+// Implementation originally from vscode-custom-css. License available in LICENSE-vscode-custom-css.
+
 /** Get the workbench directory and html file */
 export function locateWorkbench(): WorkbenchPaths | null {
     const basePath = path.join(env.appRoot, 'out', 'vs', 'code');
