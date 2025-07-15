@@ -61,14 +61,13 @@ export function locateWorkbench(): WorkbenchPaths | null {
                     ),
                     workbenchJsFile: path.join(basePath, workbenchDirCandidate, 'fui.js'),
                 };
-            } catch (error: Error | any) {
-                if (
-                    error instanceof Error &&
-                    typeof (error as NodeJS.ErrnoException).code === 'string'
-                ) {
+            } catch (error) {
+                if (error instanceof Error) {
                     // As long as the error is not "file not found" which is not thrown due to { throwIfNoEntry: false }, we should log it
                     // We shouldn't exit the loop here, because still might be a valid workbench file
-                    window.showInformationMessage(`${messages.workbenchPathFailedStat} ${error}`);
+                    window.showInformationMessage(
+                        `${messages.workbenchPathFailedStat} ${error.message}`,
+                    );
                 }
             }
         }
