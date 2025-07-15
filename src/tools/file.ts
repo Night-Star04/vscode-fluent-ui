@@ -33,27 +33,43 @@ export function locateWorkbench(): WorkbenchPaths | null {
 
     for (const workbenchDirCandidate of workbenchDirCandidates) {
         for (const htmlFileNameCandidate of htmlFileNameCandidates) {
-            const htmlPathCandidate = path.join(basePath, workbenchDirCandidate, htmlFileNameCandidate);
+            const htmlPathCandidate = path.join(
+                basePath,
+                workbenchDirCandidate,
+                htmlFileNameCandidate,
+            );
             try {
-                const stat = statSync(htmlPathCandidate);
+                const stat = statSync(htmlPathCandidate, { throwIfNoEntry: false });
+                if (!stat) {
+                    // If the file does not exist, we should continue to the next candidate
+                    continue;
+                }
                 if (!stat.isFile()) {
                     // As far as I know, there should never be a directory with a .html suffix.
                     // We shouldn't exit the loop here, because still might be a valid workbench file
-                    window.showInformationMessage(htmlPathCandidate + messages.workbenchPathIsDirectory);
+                    window.showInformationMessage(
+                        htmlPathCandidate + messages.workbenchPathIsDirectory,
+                    );
                     continue;
                 }
                 return {
                     htmlFile: htmlPathCandidate,
-                    backupHtmlFile: path.join(basePath, workbenchDirCandidate, 'workbench.bak.html'),
+                    backupHtmlFile: path.join(
+                        basePath,
+                        workbenchDirCandidate,
+                        'workbench.bak.html',
+                    ),
                     workbenchJsFile: path.join(basePath, workbenchDirCandidate, 'fui.js'),
                 };
             } catch (error: Error | any) {
-                if (error.code !== 'ENOENT') {
-                    // As long as the error is not "file not found", we should log it
+                if (
+                    error instanceof Error &&
+                    typeof (error as NodeJS.ErrnoException).code === 'string'
+                ) {
+                    // As long as the error is not "file not found" which is not thrown due to { throwIfNoEntry: false }, we should log it
                     // We shouldn't exit the loop here, because still might be a valid workbench file
                     window.showInformationMessage(`${messages.workbenchPathFailedStat} ${error}`);
                 }
-                continue;
             }
         }
     }
