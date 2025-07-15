@@ -100,7 +100,7 @@
         "vscode:prepublish": "node esbuild.mjs --production"
     },
     "dependencies": {
-        "sharp": "^0.33.5"
+        "sharp": "^0.34.3"
     },
     "devDependencies": {
         "@types/glob": "^8.1.0",
