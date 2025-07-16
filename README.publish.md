@@ -67,6 +67,8 @@ Inspired by and based on the awesome concept designs by
 
 - **Corrupt installation warning?** This is normal and expected. The extension modifies VSCode's
   workbench HTML file.
+- **Corrupt setting has changed?** This is normal and expected. The extension modifies the global
+  settings to apply Fluent UI styles.
 - **Problems after uninstalling?** See our
   [uninstallation troubleshooting guide](https://github.com/Night-Star04/vscode-fluent-ui/blob/main/TROUBLESHOOTING.md#uninstallation).
 - **Compatible with other extensions?** Yes, but some extensions may have compatibility issues.
