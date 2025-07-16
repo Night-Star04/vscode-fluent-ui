@@ -235,7 +235,7 @@ export function activate(context: ExtensionContext) {
                     // modified content, rendering subsequent `clearPatch` operations ineffective.
                     // await createBackup(htmlFile);
 
-                    await patch({ htmlFile, jsFile });
+                    await patch({ htmlFile, jsFile, bypassMessage: false });
                 } else {
                     window.showInformationMessage(messages.alreadySet);
                 }
