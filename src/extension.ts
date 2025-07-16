@@ -228,6 +228,8 @@ export function activate(context: ExtensionContext) {
             const backupUuid = await getBackupUuid(htmlFile);
             if (backupUuid) {
                 const isUpdate = await updateControlsStyle();
+                // If `updateControlsStyle` returns false, it means the controls style was already in the desired state,
+                // so no update was performed. In this case, we show the `alreadySet` message to inform the user.
                 if (!isUpdate) {
                     window.showInformationMessage(messages.alreadySet);
                 }
