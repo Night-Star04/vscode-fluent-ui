@@ -7,6 +7,7 @@ import { type ExtensionContext, commands, window, workspace } from 'vscode';
 import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from './backup-helper';
 import { messages } from './messages';
 import { backupHtmlFilePath, fetchHtmlFile, workbenchJsFilePath } from './tools/file';
+import type { ControlsStyle } from './types/style';
 
 function enabledRestart() {
     window
@@ -218,6 +219,17 @@ export function activate(context: ExtensionContext) {
         } catch (error) {
             window.showErrorMessage(String(error));
         }
+    }
+
+    // Automatically set the controlsStyle to custom if it is set to native
+    const controlsStyle = workspace
+        .getConfiguration('window')
+        .get<ControlsStyle>('controlsStyle', 'native');
+    if (controlsStyle === 'native') {
+        window.showInformationMessage(messages.autoUpdateControlsStyle);
+        workspace.getConfiguration('window').update('controlsStyle', 'custom', true);
+        // uninstall(); // No need to uninstall here, just install again
+        install();
     }
 
     const installFUI = commands.registerCommand('fluentui.enableEffects', install);

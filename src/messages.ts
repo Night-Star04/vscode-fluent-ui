@@ -9,6 +9,8 @@ export const messages = {
     cannotLoad: 'Error: ',
     restart: 'You need to reload for the change(s) to take effect.',
     pathLookupFailed: 'Unable to locate the installation path of VSCode.',
+    autoUpdateControlsStyle:
+        'Fluent UI requires the "window.controlsStyle" setting to be set to "custom". This has been done automatically.',
 };
 
 export default messages;
