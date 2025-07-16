@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
 import sharp from 'sharp';
-import { type ExtensionContext, commands, window, workspace } from 'vscode';
+import { type ExtensionContext, ConfigurationTarget, commands, window, workspace } from 'vscode';
 
 import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from './backup-helper';
 import { messages } from './messages';
@@ -196,13 +196,15 @@ async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
  *
  * @returns `true` if the controls style was updated, `false` if it was already set to 'custom'.
  */
-function updateControlsStyle(): boolean {
+async function updateControlsStyle(): Promise<boolean> {
     const controlsStyle = workspace
         .getConfiguration('window')
         .get<ControlsStyle>('controlsStyle', 'native');
     if (controlsStyle === 'native') {
         window.showInformationMessage(messages.autoUpdateControlsStyle);
-        workspace.getConfiguration('window').update('controlsStyle', 'custom', true);
+        await workspace
+            .getConfiguration('window')
+            .update('controlsStyle', 'custom', ConfigurationTarget.Global);
         return true;
     }
     return false;
@@ -225,15 +227,17 @@ export function activate(context: ExtensionContext) {
         if (!bypassMessage) {
             const backupUuid = await getBackupUuid(htmlFile);
             if (backupUuid) {
-                window.showInformationMessage(messages.alreadySet);
-                if (updateControlsStyle()) {
-                    await install();
+                const isUpdate = await updateControlsStyle();
+                if (isUpdate) {
+                    await install(true);
+                } else {
+                    window.showInformationMessage(messages.alreadySet);
                 }
                 return;
             }
         }
 
-        updateControlsStyle();
+        await updateControlsStyle();
         await createBackup(htmlFile);
         await patch({ htmlFile, jsFile, bypassMessage });
     }
