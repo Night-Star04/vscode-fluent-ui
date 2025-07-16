@@ -186,6 +186,28 @@ async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
     }
 }
 
+/**
+ * Updates the window controls style configuration from 'native' to 'custom' if currently set to 'native'.
+ *
+ * @remarks
+ * This function checks the current 'window.controlsStyle' configuration setting. If it's set to 'native',
+ * it displays an information message to the user and automatically updates the setting to 'custom'
+ * in the global configuration.
+ *
+ * @returns `true` if the controls style was updated, `false` if it was already set to 'custom'.
+ */
+function updateControlsStyle(): boolean {
+    const controlsStyle = workspace
+        .getConfiguration('window')
+        .get<ControlsStyle>('controlsStyle', 'native');
+    if (controlsStyle === 'native') {
+        window.showInformationMessage(messages.autoUpdateControlsStyle);
+        workspace.getConfiguration('window').update('controlsStyle', 'custom', true);
+        return true;
+    }
+    return false;
+}
+
 export function activate(context: ExtensionContext) {
     const htmlFile = fetchHtmlFile();
     const htmlBakFile = backupHtmlFilePath;
@@ -199,10 +221,14 @@ export function activate(context: ExtensionContext) {
             const backupUuid = await getBackupUuid(htmlFile);
             if (backupUuid) {
                 window.showInformationMessage(messages.alreadySet);
+                if (updateControlsStyle()) {
+                    await install();
+                }
                 return;
             }
         }
 
+        updateControlsStyle();
         await createBackup(htmlFile);
         await patch({ htmlFile, jsFile, bypassMessage });
     }
@@ -219,17 +245,6 @@ export function activate(context: ExtensionContext) {
         } catch (error) {
             window.showErrorMessage(String(error));
         }
-    }
-
-    // Automatically set the controlsStyle to custom if it is set to native
-    const controlsStyle = workspace
-        .getConfiguration('window')
-        .get<ControlsStyle>('controlsStyle', 'native');
-    if (controlsStyle === 'native') {
-        window.showInformationMessage(messages.autoUpdateControlsStyle);
-        workspace.getConfiguration('window').update('controlsStyle', 'custom', true);
-        // uninstall(); // No need to uninstall here, just install again
-        install();
     }
 
     const installFUI = commands.registerCommand('fluentui.enableEffects', install);

@@ -25,9 +25,7 @@
     "categories": [
         "Themes"
     ],
-    "activationEvents": [
-        "onStartupFinished"
-    ],
+    "activationEvents": [],
     "galleryBanner": {
         "color": "#ffffff",
         "theme": "light"
