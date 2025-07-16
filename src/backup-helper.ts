@@ -3,7 +3,7 @@ import { copyFile, readFile, stat, unlink, writeFile } from 'fs/promises';
 import { window } from 'vscode';
 
 import { messages } from './messages';
-import { backupHtmlFilePath } from './tools/file';
+import { locateWorkbench } from './tools/file';
 
 /**
  * Deletes backup files matching UUID
@@ -28,7 +28,12 @@ export async function createBackup(htmlFile: string) {
     try {
         const html = await readFile(htmlFile, 'utf-8');
 
-        await writeFile(backupHtmlFilePath, html, 'utf-8');
+        const workbench = locateWorkbench();
+        if (!workbench) {
+            return;
+        }
+
+        await writeFile(workbench.backupHtmlFile, html, 'utf-8');
     } catch (e) {
         window.showInformationMessage(messages.admin);
         throw e;

@@ -6,7 +6,7 @@ import { type ExtensionContext, commands, window, workspace } from 'vscode';
 
 import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from './backup-helper';
 import { messages } from './messages';
-import { backupHtmlFilePath, fetchHtmlFile, workbenchJsFilePath } from './tools/file';
+import { locateWorkbench } from './tools/file';
 
 function enabledRestart() {
     window
@@ -186,9 +186,14 @@ async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
 }
 
 export function activate(context: ExtensionContext) {
-    const htmlFile = fetchHtmlFile();
-    const htmlBakFile = backupHtmlFilePath;
-    const jsFile = workbenchJsFilePath;
+    const workbench = locateWorkbench();
+    if (!workbench) {
+        return;
+    }
+
+    const htmlFile = workbench.htmlFile;
+    const htmlBakFile = workbench.backupHtmlFile;
+    const jsFile = workbench.workbenchJsFile;
 
     /**
      * Installs full version

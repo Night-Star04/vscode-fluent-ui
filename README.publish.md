@@ -33,10 +33,10 @@ Inspired by and based on the awesome concept designs by
 
 ## Features
 
--   **Windows 11 Mica Effect** - Blurred wallpaper background emulating Fluent UI's Mica material
--   **Light/Dark Theme Support** - Choose between light and dark accent colors
--   **Customizable Background & Colors** - Personalize with your own wallpaper and accent colors
--   **Compact Mode** - Reduce padding around UI elements to maximize workspace
+- **Windows 11 Mica Effect** - Blurred wallpaper background emulating Fluent UI's Mica material
+- **Light/Dark Theme Support** - Choose between light and dark accent colors
+- **Customizable Background & Colors** - Personalize with your own wallpaper and accent colors
+- **Compact Mode** - Reduce padding around UI elements to maximize workspace
 
 ## Quick Start
 
@@ -65,16 +65,16 @@ Inspired by and based on the awesome concept designs by
 
 ## FAQ
 
--   **Corrupt installation warning?** This is normal and expected. The extension modifies VSCode's
-    workbench HTML file.
--   **Problems after uninstalling?** See our
-    [uninstallation troubleshooting guide](https://github.com/Night-Star04/vscode-fluent-ui/blob/main/TROUBLESHOOTING.md#uninstallation).
--   **Compatible with other extensions?** Yes, but some extensions may have compatibility issues.
+- **Corrupt installation warning?** This is normal and expected. The extension modifies VSCode's
+  workbench HTML file.
+- **Problems after uninstalling?** See our
+  [uninstallation troubleshooting guide](https://github.com/Night-Star04/vscode-fluent-ui/blob/main/TROUBLESHOOTING.md#uninstallation).
+- **Compatible with other extensions?** Yes, but some extensions may have compatibility issues.
 
 ## Recommended Companion Extensions
 
--   [Fluent Icons](https://marketplace.visualstudio.com/items?itemName=miguelsolorio.fluent-icons)
--   [Carbon Icons](https://marketplace.visualstudio.com/items?itemName=antfu.icons-carbon)
+- [Fluent Icons](https://marketplace.visualstudio.com/items?itemName=miguelsolorio.fluent-icons)
+- [Carbon Icons](https://marketplace.visualstudio.com/items?itemName=antfu.icons-carbon)
 
 For more information, see our
 [full documentation](https://github.com/Night-Star04/vscode-fluent-ui).

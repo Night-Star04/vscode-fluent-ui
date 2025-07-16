@@ -76,37 +76,37 @@ Inspired by and based on the awesome concept designs by
 
 ## Table of Contents
 
--   [Table of Contents](#table-of-contents)
--   [Features](#features)
--   [Installation](#installation)
--   [Uninstallation](#uninstallation)
--   [Configuration Options](#configuration-options)
-    -   [Default settings](#default-settings)
--   [FAQ](#faq)
--   [Changelog](#changelog)
-    -   [Latest version changes](#latest-version-changes)
--   [Preview](#preview)
--   [Recommended matching themes](#recommended-matching-themes)
-    -   [Product icon themes](#product-icon-themes)
-    -   [Standard font](#standard-font)
--   [Contribution Guidelines](#contribution-guidelines)
--   [Issues and Feature Requests Guidelines](#issues-and-feature-requests-guidelines)
--   [License](#license)
--   [Acknowledgements](#acknowledgements)
-    -   [Contributors](#contributors)
+- [Table of Contents](#table-of-contents)
+- [Features](#features)
+- [Installation](#installation)
+- [Uninstallation](#uninstallation)
+- [Configuration Options](#configuration-options)
+    - [Default settings](#default-settings)
+- [FAQ](#faq)
+- [Changelog](#changelog)
+    - [Latest version changes](#latest-version-changes)
+- [Preview](#preview)
+- [Recommended matching themes](#recommended-matching-themes)
+    - [Product icon themes](#product-icon-themes)
+    - [Standard font](#standard-font)
+- [Contribution Guidelines](#contribution-guidelines)
+- [Issues and Feature Requests Guidelines](#issues-and-feature-requests-guidelines)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
+    - [Contributors](#contributors)
 
 ## Features
 
--   Windows 11 Mica Effect
-    -   Applies a blurred wallpaper background to emulate Fluent UI's Mica material.
--   Support light/dark theme
-    -   Choose between light and dark accent colors to match your system theme.
--   Customizable wallpaper background
-    -   Personalize the wallpaper background with your own image.
--   Customizable accent colors
-    -   Personalize the theme with your preferred accent colors.
--   Compact Mode
-    -   Reduces padding around UI elements to maximize screen space.
+- Windows 11 Mica Effect
+    - Applies a blurred wallpaper background to emulate Fluent UI's Mica material.
+- Support light/dark theme
+    - Choose between light and dark accent colors to match your system theme.
+- Customizable wallpaper background
+    - Personalize the wallpaper background with your own image.
+- Customizable accent colors
+    - Personalize the theme with your preferred accent colors.
+- Compact Mode
+    - Reduces padding around UI elements to maximize screen space.
 
 ## Installation
 
@@ -118,13 +118,11 @@ Inspired by and based on the awesome concept designs by
 3. Click the "Install" button for the "Fluent UI for VSCode (Continued)" extension by
    NightSky-Studio
 4. Configure the extension settings (optional)
-
     - Open the settings view (`Ctrl+,`)
     - Search for `@ext:NightSky-Studio.vscode-fluent-ui-continued`
     - Adjust the settings to your preference
 
 5. Enable the extension
-
     - Open the command palette (`Ctrl+Shift+P`)
     - Run the command `> Fluent: Enable`
     - Wait for the command to finish
@@ -145,13 +143,11 @@ Inspired by and based on the awesome concept designs by
 3. Click the "Install" button for the "Fluent UI for VSCode (Continued)" extension by
    NightSky-Studio
 4. Configure the extension settings (optional)
-
     - Open the settings view (`Ctrl+,`)
     - Search for `@ext:NightSky-Studio.vscode-fluent-ui-continued`
     - Adjust the settings to your preference
 
 5. Enable the extension
-
     - Open the command palette (`Ctrl+Shift+P`)
     - Run the command `> Fluent: Enable`
     - Wait for the command to finish
@@ -171,7 +167,6 @@ Inspired by and based on the awesome concept designs by
    [Releases](https://github.com/Night-Star04/vscode-fluent-ui/releases/latest)
 2. Run Visual Studio Code as administrator
 3. Install the extension
-
     - Open the extensions view (`Ctrl+Shift+X`)
     - Click on the ellipsis (`...`) and select `Install from VSIX...`
     - Select the downloaded `.vsix` file
@@ -180,7 +175,6 @@ Inspired by and based on the awesome concept designs by
     > You can also install it via the command line with `code --install-extension <path-to-vsix>`
 
 4. Configure the extension settings (optional)
-
     - Open the settings view (`Ctrl+,`)
     - Search for `@ext:NightSky-Studio.vscode-fluent-ui-continued`
     - Adjust the settings to your preference
@@ -188,7 +182,6 @@ Inspired by and based on the awesome concept designs by
     > If you don't see the settings, make sure you have the extension enabled
 
 5. Enable the extension
-
     - Open the command palette (`Ctrl+Shift+P`)
     - Run the command `> Fluent: Enable`
     - Wait for the command to finish
@@ -214,14 +207,12 @@ Inspired by and based on the awesome concept designs by
 
 1. Run Visual Studio Code as administrator
 2. Disable the extension
-
     - Open the command palette (`Ctrl+Shift+P`)
     - Run the command `> Fluent: Disable`
     - Wait for the command to finish
     - Reload the window when prompted
 
 3. Uninstall the extension
-
     - Open the extensions view (`Ctrl+Shift+X`)
     - Search for `@installed Fluent UI`
     - Click the cog `⚙️` icon
@@ -277,7 +268,6 @@ the [Troubleshooting](/TROUBLESHOOTING.md) page or open an new issue on the gith
     Visual Studio Code sees the installation as corrupt because the file has been modified.
 
     If you want to get rid of this message, please follow the steps below:
-
     1. Click on the cog icon on the notification
     2. Select `Don't show again`
     3. You should be good to go
@@ -306,20 +296,20 @@ the [Troubleshooting](/TROUBLESHOOTING.md) page or open an new issue on the gith
 
 ## 🚀 Features
 
--   **Enhanced CI/CD Publishing**: The extension is now automatically published to both **VS Code
-    Marketplace** and **Open VSX Registry** via GitHub Actions. (#48)
+- **Enhanced CI/CD Publishing**: The extension is now automatically published to both **VS Code
+  Marketplace** and **Open VSX Registry** via GitHub Actions. (#48)
 
 ## 🐛 Fixes
 
--   **Fixed CI Auto Tagging Issues**: Resolved an issue where commit messages containing special
-    characters or line breaks could cause GitHub Actions to fail when creating version tags. (#49)
+- **Fixed CI Auto Tagging Issues**: Resolved an issue where commit messages containing special
+  characters or line breaks could cause GitHub Actions to fail when creating version tags. (#49)
 
 ## 📚 Documentation
 
--   **Updated README**: Added new links for **VS Code Marketplace** and **Open VSX Registry**,
-    updated installation guides, and added relevant badges. (#51)
--   **Simplified Publishing README**: Introduced `README.publish.md` as the user-facing README for
-    the published extension and updated `.vscodeignore`. (#53)
+- **Updated README**: Added new links for **VS Code Marketplace** and **Open VSX Registry**, updated
+  installation guides, and added relevant badges. (#51)
+- **Simplified Publishing README**: Introduced `README.publish.md` as the user-facing README for the
+  published extension and updated `.vscodeignore`. (#53)
 ```
 
 You can find the full changelog in the [Changelog](/CHANGELOG.md) page.
@@ -334,15 +324,15 @@ Want to provide your own preview? Feel free to submit a PR!
 
 ### Product icon themes
 
--   [Fluent Icons](https://marketplace.visualstudio.com/items?itemName=miguelsolorio.fluent-icons)
--   [Carbon](https://marketplace.visualstudio.com/items?itemName=antfu.icons-carbon)
+- [Fluent Icons](https://marketplace.visualstudio.com/items?itemName=miguelsolorio.fluent-icons)
+- [Carbon](https://marketplace.visualstudio.com/items?itemName=antfu.icons-carbon)
 
 ### Standard font
 
 The workbench is set to use Segoe UI Variable (the new standard font for Windows 11). I highly
 recommend downloading and installing it. If you don't, the theme will fallback to the default font.
 
--   [Segoe UI variable](https://docs.microsoft.com/en-us/windows/apps/design/downloads/#fonts)
+- [Segoe UI variable](https://docs.microsoft.com/en-us/windows/apps/design/downloads/#fonts)
 
 ## Contribution Guidelines
 
@@ -359,11 +349,11 @@ This project is licensed under the MIT License - see the [LICENSE](/LICENSE) fil
 
 ## Acknowledgements
 
--   [u/zeealeidahmad](https://www.reddit.com/r/Windows11/comments/orbgzl/visual_studio_vs_code_and_github_desktop_with/)
-    for the original concept designs.
--   [TheOld](https://github.com/TheOld) for the
-    [VSCode-FluentUI](https://github.com/TheOld/vscode-fluent-ui) theme. This project is based on
-    his work.
+- [u/zeealeidahmad](https://www.reddit.com/r/Windows11/comments/orbgzl/visual_studio_vs_code_and_github_desktop_with/)
+  for the original concept designs.
+- [TheOld](https://github.com/TheOld) for the
+  [VSCode-FluentUI](https://github.com/TheOld/vscode-fluent-ui) theme. This project is based on his
+  work.
 
 ### Contributors
 
