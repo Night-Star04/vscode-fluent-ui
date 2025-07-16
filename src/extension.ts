@@ -228,15 +228,7 @@ export function activate(context: ExtensionContext) {
             const backupUuid = await getBackupUuid(htmlFile);
             if (backupUuid) {
                 const isUpdate = await updateControlsStyle();
-                if (isUpdate) {
-                    // If the control style has been updated, we need to perform the patch operation again.
-
-                    // Do not run `createBackup` here, as this will cause the backed up file to contain
-                    // modified content, rendering subsequent `clearPatch` operations ineffective.
-                    // await createBackup(htmlFile);
-
-                    await patch({ htmlFile, jsFile, bypassMessage: false });
-                } else {
+                if (!isUpdate) {
                     window.showInformationMessage(messages.alreadySet);
                 }
                 return;
