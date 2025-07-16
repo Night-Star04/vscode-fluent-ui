@@ -36,7 +36,26 @@
     When you install the extension, extensions modify the workbench html file to apply the theme.
     Visual Studio Code sees the installation as corrupt because the file has been modified.
 
-3.  **Why does the extension not work after installation?**
+    If you want to get rid of this message, please follow the steps below:
+
+    1. Click on the cog icon on the notification
+    2. Select `Don't show again`
+    3. You should be good to go
+
+3.  **Why does corrupt setting has changed?**
+
+    ![image](./images/setting-changed-corrupt.png)
+
+    Don't worry — this is normal and expected behavior. It's a necessary part of how the extension
+    functions.
+
+    To ensure visual consistency and a smoother overall appearance, the extension modifies the
+    `window.controlsStyle` setting to `custom`.
+
+    Simply click the `Restart` button in the dialog to let VS Code automatically restart and apply
+    the change.
+
+4.  **Why does the extension not work after installation?**
 
     If the extension does not work after installation, it may be due to the following reasons:
 

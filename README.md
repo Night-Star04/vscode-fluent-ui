@@ -282,14 +282,25 @@ the [Troubleshooting](/TROUBLESHOOTING.md) page or open an new issue on the gith
     2. Select `Don't show again`
     3. You should be good to go
 
-2. **Why can’t I use the default theme’s visual studio code normally after uninstalling it?**
+2. **Show Corrupt setting has changed after installing the extension.**
+
+    This is normal, don't worry. This is expected behavior and is necessary for the extension to
+    work.
+
+    In order to maintain visual consistency, we will modify the `window.controlsStyle` setting to
+    `custom` to make the overall look smooth and beautiful.
+
+    Simply click the `Restart` button in the dialog to let VS Code automatically restart and apply
+    the change.
+
+3. **Why can’t I use the default theme’s visual studio code normally after uninstalling it?**
 
     This is possible, but the chances are slim.
 
     If you encounter this issue, please follow the steps below to fix it. Please refer to the
     [uninstallation](/TROUBLESHOOTING.md#uninstallation) section for further instructions.
 
-3. **Can I use this with other extensions?**
+4. **Can I use this with other extensions?**
 
     Yes, you can use this theme with other extensions. However, some extensions may not be
     compatible with this theme.
