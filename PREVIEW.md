@@ -8,22 +8,22 @@ Want to provide your own preview? Feel free to submit a PR!
 
 ## Table of contents
 
--   [Fluent UI Theme Preview](#fluent-ui-theme-preview)
-    -   [Table of contents](#table-of-contents)
-    -   [Great themes](#great-themes)
-        -   [VSCode default white](#vscode-default-white)
-        -   [One Dark Pro](#one-dark-pro)
-        -   [Serendipity](#serendipity)
-        -   [Copilot](#copilot)
-        -   [Mariana Pro](#mariana-pro)
-        -   [Night Owl](#night-owl)
-    -   [Details](#details)
-        -   [Sidebar](#sidebar)
-        -   [Activity bar](#activity-bar)
-        -   [Tabs](#tabs)
-        -   [Terminal](#terminal)
-        -   [Search widget](#search-widget)
-        -   [Command palette](#command-palette)
+- [Fluent UI Theme Preview](#fluent-ui-theme-preview)
+    - [Table of contents](#table-of-contents)
+    - [Great themes](#great-themes)
+        - [VSCode default white](#vscode-default-white)
+        - [One Dark Pro](#one-dark-pro)
+        - [Serendipity](#serendipity)
+        - [Copilot](#copilot)
+        - [Mariana Pro](#mariana-pro)
+        - [Night Owl](#night-owl)
+    - [Details](#details)
+        - [Sidebar](#sidebar)
+        - [Activity bar](#activity-bar)
+        - [Tabs](#tabs)
+        - [Terminal](#terminal)
+        - [Search widget](#search-widget)
+        - [Command palette](#command-palette)
 
 ## Great themes
 
