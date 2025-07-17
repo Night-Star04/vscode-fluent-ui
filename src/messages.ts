@@ -11,6 +11,9 @@ export const messages = {
     workbenchPathLookupFailed: "Unable to locate VSCode's workbench html file.",
     workbenchPathIsDirectory: ' is a directory, not a file.',
     workbenchPathFailedStat: 'Failed to check workbench path: ',
+    autoUpdateControlsStyle:
+        'Fluent UI requires the "window.controlsStyle" setting to be set to "custom". This has been done automatically.',
 };
 
 export default messages;
+
