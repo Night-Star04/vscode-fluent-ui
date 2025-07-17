@@ -13,7 +13,10 @@ export const messages = {
     workbenchPathFailedStat: 'Failed to check workbench path: ',
     autoUpdateControlsStyle:
         'Fluent UI requires the "window.controlsStyle" setting to be set to "custom". This has been done automatically.',
-};
+    editorUpdate: 'Fluent UI is invalid due to Editor update. ',
+    editorUpdateAction: 'Re-apply the patch',
+    extendsUpdate: 'Fluent UI updated to version {version}. ',
+    extendsUpdateAction: 'Apply the update',
+} as const;
 
 export default messages;
-

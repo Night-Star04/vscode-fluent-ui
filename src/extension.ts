@@ -2,7 +2,14 @@ import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
 import sharp from 'sharp';
-import { type ExtensionContext, ConfigurationTarget, commands, window, workspace } from 'vscode';
+import {
+    type ExtensionContext,
+    ConfigurationTarget,
+    commands,
+    version,
+    window,
+    workspace,
+} from 'vscode';
 
 import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from './backup-helper';
 import { messages } from './messages';
@@ -210,6 +217,52 @@ async function updateControlsStyle(): Promise<boolean> {
     return false;
 }
 
+type UpdateInfo =
+    | {
+          updated: true;
+          type: 'extension' | 'editor';
+          message: string;
+          action: string;
+      }
+    | { updated: false };
+
+/**
+ * Checks for updates to the extension and editor versions.
+ *
+ * @param context - Extension context.
+ * @return An object indicating whether an update is needed and details about the update.
+ */
+function checkForUpdates(context: ExtensionContext): UpdateInfo {
+    // get extension version and patch version
+    const extensionVersion: string = context.extension.packageJSON.version;
+    const pathVersion = context.globalState.get<string>('pathVersion', '0.0.0');
+
+    // get current and last version of the editor
+    const editorCurrentVersion = version;
+    const editorLastVersion = context.globalState.get<string>('editorLastVersion', '0.0.0');
+
+    if (extensionVersion !== pathVersion) {
+        context.globalState.update('pathVersion', extensionVersion);
+        return {
+            updated: true,
+            type: 'extension',
+            message: messages.extendsUpdate.replace('{version}', extensionVersion),
+            action: messages.extendsUpdateAction,
+        };
+    } else if (editorCurrentVersion !== editorLastVersion) {
+        context.globalState.update('editorLastVersion', editorCurrentVersion);
+        return {
+            updated: true,
+            type: 'editor',
+            message: messages.editorUpdate,
+            action: messages.editorUpdateAction,
+        };
+    }
+
+    // If both versions are the same, no update is needed
+    return { updated: false };
+}
+
 export function activate(context: ExtensionContext) {
     const workbench = locateWorkbench();
     if (!workbench) {
@@ -219,6 +272,33 @@ export function activate(context: ExtensionContext) {
     const htmlFile = workbench.htmlFile;
     const htmlBakFile = workbench.backupHtmlFile;
     const jsFile = workbench.workbenchJsFile;
+
+    const updateInfo = checkForUpdates(context);
+    // If there is an update available.
+    if (updateInfo.updated) {
+        const isEnabled = context.globalState.get<boolean>('isEnabled', false);
+        if (isEnabled) {
+            // If the extension is enabled, show a warning message with an action to re-enable
+            // the effects after applying the update.
+            window
+                .showWarningMessage(
+                    `${updateInfo.message} ${updateInfo.action}?`,
+                    updateInfo.action,
+                )
+                .then((value) => {
+                    if (value !== undefined) {
+                        commands.executeCommand('fluentui.reloadEffects');
+                    }
+                });
+        } else {
+            // If the extension is not enabled, just show the updated message,
+            // type is 'editor' not showing the message
+            // because it is not relevant in this case.
+            if (updateInfo.type === 'extension') {
+                window.showInformationMessage(updateInfo.message);
+            }
+        }
+    }
 
     /**
      * Installs full version
@@ -240,11 +320,14 @@ export function activate(context: ExtensionContext) {
         await updateControlsStyle();
         await createBackup(htmlFile);
         await patch({ htmlFile, jsFile, bypassMessage });
+        context.globalState.update('isEnabled', true);
+        context.globalState.update('pathVersion', context.extension.packageJSON.version);
     }
 
     async function uninstall() {
         await clearPatch();
         restart();
+        context.globalState.update('isEnabled', false);
     }
 
     async function clearPatch() {
