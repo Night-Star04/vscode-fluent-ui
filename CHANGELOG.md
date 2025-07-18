@@ -1,5 +1,15 @@
 # Fluent UI for VsCode ChangeLog
 
+## 4.7.1 - 2025-07-18
+
+### 🐛 Fixes
+
+- Fixed an issue where window control buttons had a darker background than the rest of the
+  titlebar. The extension now automatically sets `window.controlsStyle = "custom"` when effects
+  are enabled. (#63)
+- Resolved compatibility issues with **VS Code v1.102.0** by improving how the extension locates
+  and validates the workbench HTML and related files. (#62)
+
 ## 4.7.0 - 2025-03-28
 
 ### 🚀 Features
