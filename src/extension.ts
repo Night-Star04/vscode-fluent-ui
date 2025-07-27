@@ -193,10 +193,17 @@ async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
  * This function checks the current 'window.controlsStyle' configuration setting. If it's set to 'native',
  * it displays an information message to the user and automatically updates the setting to 'custom'
  * in the global configuration.
+ * 
+ * Note: This setting only exists on Windows. On other platforms, this function returns false immediately.
  *
- * @returns `true` if the controls style was updated, `false` if it was already set to 'custom'.
+ * @returns `true` if the controls style was updated, `false` if it was already set to 'custom' or on non-Windows platforms.
  */
 async function updateControlsStyle(): Promise<boolean> {
+    // window.controlsStyle only exists on Windows
+    if (process.platform !== 'win32') {
+        return false;
+    }
+    
     const controlsStyle = workspace
         .getConfiguration('window')
         .get<ControlsStyle>('controlsStyle', 'native');
