@@ -2,11 +2,12 @@ import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
 import sharp from 'sharp';
-import { type ExtensionContext, commands, window, workspace } from 'vscode';
+import { type ExtensionContext, ConfigurationTarget, commands, window, workspace } from 'vscode';
 
 import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from './backup-helper';
 import { messages } from './messages';
-import { backupHtmlFilePath, fetchHtmlFile, workbenchJsFilePath } from './tools/file';
+import { locateWorkbench } from './tools/file';
+import type { ControlsStyle } from './types/style';
 
 function enabledRestart() {
     window
@@ -185,10 +186,39 @@ async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
     }
 }
 
+/**
+ * Updates the window controls style configuration from 'native' to 'custom' if currently set to 'native'.
+ *
+ * @remarks
+ * This function checks the current 'window.controlsStyle' configuration setting. If it's set to 'native',
+ * it displays an information message to the user and automatically updates the setting to 'custom'
+ * in the global configuration.
+ *
+ * @returns `true` if the controls style was updated, `false` if it was already set to 'custom'.
+ */
+async function updateControlsStyle(): Promise<boolean> {
+    const controlsStyle = workspace
+        .getConfiguration('window')
+        .get<ControlsStyle>('controlsStyle', 'native');
+    if (controlsStyle === 'native') {
+        window.showInformationMessage(messages.autoUpdateControlsStyle);
+        await workspace
+            .getConfiguration('window')
+            .update('controlsStyle', 'custom', ConfigurationTarget.Global);
+        return true;
+    }
+    return false;
+}
+
 export function activate(context: ExtensionContext) {
-    const htmlFile = fetchHtmlFile();
-    const htmlBakFile = backupHtmlFilePath;
-    const jsFile = workbenchJsFilePath;
+    const workbench = locateWorkbench();
+    if (!workbench) {
+        return;
+    }
+
+    const htmlFile = workbench.htmlFile;
+    const htmlBakFile = workbench.backupHtmlFile;
+    const jsFile = workbench.workbenchJsFile;
 
     /**
      * Installs full version
@@ -197,11 +227,17 @@ export function activate(context: ExtensionContext) {
         if (!bypassMessage) {
             const backupUuid = await getBackupUuid(htmlFile);
             if (backupUuid) {
-                window.showInformationMessage(messages.alreadySet);
+                const isUpdate = await updateControlsStyle();
+                // If `updateControlsStyle` returns false, it means the controls style was already in the desired state,
+                // so no update was performed. In this case, we show the `alreadySet` message to inform the user.
+                if (!isUpdate) {
+                    window.showInformationMessage(messages.alreadySet);
+                }
                 return;
             }
         }
 
+        await updateControlsStyle();
         await createBackup(htmlFile);
         await patch({ htmlFile, jsFile, bypassMessage });
     }
