@@ -199,8 +199,8 @@ async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
  * @returns `true` if the controls style was updated, `false` if it was already set to 'custom' or on non-Windows platforms.
  */
 async function updateControlsStyle(): Promise<boolean> {
-    // window.controlsStyle only exists on Windows
-    if (process.platform !== 'win32') {
+    // window.controlsStyle is available on Windows and Linux, but not on macOS
+    if (process.platform === 'darwin') {
         return false;
     }
     
