@@ -196,23 +196,22 @@ async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
  * 
  * Note: This setting only exists on Windows. On other platforms, this function returns false immediately.
  *
- * @returns `true` if the controls style was updated, `false` if it was already set to 'custom' or on darwin platform.
+ * @returns `true` if the controls style was updated, `false` if it was already set to 'custom' or on unsupported platforms.
  */
 async function updateControlsStyle(): Promise<boolean> {
-    // window.controlsStyle is available on Windows and Linux, but not on macOS
-    if (process.platform === 'darwin') {
-        return false;
-    }
-    
     const controlsStyle = workspace
         .getConfiguration('window')
-        .get<ControlsStyle>('controlsStyle', 'native');
+        .get<ControlsStyle>('controlsStyle', 'none');
     if (controlsStyle === 'native') {
         window.showInformationMessage(messages.autoUpdateControlsStyle);
-        await workspace
-            .getConfiguration('window')
-            .update('controlsStyle', 'custom', ConfigurationTarget.Global);
-        return true;
+        try {
+            await workspace
+                .getConfiguration('window')
+                .update('controlsStyle', 'custom', ConfigurationTarget.Global);
+            return true;
+        } catch {
+            return false;
+        }
     }
     return false;
 }
