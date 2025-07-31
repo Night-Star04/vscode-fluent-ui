@@ -11,4 +11,4 @@
  *
  * @see {@link vscode://settings/window.controlsStyle} for setting options.
  */
-export type ControlsStyle = 'native' | 'custom' | 'hidden';
+export type ControlsStyle = 'native' | 'custom' | 'hidden' | 'none';
