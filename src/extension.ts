@@ -180,7 +180,7 @@ async function patch(globalState: ExtensionContext['globalState'], bypassMessage
 
     try {
         await writeFile(htmlFile, html, 'utf-8');
-        globalState.update('patched', true);
+        globalState.update(IsPatched, true);
 
         if (bypassMessage) {
             reloadWindow();
@@ -203,7 +203,7 @@ async function clearPatch(globalState: ExtensionContext['globalState']) {
     try {
         await restoreBackup(backupHtmlFile, htmlFile);
         await deleteBackupFiles(backupHtmlFile, workbenchJsFile);
-        globalState.update('patched', false);
+        globalState.update(IsPatched, false);
     } catch (error) {
         window.showErrorMessage(String(error));
     }
@@ -251,14 +251,14 @@ type UpdateInfo =
 function checkForUpdates(context: ExtensionContext): UpdateInfo {
     // get current and last version of extension
     const extensionVersion: string = context.extension.packageJSON.version;
-    const extensionLastVersion = context.globalState.get<string>('extensionLastVersion', '0.0.0');
+    const extensionLastVersion = context.globalState.get<string>(LastExtensionVersion, '0.0.0');
 
     // get current and last version of the editor
     const editorCurrentVersion = version;
-    const editorLastVersion = context.globalState.get<string>('editorLastVersion', '0.0.0');
+    const editorLastVersion = context.globalState.get<string>(LastEditorVersion, '0.0.0');
 
     if (extensionVersion !== extensionLastVersion) {
-        context.globalState.update('extensionLastVersion', extensionVersion);
+        context.globalState.update(LastExtensionVersion, extensionVersion);
         return {
             updated: true,
             type: 'extension',
@@ -266,7 +266,7 @@ function checkForUpdates(context: ExtensionContext): UpdateInfo {
             action: messages.extendsUpdateAction,
         };
     } else if (editorCurrentVersion !== editorLastVersion) {
-        context.globalState.update('editorLastVersion', editorCurrentVersion);
+        context.globalState.update(LastEditorVersion, editorCurrentVersion);
         return {
             updated: true,
             type: 'editor',
@@ -292,7 +292,7 @@ export function activate(context: ExtensionContext) {
     const updateInfo = checkForUpdates(context);
     // If there is an update available.
     if (updateInfo.updated) {
-        const isPatched = context.globalState.get<boolean>('patched', false);
+        const isPatched = context.globalState.get<boolean>(IsPatched, false);
         if (isPatched) {
             // If the extension is patched, show a warning message with an action to re-enable
             // the effects after applying the update.
