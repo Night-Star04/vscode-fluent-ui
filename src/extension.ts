@@ -159,16 +159,14 @@ async function buildJsFile(jsFile: string) {
     }
 }
 
-/**
- * Loads the CSS and JS file's contents to be injected into the main HTML document
- */
-interface PatchArgs {
-    htmlFile: string;
-    jsFile: string;
-    bypassMessage?: boolean;
-}
+async function patch(globalState: ExtensionContext['globalState'], bypassMessage = false) {
+    const workbench = locateWorkbench();
+    if (!workbench) {
+        return;
+    }
 
-async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
+    const { htmlFile, workbenchJsFile } = workbench;
+
     let html = await readFile(htmlFile, 'utf-8');
     html = clearHTML(html);
 
@@ -176,12 +174,13 @@ async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
     // Inject style tag into <head>
     html = html.replace(/(<\/head>)/, '\n' + styleTags + '\n</head>');
 
-    await buildJsFile(jsFile);
+    await buildJsFile(workbenchJsFile);
     // Inject JS tag into <body>
     html = html.replace(/(<\/html>)/, '\n' + '<script src="fui.js"></script>' + '\n</html>');
 
     try {
         await writeFile(htmlFile, html, 'utf-8');
+        globalState.update('patched', true);
 
         if (bypassMessage) {
             reloadWindow();
@@ -190,6 +189,23 @@ async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
         }
     } catch (e) {
         window.showInformationMessage(messages.admin);
+    }
+}
+
+async function clearPatch(globalState: ExtensionContext['globalState']) {
+    const workbench = locateWorkbench();
+    if (!workbench) {
+        return;
+    }
+
+    const { htmlFile, backupHtmlFile, workbenchJsFile } = workbench;
+
+    try {
+        await restoreBackup(backupHtmlFile, htmlFile);
+        await deleteBackupFiles(backupHtmlFile, workbenchJsFile);
+        globalState.update('patched', false);
+    } catch (error) {
+        window.showErrorMessage(String(error));
     }
 }
 
@@ -233,16 +249,16 @@ type UpdateInfo =
  * @return An object indicating whether an update is needed and details about the update.
  */
 function checkForUpdates(context: ExtensionContext): UpdateInfo {
-    // get extension version and patch version
+    // get current and last version of extension
     const extensionVersion: string = context.extension.packageJSON.version;
-    const pathVersion = context.globalState.get<string>('pathVersion', '0.0.0');
+    const extensionLastVersion = context.globalState.get<string>('extensionLastVersion', '0.0.0');
 
     // get current and last version of the editor
     const editorCurrentVersion = version;
     const editorLastVersion = context.globalState.get<string>('editorLastVersion', '0.0.0');
 
-    if (extensionVersion !== pathVersion) {
-        context.globalState.update('pathVersion', extensionVersion);
+    if (extensionVersion !== extensionLastVersion) {
+        context.globalState.update('extensionLastVersion', extensionVersion);
         return {
             updated: true,
             type: 'extension',
@@ -276,9 +292,9 @@ export function activate(context: ExtensionContext) {
     const updateInfo = checkForUpdates(context);
     // If there is an update available.
     if (updateInfo.updated) {
-        const isEnabled = context.globalState.get<boolean>('isEnabled', false);
-        if (isEnabled) {
-            // If the extension is enabled, show a warning message with an action to re-enable
+        const isPatched = context.globalState.get<boolean>('patched', false);
+        if (isPatched) {
+            // If the extension is patched, show a warning message with an action to re-enable
             // the effects after applying the update.
             window
                 .showWarningMessage(
@@ -291,7 +307,7 @@ export function activate(context: ExtensionContext) {
                     }
                 });
         } else {
-            // If the extension is not enabled, just show the updated message,
+            // If the extension is not patched, just show the updated message,
             // type is 'editor' not showing the message
             // because it is not relevant in this case.
             if (updateInfo.type === 'extension') {
@@ -319,29 +335,17 @@ export function activate(context: ExtensionContext) {
 
         await updateControlsStyle();
         await createBackup(htmlFile);
-        await patch({ htmlFile, jsFile, bypassMessage });
-        context.globalState.update('isEnabled', true);
-        context.globalState.update('pathVersion', context.extension.packageJSON.version);
+        await patch(context.globalState, bypassMessage);
     }
 
     async function uninstall() {
-        await clearPatch();
+        await clearPatch(context.globalState);
         restart();
-        context.globalState.update('isEnabled', false);
-    }
-
-    async function clearPatch() {
-        try {
-            await restoreBackup(htmlBakFile, htmlFile);
-            await deleteBackupFiles(htmlBakFile, jsFile);
-        } catch (error) {
-            window.showErrorMessage(String(error));
-        }
     }
 
     const installFUI = commands.registerCommand('fluentui.enableEffects', install);
     const reloadFUI = commands.registerCommand('fluentui.reloadEffects', async () => {
-        await clearPatch();
+        await clearPatch(context.globalState);
         install(true);
     });
     const uninstallFUI = commands.registerCommand('fluentui.disableEffects', uninstall);
