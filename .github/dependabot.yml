@@ -41,6 +41,8 @@ updates:
                   - '@vscode/test-electron'
                   - 'mocha'
                   - '@types/mocha'
+          utilities:
+              patterns:
                   - 'glob'
       ignore:
           # Ignoring updates to @types/node because the git action is currently using Node.js v20,
