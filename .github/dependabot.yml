@@ -1,0 +1,51 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+    # Enable version updates for npm:
+    - package-ecosystem: 'npm' # See documentation for possible values
+      directory: '/' # Location of package manifests
+      schedule:
+          interval: 'weekly'
+          day: 'monday'
+          time: '10:00'
+          timezone: 'Asia/Taipei'
+      commit-message:
+          prefix: '⬆️ chore(deps):'
+      labels:
+          - 'dependencies'
+      groups:
+          production-deps:
+              patterns:
+                  - 'sharp'
+          vscode-publishing:
+              patterns:
+                  - '@vscode/vsce'
+                  - 'ovsx'
+          typescript-ecosystem:
+              patterns:
+                  - 'typescript'
+                  - '@types/*'
+          build-tools:
+              patterns:
+                  - 'esbuild'
+          eslint-ecosystem:
+              patterns:
+                  - 'eslint'
+                  - '@typescript-eslint/*'
+          testing-ecosystem:
+              patterns:
+                  - '@vscode/test-electron'
+                  - 'mocha'
+                  - '@types/mocha'
+          utilities:
+              patterns:
+                  - 'glob'
+      ignore:
+          # Ignoring updates to @types/node because the git action is currently using Node.js v20,
+          # and updating to v22 would cause compatibility issues.
+          - dependency-name: '@types/node'
+            versions: ['>=22.0.0']
