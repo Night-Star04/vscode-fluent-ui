@@ -15,6 +15,7 @@ import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from '.
 import { messages } from './messages';
 import { locateWorkbench } from './tools/file';
 import type { ControlsStyle } from './types/style';
+import { LastEditorVersion, LastExtensionVersion, IsPatched } from './types/globalState';
 
 function enabledRestart() {
     window
