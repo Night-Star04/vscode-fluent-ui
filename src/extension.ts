@@ -281,15 +281,6 @@ function checkForUpdates(context: ExtensionContext): UpdateInfo {
 }
 
 export function activate(context: ExtensionContext) {
-    const workbench = locateWorkbench();
-    if (!workbench) {
-        return;
-    }
-
-    const htmlFile = workbench.htmlFile;
-    const htmlBakFile = workbench.backupHtmlFile;
-    const jsFile = workbench.workbenchJsFile;
-
     const updateInfo = checkForUpdates(context);
     // If there is an update available.
     if (updateInfo.updated) {
@@ -321,6 +312,12 @@ export function activate(context: ExtensionContext) {
      * Installs full version
      */
     async function install(bypassMessage?: boolean) {
+        const workbench = locateWorkbench();
+        if (!workbench) {
+            return;
+        }
+        const { htmlFile } = workbench;
+
         if (!bypassMessage) {
             const backupUuid = await getBackupUuid(htmlFile);
             if (backupUuid) {
