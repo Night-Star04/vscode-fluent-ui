@@ -2,20 +2,14 @@ import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
 import sharp from 'sharp';
-import {
-    type ExtensionContext,
-    ConfigurationTarget,
-    commands,
-    version,
-    window,
-    workspace,
-} from 'vscode';
+import { type ExtensionContext, ConfigurationTarget, commands, window, workspace } from 'vscode';
 
 import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from './backup-helper';
 import { messages } from './messages';
 import { locateWorkbench } from './tools/file';
 import type { ControlsStyle } from './types/style';
-import { LastEditorVersion, LastExtensionVersion, IsPatched } from './types/globalState';
+import { IsPatched } from './types/globalState';
+import processUpdateEffects from './tools/updates';
 
 function enabledRestart() {
     window
@@ -234,79 +228,10 @@ async function updateControlsStyle(): Promise<boolean> {
     return false;
 }
 
-type UpdateInfo =
-    | {
-          updated: true;
-          type: 'extension' | 'editor';
-          message: string;
-          action: string;
-      }
-    | { updated: false };
-
-/**
- * Checks for updates to the extension and editor versions.
- *
- * @param context - Extension context.
- * @return An object indicating whether an update is needed and details about the update.
- */
-function checkForUpdates(context: ExtensionContext): UpdateInfo {
-    // get current and last version of extension
-    const extensionVersion: string = context.extension.packageJSON.version;
-    const extensionLastVersion = context.globalState.get<string>(LastExtensionVersion, '0.0.0');
-
-    // get current and last version of the editor
-    const editorCurrentVersion = version;
-    const editorLastVersion = context.globalState.get<string>(LastEditorVersion, '0.0.0');
-
-    if (extensionVersion !== extensionLastVersion) {
-        context.globalState.update(LastExtensionVersion, extensionVersion);
-        return {
-            updated: true,
-            type: 'extension',
-            message: messages.extendsUpdate.replace('{version}', extensionVersion),
-            action: messages.extendsUpdateAction,
-        };
-    } else if (editorCurrentVersion !== editorLastVersion) {
-        context.globalState.update(LastEditorVersion, editorCurrentVersion);
-        return {
-            updated: true,
-            type: 'editor',
-            message: messages.editorUpdate,
-            action: messages.editorUpdateAction,
-        };
-    }
-
-    // If both versions are the same, no update is needed
-    return { updated: false };
-}
-
 export function activate(context: ExtensionContext) {
-    const updateInfo = checkForUpdates(context);
-    // If there is an update available.
-    if (updateInfo.updated) {
-        const isPatched = context.globalState.get<boolean>(IsPatched, false);
-        if (isPatched) {
-            // If the extension is patched, show a warning message with an action to re-enable
-            // the effects after applying the update.
-            window
-                .showWarningMessage(
-                    `${updateInfo.message} ${updateInfo.action}?`,
-                    updateInfo.action,
-                )
-                .then((value) => {
-                    if (value !== undefined) {
-                        commands.executeCommand('fluentui.reloadEffects');
-                    }
-                });
-        } else {
-            // If the extension is not patched, just show the updated message,
-            // type is 'editor' not showing the message
-            // because it is not relevant in this case.
-            if (updateInfo.type === 'extension') {
-                window.showInformationMessage(updateInfo.message);
-            }
-        }
-    }
+    // Check if updates are available and process them
+    // This will check for updates and show messages and repatch if necessary
+    processUpdateEffects(context);
 
     /**
      * Installs full version
