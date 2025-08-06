@@ -58,11 +58,22 @@ type Context = Pick<ExtensionContext, 'globalState' | 'extension'>;
 export function checkForUpdates(context: Context): UpdateInfo {
     // get current and last version of extension
     const extensionVersion: string = context.extension.packageJSON.version;
-    const extensionLastVersion = context.globalState.get<string>(LastExtensionVersion, '0.0.0');
+    const extensionLastVersion = context.globalState.get<string>(LastExtensionVersion);
 
     // get current and last version of the editor
     const editorCurrentVersion = version;
-    const editorLastVersion = context.globalState.get<string>(LastEditorVersion, '0.0.0');
+    const editorLastVersion = context.globalState.get<string>(LastEditorVersion);
+
+    if (!extensionLastVersion) {
+        // If there is no last extension version stored, we assume this is the first run
+        context.globalState.update(LastExtensionVersion, extensionVersion);
+        return { updated: false };
+    }
+    if (!editorLastVersion) {
+        // If there is no last editor version stored, we assume this is the first run
+        context.globalState.update(LastEditorVersion, editorCurrentVersion);
+        return { updated: false };
+    }
 
     if (extensionVersion !== extensionLastVersion) {
         context.globalState.update(LastExtensionVersion, extensionVersion);

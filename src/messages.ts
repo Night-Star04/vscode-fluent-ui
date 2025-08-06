@@ -17,6 +17,6 @@ export const messages = {
     editorUpdateAction: 'Re-apply the patch',
     extensionUpdate: 'Fluent UI updated to version {version}. ',
     extensionUpdateAction: 'Apply the update',
-} as const;
+} as const satisfies Record<string, string>;
 
 export default messages;
