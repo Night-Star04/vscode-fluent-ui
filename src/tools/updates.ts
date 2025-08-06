@@ -69,8 +69,8 @@ export function checkForUpdates(context: Context): UpdateInfo {
         return {
             updated: true,
             type: 'extension',
-            message: messages.extendsUpdate.replace('{version}', extensionVersion),
-            action: messages.extendsUpdateAction,
+            message: messages.extensionUpdate.replace('{version}', extensionVersion),
+            action: messages.extensionUpdateAction,
         };
     } else if (editorCurrentVersion !== editorLastVersion) {
         context.globalState.update(LastEditorVersion, editorCurrentVersion);
