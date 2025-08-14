@@ -2,6 +2,8 @@ import { ExtensionContext, version, commands, window } from 'vscode';
 import messages from '../messages';
 import { LastExtensionVersion, LastEditorVersion, IsPatched } from '../types/globalState';
 
+type UpdateType = 'extension' | 'editor';
+
 /**
  * Represents information about available updates.
  */
@@ -10,7 +12,7 @@ type UpdateInfo =
           /** Indicates that an update is available */
           updated: true;
           /** The type of update (extension or editor) */
-          type: 'extension' | 'editor';
+          type: UpdateType;
           /** The message to display to the user */
           message: string;
           /** The action text for the user interface */
@@ -25,6 +27,48 @@ type UpdateInfo =
  * A partial extension context type containing only the properties needed for update checking.
  */
 type Context = Pick<ExtensionContext, 'globalState' | 'extension'>;
+
+/**
+ * Applies a global state update for the extension or editor version.
+ *
+ * @param context - The extension context containing global state and extension properties
+ * @param key - The type of update ('editor' or 'extension')
+ * @param value - The new version value to store
+ * @param isUpdated - Indicates whether to return updated messages
+ * @returns An object containing update information
+ */
+function applyGlobalStateUpdate(
+    context: Context,
+    key: UpdateType,
+    value: string,
+    isUpdated: boolean = true,
+): UpdateInfo {
+    const stateKey = key === 'editor' ? LastEditorVersion : LastExtensionVersion;
+    context.globalState.update(stateKey, value);
+
+    if (!isUpdated) {
+        return { updated: false };
+    }
+    switch (key) {
+        case 'editor':
+            return {
+                updated: true,
+                type: 'editor',
+                message: messages.editorUpdate,
+                action: messages.editorUpdateAction,
+            };
+        case 'extension':
+            return {
+                updated: true,
+                type: 'extension',
+                message: messages.extensionUpdate.replace('{version}', value),
+                action: messages.extensionUpdateAction,
+            };
+        default:
+            // this should not happen
+            return { updated: false };
+    }
+}
 
 /**
  * Checks for updates to the extension and editor versions.
@@ -66,31 +110,17 @@ export function checkForUpdates(context: Context): UpdateInfo {
 
     if (!extensionLastVersion) {
         // If there is no last extension version stored, we assume this is the first run
-        context.globalState.update(LastExtensionVersion, extensionVersion);
-        return { updated: false };
+        return applyGlobalStateUpdate(context, 'extension', extensionVersion, false);
     }
     if (!editorLastVersion) {
         // If there is no last editor version stored, we assume this is the first run
-        context.globalState.update(LastEditorVersion, editorCurrentVersion);
-        return { updated: false };
+        return applyGlobalStateUpdate(context, 'editor', editorCurrentVersion, false);
     }
 
     if (extensionVersion !== extensionLastVersion) {
-        context.globalState.update(LastExtensionVersion, extensionVersion);
-        return {
-            updated: true,
-            type: 'extension',
-            message: messages.extensionUpdate.replace('{version}', extensionVersion),
-            action: messages.extensionUpdateAction,
-        };
+        return applyGlobalStateUpdate(context, 'extension', extensionVersion);
     } else if (editorCurrentVersion !== editorLastVersion) {
-        context.globalState.update(LastEditorVersion, editorCurrentVersion);
-        return {
-            updated: true,
-            type: 'editor',
-            message: messages.editorUpdate,
-            action: messages.editorUpdateAction,
-        };
+        return applyGlobalStateUpdate(context, 'editor', editorCurrentVersion);
     }
 
     // If both versions are the same, no update is needed
@@ -141,9 +171,8 @@ export default function processUpdateEffects(context: Context) {
                     }
                 });
         } else {
-            // If the extension is not patched, just show the updated message,
-            // type is 'editor' not showing the message
-            // because it is not relevant in this case.
+            // If the extension is not patched, just show the update message.
+            // If type is 'editor', do not show the message because it is not relevant in this case.
             if (updateInfo.type === 'extension') {
                 window.showInformationMessage(updateInfo.message);
             }

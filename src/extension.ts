@@ -229,8 +229,7 @@ async function updateControlsStyle(): Promise<boolean> {
 }
 
 export function activate(context: ExtensionContext) {
-    // Check if updates are available and process them
-    // This will check for updates and show messages and repatch if necessary
+    // Check for extension/editor updates and display notifications to re-apply patches if necessary
     processUpdateEffects(context);
 
     /**
