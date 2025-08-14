@@ -8,6 +8,8 @@ import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from '.
 import { messages } from './messages';
 import { locateWorkbench } from './tools/file';
 import type { ControlsStyle } from './types/style';
+import { IsPatched } from './types/globalState';
+import processUpdateEffects from './tools/updates';
 
 function enabledRestart() {
     window
@@ -152,16 +154,14 @@ async function buildJsFile(jsFile: string) {
     }
 }
 
-/**
- * Loads the CSS and JS file's contents to be injected into the main HTML document
- */
-interface PatchArgs {
-    htmlFile: string;
-    jsFile: string;
-    bypassMessage?: boolean;
-}
+async function patch(globalState: ExtensionContext['globalState'], bypassMessage = false) {
+    const workbench = locateWorkbench();
+    if (!workbench) {
+        return;
+    }
 
-async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
+    const { htmlFile, workbenchJsFile } = workbench;
+
     let html = await readFile(htmlFile, 'utf-8');
     html = clearHTML(html);
 
@@ -169,12 +169,13 @@ async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
     // Inject style tag into <head>
     html = html.replace(/(<\/head>)/, '\n' + styleTags + '\n</head>');
 
-    await buildJsFile(jsFile);
+    await buildJsFile(workbenchJsFile);
     // Inject JS tag into <body>
     html = html.replace(/(<\/html>)/, '\n' + '<script src="fui.js"></script>' + '\n</html>');
 
     try {
         await writeFile(htmlFile, html, 'utf-8');
+        globalState.update(IsPatched, true);
 
         if (bypassMessage) {
             reloadWindow();
@@ -183,6 +184,23 @@ async function patch({ htmlFile, jsFile, bypassMessage }: PatchArgs) {
         }
     } catch (e) {
         window.showInformationMessage(messages.admin);
+    }
+}
+
+async function clearPatch(globalState: ExtensionContext['globalState']) {
+    const workbench = locateWorkbench();
+    if (!workbench) {
+        return;
+    }
+
+    const { htmlFile, backupHtmlFile, workbenchJsFile } = workbench;
+
+    try {
+        await restoreBackup(backupHtmlFile, htmlFile);
+        await deleteBackupFiles(backupHtmlFile, workbenchJsFile);
+        globalState.update(IsPatched, false);
+    } catch (error) {
+        window.showErrorMessage(String(error));
     }
 }
 
@@ -217,19 +235,19 @@ async function updateControlsStyle(): Promise<boolean> {
 }
 
 export function activate(context: ExtensionContext) {
-    const workbench = locateWorkbench();
-    if (!workbench) {
-        return;
-    }
-
-    const htmlFile = workbench.htmlFile;
-    const htmlBakFile = workbench.backupHtmlFile;
-    const jsFile = workbench.workbenchJsFile;
+    // Check for extension/editor updates and display notifications to re-apply patches if necessary
+    processUpdateEffects(context);
 
     /**
      * Installs full version
      */
     async function install(bypassMessage?: boolean) {
+        const workbench = locateWorkbench();
+        if (!workbench) {
+            return;
+        }
+        const { htmlFile } = workbench;
+
         if (!bypassMessage) {
             const backupUuid = await getBackupUuid(htmlFile);
             if (backupUuid) {
@@ -245,26 +263,17 @@ export function activate(context: ExtensionContext) {
 
         await updateControlsStyle();
         await createBackup(htmlFile);
-        await patch({ htmlFile, jsFile, bypassMessage });
+        await patch(context.globalState, bypassMessage);
     }
 
     async function uninstall() {
-        await clearPatch();
+        await clearPatch(context.globalState);
         restart();
-    }
-
-    async function clearPatch() {
-        try {
-            await restoreBackup(htmlBakFile, htmlFile);
-            await deleteBackupFiles(htmlBakFile, jsFile);
-        } catch (error) {
-            window.showErrorMessage(String(error));
-        }
     }
 
     const installFUI = commands.registerCommand('fluentui.enableEffects', install);
     const reloadFUI = commands.registerCommand('fluentui.reloadEffects', async () => {
-        await clearPatch();
+        await clearPatch(context.globalState);
         install(true);
     });
     const uninstallFUI = commands.registerCommand('fluentui.disableEffects', uninstall);
