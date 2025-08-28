@@ -303,15 +303,25 @@ the [Troubleshooting](/TROUBLESHOOTING.md) page or open an new issue on the gith
 ### Latest version changes
 
 ```markdown
-# [4.7.1] - 2025-07-18
+# [4.8.0] - 2025-08-28
+
+## ✨ Features
+
+-   Added support for **Windows 11 ARM** and **Ubuntu 24.04 ARM**, upgraded `sharp` for ARM builds,
+    and improved CI release workflow. (#67)
+-   Introduced an **update detection system** with centralized patch management and user
+    notifications for extension/editor updates. (#69)
 
 ## 🐛 Fixes
 
-- Resolved compatibility issues with **VS Code v1.102.0** by improving how the extension locates
-  and validates the workbench HTML and related files. (#62)
-- Fixed an issue where window control buttons had a darker background than the rest of the title
-  bar. The extension now automatically sets `window.controlsStyle = "custom"` when effects are
-  enabled. (#63)
+-   Restricted `window.controlsStyle` updates to supported platforms only, with improved error
+    handling. (#66)
+
+## ⬆️ Dependency Updates
+
+-   Upgraded 10 development dependencies (including eslint, typescript, mocha, esbuild). (#68)
+-   Removed deprecated `@types/glob` and patched vulnerabilities.
+-   Added Dependabot configuration for automated grouped updates.
 ```
 
 You can find the full changelog in the [Changelog](/CHANGELOG.md) page.

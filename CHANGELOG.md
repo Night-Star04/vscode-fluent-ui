@@ -1,5 +1,25 @@
 # Fluent UI for VsCode ChangeLog
 
+## 4.8.0 - 2025-08-28
+
+### ✨ Features
+
+- Added support for **Windows 11 ARM** and **Ubuntu 24.04 ARM**, upgraded `sharp` for ARM builds,
+  and improved CI release workflow. (#67)
+- Introduced an **update detection system** with centralized patch management and user
+  notifications for extension/editor updates. (#69)
+
+### 🐛 Fixes
+
+- Restricted `window.controlsStyle` updates to supported platforms only, with improved error
+  handling. (#66)
+
+### ⬆️ Dependency Updates
+
+- Upgraded 10 development dependencies (including eslint, typescript, mocha, esbuild). (#68)
+- Removed deprecated `@types/glob` and patched vulnerabilities.
+- Added Dependabot configuration for automated grouped updates.
+
 ## 4.7.1 - 2025-07-18
 
 ### 🐛 Fixes
