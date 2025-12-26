@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
-import sharp from 'sharp';
+import sharp, { type Sharp } from 'sharp';
 import { type ExtensionContext, ConfigurationTarget, commands, window, workspace } from 'vscode';
 
 import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from './backup-helper';
@@ -56,12 +56,70 @@ async function buildCSSTag(url: string) {
     }
 }
 
-export async function getBase64Image(wallPath: string) {
+interface WallpaperOptions {
+    blurAmount: number;
+    quality: number;
+    resolution:
+        | 'original'
+        | '1920x1080'
+        | '2560x1440'
+        | '3840x2160'
+        | '1920x1200'
+        | '2560x1600'
+        | '3840x2400';
+    format: 'jpeg' | 'png' | 'webp';
+}
+
+export async function getBase64Image(
+    wallPath: string,
+    options: WallpaperOptions,
+): Promise<string | false> {
     try {
         if (wallPath) {
-            const blurredImage = await sharp(wallPath).blur(100).toBuffer();
+            let sharpInstance: Sharp = sharp(wallPath);
+            const { blurAmount, quality, resolution, format } = options;
 
-            return `data:image/png;base64,${blurredImage.toString('base64')}`;
+            // Parse and apply resolution
+            if (resolution !== 'original') {
+                const [width, height] = resolution.split('x').map(Number);
+                if (width && height) {
+                    sharpInstance = sharpInstance.resize(width, height, {
+                        fit: 'cover',
+                        position: 'center',
+                    });
+                }
+            }
+
+            // Apply blur if amount > 0
+            if (blurAmount > 0) {
+                sharpInstance = sharpInstance.blur(blurAmount);
+            }
+
+            // Apply format-specific quality settings
+            let processedImage: Buffer;
+            switch (format) {
+                case 'jpeg': {
+                    processedImage = await sharpInstance.jpeg({ quality }).toBuffer();
+                    break;
+                }
+                case 'png': {
+                    // PNG compression level: 0-9, where 9 is maximum compression
+                    // Convert quality (1-100) to compression level (9-0)
+                    const compressionLevel = Math.round(9 - (quality / 100) * 9);
+                    processedImage = await sharpInstance.png({ compressionLevel }).toBuffer();
+                    break;
+                }
+                case 'webp': {
+                    processedImage = await sharpInstance.webp({ quality }).toBuffer();
+                    break;
+                }
+                default: {
+                    processedImage = await sharpInstance.jpeg({ quality }).toBuffer();
+                    break;
+                }
+            }
+
+            return `data:image/${format};base64,${processedImage.toString('base64')}`;
         }
 
         return false;
@@ -86,7 +144,16 @@ async function getCSSTag() {
     let encodedImage: boolean | string = false;
 
     if (enableBg) {
-        encodedImage = await getBase64Image(bgURL);
+        const wallpaperOptions: WallpaperOptions = {
+            blurAmount: config.get<number>('wallpaperBlurAmount', 50),
+            quality: config.get<number>('wallpaperQuality', 80),
+            resolution: config.get<WallpaperOptions['resolution']>(
+                'wallpaperResolution',
+                'original',
+            ),
+            format: config.get<WallpaperOptions['format']>('wallpaperFormat', 'jpeg'),
+        };
+        encodedImage = await getBase64Image(bgURL, wallpaperOptions);
     }
 
     let res = '';
@@ -167,11 +234,13 @@ async function patch(globalState: ExtensionContext['globalState'], bypassMessage
 
     const styleTags = await getCSSTag();
     // Inject style tag into <head>
-    html = html.replace(/(<\/head>)/, '\n' + styleTags + '\n</head>');
+    // html = html.replace(/(<\/head>)/, '\n' + styleTags + '\n</head>');
+    html = html.replace(/(<\/head>)/, `\n${styleTags}\n</head>`);
 
     await buildJsFile(workbenchJsFile);
     // Inject JS tag into <body>
-    html = html.replace(/(<\/html>)/, '\n' + '<script src="fui.js"></script>' + '\n</html>');
+    // html = html.replace(/(<\/html>)/, '\n' + '<script src="fui.js"></script>' + '\n</html>');
+    html = html.replace(/(<\/html>)/, '\n<script src="fui.js"></script>\n</html>');
 
     try {
         await writeFile(htmlFile, html, 'utf-8');
@@ -211,7 +280,7 @@ async function clearPatch(globalState: ExtensionContext['globalState']) {
  * This function checks the current 'window.controlsStyle' configuration setting. If it's set to 'native',
  * it displays an information message to the user and automatically updates the setting to 'custom'
  * in the global configuration.
- * 
+ *
  * Note: This setting only exists on Windows. On other platforms, this function returns false immediately.
  *
  * @returns `true` if the controls style was updated, `false` if it was already set to 'custom' or on unsupported platforms.
