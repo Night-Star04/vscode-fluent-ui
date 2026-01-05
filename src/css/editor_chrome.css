@@ -1430,7 +1430,6 @@ canvas.decorationsOverviewRuler {
 /* Secondary sidebar */
 .monaco-workbench .part.auxiliarybar {
     background: transparent !important;
-    background-blend-mode: exclusion;
     overflow-y: auto;
     height: var(--content-height);
 
@@ -1441,11 +1440,9 @@ canvas.decorationsOverviewRuler {
 
         > .composite-bar-container .action-item {
             border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
-            border-top: transparent !important;
             border: 1px solid transparent !important;
-            transition: borderRadius var(--easing-timing-fast) var(--easing-curve-in),
+            transition: border-radius var(--easing-timing-fast) var(--easing-curve-in),
                 transform var(--easing-timing-fast) var(--easing-curve-in);
-            will-change: borderRadius;
         }
         .action-item {
             overflow: hidden;
