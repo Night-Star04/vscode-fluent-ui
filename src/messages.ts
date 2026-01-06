@@ -1,3 +1,5 @@
+import { wallpaperErrorMessage } from './wallpaper';
+
 export const messages = {
     admin: 'You must run VS code with admin privileges in order to enable Fluent UI.',
     enabled: 'Fluent UI is enabled. VS code must reload for this change to take effect.',
@@ -17,6 +19,7 @@ export const messages = {
     editorUpdateAction: 'Re-apply the patch',
     extensionUpdate: 'Fluent UI updated to version {version}. ',
     extensionUpdateAction: 'Apply the update',
+    ...wallpaperErrorMessage,
 } as const satisfies Record<string, string>;
 
 export default messages;

@@ -1,15 +1,7 @@
 import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
-import sharp, { type Sharp } from 'sharp';
-import {
-    type ExtensionContext,
-    type WorkspaceConfiguration,
-    ConfigurationTarget,
-    commands,
-    window,
-    workspace,
-} from 'vscode';
+import { type ExtensionContext, ConfigurationTarget, commands, window, workspace } from 'vscode';
 
 import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from './backup-helper';
 import { messages } from './messages';
@@ -17,81 +9,7 @@ import { locateWorkbench } from './tools/file';
 import type { ControlsStyle } from './types/style';
 import { IsPatched } from './types/globalState';
 import processUpdateEffects from './tools/updates';
-
-/* Wallpaper options and image processing */
-const wallpaperFormats = ['jpeg', 'png', 'webp'] as const satisfies readonly string[];
-/* Available wallpaper resolutions */
-const wallpaperResolutions = [
-    'original',
-    '1920x1080',
-    '2560x1440',
-    '3840x2160',
-    '1920x1200',
-    '2560x1600',
-    '3840x2400',
-] as const satisfies readonly string[];
-
-interface WallpaperOptions {
-    blurAmount: number;
-    quality: number;
-    resolution: (typeof wallpaperResolutions)[number];
-    format: (typeof wallpaperFormats)[number];
-}
-
-/**
- * Maps a value from one range to another.
- * @param value The value to map.
- * @param inMin The minimum of the input range.
- * @param inMax The maximum of the input range.
- * @param outMin The minimum of the output range.
- * @param outMax The maximum of the output range.
- * @returns The mapped value.
- */
-function map(value: number, inMin: number, inMax: number, outMin: number, outMax: number) {
-    return ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
-}
-
-/**
- * Gets the wallpaper options from the workspace configuration.
- * @param config The workspace configuration.
- * @returns The wallpaper options.
- */
-function getWallpaperOptions(config: WorkspaceConfiguration): Readonly<WallpaperOptions> {
-    const rawBlur = config.get<number>('wallpaperBlurAmount', 50);
-    const blurAmount = Math.min(
-        100,
-        Math.max(0, Number.isFinite(rawBlur as number) ? (rawBlur as number) : 50),
-    );
-    const rawQuality = config.get<number>('wallpaperQuality', 80);
-    const quality = Math.round(
-        Math.min(
-            100,
-            Math.max(1, Number.isFinite(rawQuality as number) ? (rawQuality as number) : 80),
-        ),
-    );
-    const defaultResolution: WallpaperOptions['resolution'] = 'original';
-    const rawResolution = config.get<WallpaperOptions['resolution']>(
-        'wallpaperResolution',
-        defaultResolution,
-    );
-    const resolution: WallpaperOptions['resolution'] =
-        typeof rawResolution === 'string' && wallpaperResolutions.includes(rawResolution)
-            ? rawResolution
-            : defaultResolution;
-    const defaultFormat: WallpaperOptions['format'] = 'jpeg';
-    const rawFormat = config.get<WallpaperOptions['format']>('wallpaperFormat', defaultFormat);
-    const format: WallpaperOptions['format'] =
-        typeof rawFormat === 'string' && wallpaperFormats.includes(rawFormat)
-            ? rawFormat
-            : defaultFormat;
-
-    return {
-        blurAmount,
-        quality,
-        resolution,
-        format,
-    } as const satisfies WallpaperOptions;
-}
+import createBase64FromWallpaper from './wallpaper';
 
 function enabledRestart() {
     window
@@ -138,66 +56,6 @@ async function buildCSSTag(url: string) {
     }
 }
 
-export async function getBase64Image(
-    wallPath: string,
-    options: WallpaperOptions,
-): Promise<string | false> {
-    try {
-        if (wallPath) {
-            let sharpInstance: Sharp = sharp(wallPath);
-            const { blurAmount, quality, resolution, format } = options;
-
-            // Parse and apply resolution
-            if (resolution !== 'original') {
-                const [width, height] = resolution.split('x').map(Number);
-                if (width && height) {
-                    sharpInstance = sharpInstance.resize(width, height, {
-                        fit: 'cover',
-                        position: 'center',
-                    });
-                }
-            }
-
-            // Apply blur if amount > 0
-            if (blurAmount > 0) {
-                const sigma = map(blurAmount, 0, 100, 0.3, 100);
-                sharpInstance = sharpInstance.blur(sigma);
-            }
-
-            // Apply format-specific quality settings
-            let processedImage: Buffer;
-            switch (format) {
-                case 'jpeg': {
-                    processedImage = await sharpInstance.jpeg({ quality }).toBuffer();
-                    break;
-                }
-                case 'png': {
-                    // PNG compression level: 0-9, where 9 is maximum compression
-                    // Convert quality (1-100) to compression level (9-0)
-                    const compressionLevel = Math.round(map(quality, 1, 100, 9, 0));
-                    processedImage = await sharpInstance.png({ compressionLevel }).toBuffer();
-                    break;
-                }
-                case 'webp': {
-                    processedImage = await sharpInstance.webp({ quality }).toBuffer();
-                    break;
-                }
-                default: {
-                    processedImage = await sharpInstance.jpeg({ quality }).toBuffer();
-                    break;
-                }
-            }
-
-            return `data:image/${format};base64,${processedImage.toString('base64')}`;
-        }
-
-        return false;
-    } catch (e) {
-        window.showInformationMessage(messages.admin);
-        throw e;
-    }
-}
-
 async function getCSSTag() {
     const config = workspace.getConfiguration('fluentui');
     const activeTheme = window.activeColorTheme;
@@ -213,7 +71,10 @@ async function getCSSTag() {
     let encodedImage: boolean | string = false;
 
     if (enableBg) {
-        encodedImage = await getBase64Image(bgURL, getWallpaperOptions(config));
+        encodedImage = await createBase64FromWallpaper(bgURL, config);
+        if (encodedImage === false) {
+            window.showErrorMessage(messages.wallpaperUnusable);
+        }
     }
 
     let res = '';
