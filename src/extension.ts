@@ -73,7 +73,7 @@ async function getCSSTag() {
     if (enableBg) {
         encodedImage = await createBase64FromWallpaper(bgURL, config);
         if (encodedImage === null) {
-            window.showErrorMessage(messages.wallpaperUnusable);
+            window.showErrorMessage(messages.wallpaper.wallpaperUnusable);
         }
     }
 
@@ -102,9 +102,12 @@ async function getCSSTag() {
         }
     }
 
-    if (encodedImage) {
-        // Replace --app-bg value on res
-        res = res.replace('dummy', encodedImage);
+    if (enableBg && encodedImage !== null) {
+        // Replace --app-bg-img value on res (in ./css/editor_chrome.css#L54)
+        res = res.replace('--app-bg-img: url(dummy);', `--app-bg-img: url(${encodedImage});`);
+    } else {
+        // Remove --app-bg-img line
+        res = res.replace('--app-bg-img: url(dummy);', '');
     }
 
     return res;

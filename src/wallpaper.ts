@@ -46,6 +46,9 @@ const minQuality = 1;
 /** Maximum quality */
 const maxQuality = 100;
 
+/** Maximum sigma for blur effect */
+const maxSigma = 100;
+
 /** Error messages related to wallpaper processing. */
 const errorMessageList = {
     wallpaperNotFound: 'Wallpaper image not found: ',
@@ -78,16 +81,12 @@ function normalizeWallpaperSettings(
     options: Partial<WallpaperOptions>,
 ): Readonly<WallpaperOptions> {
     const { blurAmount, quality, resolution, format } = options;
-    const clampedBlurAmount = Math.min(
-        maxBlur,
-        Math.max(minBlur, blurAmount && Number.isFinite(blurAmount) ? blurAmount : defaultBlur),
-    );
-    const clampedQuality = Math.round(
-        Math.min(
-            maxQuality,
-            Math.max(minQuality, quality && Number.isFinite(quality) ? quality : defaultQuality),
-        ),
-    );
+    const blurValue =
+        typeof blurAmount === 'number' && Number.isFinite(blurAmount) ? blurAmount : defaultBlur;
+    const qualityValue =
+        typeof quality === 'number' && Number.isFinite(quality) ? quality : defaultQuality;
+    const clampedBlurAmount = Math.min(maxBlur, Math.max(minBlur, blurValue));
+    const clampedQuality = Math.round(Math.min(maxQuality, Math.max(minQuality, qualityValue)));
     const validResolution: WallpaperResolution =
         typeof resolution === 'string' && wallpaperResolutions.includes(resolution)
             ? resolution
@@ -140,7 +139,7 @@ async function encodeImageToBase64(
     try {
         // Validate wallpaper path to avoid silently returning false on empty strings
         if (!wallPath || wallPath.trim() === '') {
-            throw new Error(errorMessageList.wallpaperNotFound);
+            throw new Error('wallpaperPathEmpty');
         }
 
         let sharpInstance: Sharp = sharp(wallPath);
@@ -159,7 +158,7 @@ async function encodeImageToBase64(
 
         // Apply blur if amount > 0
         if (blurAmount > 0) {
-            const sigma = map(blurAmount, minBlur, maxBlur, 0.3, maxBlur);
+            const sigma = map(blurAmount, minBlur, maxBlur, 0.3, maxSigma, true);
             sharpInstance = sharpInstance.blur(sigma);
         }
 
@@ -173,7 +172,9 @@ async function encodeImageToBase64(
             case 'png': {
                 // PNG compression level: 0-9, where 9 is maximum compression
                 // Convert quality (minQuality-maxQuality) to compression level (9-0)
-                const compressionLevel = Math.round(map(quality, minQuality, maxQuality, 9, 0));
+                const compressionLevel = Math.round(
+                    map(quality, minQuality, maxQuality, 9, 0, true),
+                );
                 processedImage = await sharpInstance.png({ compressionLevel }).toBuffer();
                 break;
             }
@@ -192,7 +193,7 @@ async function encodeImageToBase64(
             const { message } = e;
             if (
                 message.includes('Input file is missing') ||
-                message.includes(errorMessageList.wallpaperNotFound)
+                message.includes('wallpaperPathEmpty')
             ) {
                 // File not found
                 let path = wallPath;
