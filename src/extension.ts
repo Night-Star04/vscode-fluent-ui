@@ -68,11 +68,11 @@ async function getCSSTag() {
     const darkBgColor = `${config.get<string>('darkBackground', '#202020')}b3`;
     const lightBgColor = `${config.get<string>('lightBackground', '#ffffff')}b3`;
 
-    let encodedImage: boolean | string = false;
+    let encodedImage: string | null = null;
 
     if (enableBg) {
         encodedImage = await createBase64FromWallpaper(bgURL, config);
-        if (encodedImage === false) {
+        if (encodedImage === null) {
             window.showErrorMessage(messages.wallpaperUnusable);
         }
     }
