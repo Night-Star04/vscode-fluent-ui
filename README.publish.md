@@ -54,12 +54,30 @@ Inspired by and based on the awesome concept designs by
 
 ```json
 {
-    "fluentui.compact": false, // Enable compact mode
-    "fluentui.enableWallpaper": false, // Enable background image (matching "fluentui.wallpaper" setting)
-    "fluentui.wallpaper": "C:\\path\\to\\your\\wallpaper.jpg", // Path to your wallpaper (absolute path)
-    "fluentui.accent": "#005fb8", // Accent color (HEX values only)
-    "fluentui.darkBackground": "#202020", // Dark mode background (HEX values only)
-    "fluentui.lightBackground": "#ffffff" // Light mode background (HEX values only)
+    // Applies slight less padding around some of the elements.
+    // The difference is subtle but can help those with limited space.
+    "fluentui.compact": false,
+    // Enable background image
+    "fluentui.enableWallpaper": false,
+    // Path to image. By default, it will use the default Windows 11 wallpaper for the Windows light theme.
+    "fluentui.wallpaperPath": "C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg",
+    // Blur amount for the background wallpaper (0-100). Lower values result in sharper images.
+    "fluentui.wallpaperBlurAmount": 50,
+    // Quality of the background wallpaper image (1-100). Higher values result in better quality but larger file size.
+    // Note: High quality images may increase VS Code startup time.
+    "fluentui.wallpaperQuality": 80,
+    // Resolution for the background wallpaper. 'original' preserves the source image resolution.
+    // Lower resolutions reduce memory usage and improve performance.
+    "fluentui.wallpaperResolution": "original",
+    // Output format for the background wallpaper.
+    // JPEG offers best compression, PNG offers lossless quality, WebP offers balanced compression.
+    "fluentui.wallpaperFormat": "jpeg",
+    // Accent color. Only HEX values are supported.
+    "fluentui.accent": "#005fb8",
+    // Background color for dark mode. Only HEX values are supported.
+    "fluentui.darkBackground": "#202020",
+    // Background color for light mode. Only HEX values are supported.
+    "fluentui.lightBackground": "#ffffff"
 }
 ```
 

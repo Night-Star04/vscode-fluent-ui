@@ -122,6 +122,31 @@
     }
     ```
 
+2. **Wallpaper not displaying when Wallpaper Blur Amount is too low**
+
+    When the `Wallpaper Blur Amount` setting is set to a very low value (e.g., below 10), the
+    background wallpaper may not display correctly or may not appear at all.
+
+    **Cause**: Lower blur amounts result in higher image detail, which produces a longer base64
+    encoded string. VS Code has limitations on the maximum length of CSS data URIs, and exceeding
+    this limit can cause the wallpaper to fail loading.
+
+    **Solutions**:
+    - **Increase the blur amount**: Set `fluentui.wallpaperBlurAmount` to a higher value (recommended: 25-50)
+    - **Lower the quality**: Reduce `fluentui.wallpaperQuality` to decrease the base64 string length
+    - **Use a lower resolution**: Change `fluentui.wallpaperResolution` to a smaller resolution (e.g., `1920x1080` instead of `original`)
+    - **Try a different format**: Switch `fluentui.wallpaperFormat` to `jpeg` if you're using `png`
+
+    Example configuration for optimal balance:
+    ```json
+    {
+      "fluentui.wallpaperBlurAmount": 50,
+      "fluentui.wallpaperQuality": 80,
+      "fluentui.wallpaperResolution": "1920x1080",
+      "fluentui.wallpaperFormat": "jpeg"
+    }
+    ```
+
 ## Need more help?
 
 If you encounter any other issues or need further assistance, please check the github issues or open

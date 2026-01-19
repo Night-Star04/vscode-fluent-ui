@@ -19,6 +19,22 @@ If `> Fluent UI: Reload` does not work, be use the alternative method:
 > 6.  Close and reopen VSCode.
 > 7.  The changes will take effect after the window reloads.
 
+## Overview
+
+| Setting                                         | Description                                      | Type    | Default Value                               |
+| ----------------------------------------------- | ------------------------------------------------ | ------- | ------------------------------------------- |
+| [Accent Color](#accent-color)                   | Primary color used for the theme                 | String  | `#005FB8`                                   |
+| [Dark Background](#dark-background)             | Background color for dark mode                   | String  | `#202020`                                   |
+| [Light Background](#light-background)           | Background color for light mode                  | String  | `#FFFFFF`                                   |
+| [Enable Wallpaper](#enable-wallpaper)           | Enable custom wallpaper                          | Boolean | `false`                                     |
+| [Wallpaper Path](#wallpaper-path)               | Path to the wallpaper image                      | String  | `C:\Windows\Web\Wallpaper\Windows\img0.jpg` |
+| [Wallpaper Blur Amount](#wallpaper-blur-amount) | Blur amount for the background wallpaper (0-100) | Number  | `50`                                        |
+| [Wallpaper Quality](#wallpaper-quality)         | Quality of the background wallpaper (1-100)      | Number  | `80`                                        |
+| [Wallpaper Resolution](#wallpaper-resolution)   | Resolution of the background wallpaper           | Enum    | `original`                                  |
+| [Wallpaper Format](#wallpaper-format)           | Output format of the background wallpaper        | Enum    | `jpeg`                                      |
+| [Compact Mode](#compact-mode)                   | Reduce size of sidebar and activity bar          | Boolean | `false`                                     |
+
+
 ## Color settings
 
 The UI is dynamic and will apply the light and dark themes based on the current syntax theme type.
@@ -84,6 +100,81 @@ This setting specifies the path to the wallpaper image.
 > **Note**: This setting is only applicable if the `Enable Wallpaper` setting is turned on.
 
 **Default value**: `C:\Windows\Web\Wallpaper\Windows\img0.jpg`
+
+### Wallpaper Blur Amount
+
+This setting controls the blur amount for the background wallpaper.
+
+Valid values range from 0 to 100, where:
+- Lower values result in sharper images
+- Higher values result in more blurred images
+
+> **Note**: This setting is only applicable if the `Enable Wallpaper` setting is turned on.
+
+**Default value**: `50`
+
+#### Preview
+
+Here are some examples of different blur amounts:
+
+| Blur Amount  | Preview Image                                     |
+| ------------ | ------------------------------------------------- |
+| 0            | ![Blur 0](images/blur-0.png 'Blur 0')             |
+| 5            | ![Blur 5](images/blur-5.png 'Blur 5')             |
+| 25           | ![Blur 25](images/blur-25.png 'Blur 25')          |
+| 50 (default) | ![Blur 50](images/vscode-sample-wp.png 'Blur 50') |
+| 75           | ![Blur 75](images/blur-75.png 'Blur 75')          |
+| 100          | ![Blur 100](images/blur-100.png 'Blur 100')       |
+
+The above images are based on this original wallpaper:
+
+![Original](images/wallpaper.png 'Original')
+
+### Wallpaper Quality
+
+This setting controls the quality of the background wallpaper image.
+
+Valid values range from 1 to 100, where:
+- Lower values result in smaller file sizes but reduced quality
+- Higher values result in better quality but larger file sizes
+
+> **Note**: This setting is only applicable if the `Enable Wallpaper` setting is turned on.
+>
+> **Important**: High quality images may increase VS Code startup time.
+
+**Default value**: `80`
+
+### Wallpaper Resolution
+
+This setting controls the resolution for the background wallpaper.
+
+Available options:
+- `original` - Use the original resolution of the source image
+- `1920x1080` - Full HD (16:9) - lower memory usage, recommended for most displays
+- `2560x1440` - QHD (16:9) - balanced quality and performance
+- `3840x2160` - 4K UHD (16:9) - highest quality, higher memory usage
+- `1920x1200` - WUXGA (16:10) - optimized for productivity displays
+- `2560x1600` - WQXGA (16:10) - high quality for large 16:10 screens
+- `3840x2400` - 4K+ (16:10) - ultra-high resolution for premium displays
+
+Lower resolutions reduce memory usage and improve performance.
+
+> **Note**: This setting is only applicable if the `Enable Wallpaper` setting is turned on.
+
+**Default value**: `original`
+
+### Wallpaper Format
+
+This setting controls the output format for the background wallpaper.
+
+Available formats:
+- `jpeg` - Best compression, smaller file sizes
+- `png` - Lossless quality, larger file sizes
+- `webp` - Balanced compression with good quality
+
+> **Note**: This setting is only applicable if the `Enable Wallpaper` setting is turned on.
+
+**Default value**: `jpeg`
 
 ## Compact mode
 

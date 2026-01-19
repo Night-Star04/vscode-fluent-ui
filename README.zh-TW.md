@@ -246,6 +246,15 @@ Code。它提供模糊背景、緊湊模式和可自訂的配色方案等功能�
     "fluentui.enableWallpaper": false,
     // 圖片路徑。默認情況下，它將使用 Windows 亮色主題的默認 Windows 11 壁紙。
     "fluentui.wallpaperPath": "C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg",
+    // 背景壁紙的模糊程度 (0-100)。較低的值會產生更清晰的圖片。
+    "fluentui.wallpaperBlurAmount": 50,
+    // 背景壁紙圖片的品質 (1-100)。較高的值會產生更好的品質但檔案大小也會更大。
+    // 注意：高品質圖片可能會增加 VS Code 啟動時間。
+    "fluentui.wallpaperQuality": 80,
+    // 背景壁紙的解析度。'original' 保留來源圖片的解析度。較低的解析度可以減少記憶體使用量並提高效能。
+    "fluentui.wallpaperResolution": "original",
+    // 背景壁紙的輸出格式。JPEG 提供最佳壓縮，PNG 提供無損品質，WebP 提供平衡的壓縮。
+    "fluentui.wallpaperFormat": "jpeg",
     // 配色。僅支持 HEX 值。
     "fluentui.accent": "#005fb8",
     // 暗模式背景色。僅支持 HEX 值。
