@@ -70,6 +70,57 @@
                     "description": "Path to image. By default, it will use the default Windows 11 wallpaper for the Windows light theme.",
                     "scope": "application"
                 },
+                "fluentui.wallpaperBlurAmount": {
+                    "type": "number",
+                    "default": 50,
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Blur amount for the background wallpaper (0-100). Lower values result in sharper images. Default: 50.",
+                    "scope": "application"
+                },
+                "fluentui.wallpaperQuality": {
+                    "type": "number",
+                    "default": 80,
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "Quality of the background wallpaper image (1-100). Higher values result in better quality but larger file size. Default: 80. Note: High quality images may increase VS Code startup time.",
+                    "scope": "application"
+                },
+                "fluentui.wallpaperResolution": {
+                    "type": "string",
+                    "default": "original",
+                    "enum": [
+                        "original",
+                        "1920x1080",
+                        "2560x1440",
+                        "3840x2160",
+                        "1920x1200",
+                        "2560x1600",
+                        "3840x2400"
+                    ],
+                    "enumDescriptions": [
+                        "Use the original resolution of the source image.",
+                        "Full HD (16:9) - lower memory usage, recommended for most displays.",
+                        "QHD (16:9) - balanced quality and performance.",
+                        "4K UHD (16:9) - highest quality, higher memory usage.",
+                        "WUXGA (16:10) - optimized for productivity displays.",
+                        "WQXGA (16:10) - high quality for large 16:10 screens.",
+                        "4K+ (16:10) - ultra-high resolution for premium displays."
+                    ],
+                    "description": "Resolution for the background wallpaper. 'original' preserves the source image resolution. Lower resolutions reduce memory usage and improve performance. Default: original.",
+                    "scope": "application"
+                },
+                "fluentui.wallpaperFormat": {
+                    "type": "string",
+                    "default": "jpeg",
+                    "enum": [
+                        "jpeg",
+                        "png",
+                        "webp"
+                    ],
+                    "description": "Output format for the background wallpaper. JPEG offers best compression, PNG offers lossless quality, WebP offers balanced compression. Default: jpeg.",
+                    "scope": "application"
+                },
                 "fluentui.accent": {
                     "type": "string",
                     "default": "#005fb8",

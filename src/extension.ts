@@ -1,7 +1,6 @@
 import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
-import sharp from 'sharp';
 import { type ExtensionContext, ConfigurationTarget, commands, window, workspace } from 'vscode';
 
 import { createBackup, deleteBackupFiles, getBackupUuid, restoreBackup } from './backup-helper';
@@ -10,6 +9,7 @@ import { locateWorkbench } from './tools/file';
 import type { ControlsStyle } from './types/style';
 import { IsPatched } from './types/globalState';
 import processUpdateEffects from './tools/updates';
+import createBase64FromWallpaper from './wallpaper';
 
 function enabledRestart() {
     window
@@ -56,21 +56,6 @@ async function buildCSSTag(url: string) {
     }
 }
 
-export async function getBase64Image(wallPath: string) {
-    try {
-        if (wallPath) {
-            const blurredImage = await sharp(wallPath).blur(100).toBuffer();
-
-            return `data:image/png;base64,${blurredImage.toString('base64')}`;
-        }
-
-        return false;
-    } catch (e) {
-        window.showInformationMessage(messages.admin);
-        throw e;
-    }
-}
-
 async function getCSSTag() {
     const config = workspace.getConfiguration('fluentui');
     const activeTheme = window.activeColorTheme;
@@ -83,10 +68,13 @@ async function getCSSTag() {
     const darkBgColor = `${config.get<string>('darkBackground', '#202020')}b3`;
     const lightBgColor = `${config.get<string>('lightBackground', '#ffffff')}b3`;
 
-    let encodedImage: boolean | string = false;
+    let encodedImage: string | null = null;
 
     if (enableBg) {
-        encodedImage = await getBase64Image(bgURL);
+        encodedImage = await createBase64FromWallpaper(bgURL, config);
+        if (encodedImage === null) {
+            window.showErrorMessage(messages.wallpaper.wallpaperUnusable);
+        }
     }
 
     let res = '';
@@ -114,9 +102,12 @@ async function getCSSTag() {
         }
     }
 
-    if (encodedImage) {
-        // Replace --app-bg value on res
-        res = res.replace('dummy', encodedImage);
+    if (enableBg && encodedImage !== null) {
+        // Replace --app-bg-img value on res (in ./css/editor_chrome.css#L54)
+        res = res.replace('--app-bg-img: url(dummy);', `--app-bg-img: url(${encodedImage});`);
+    } else {
+        // Remove --app-bg-img line
+        res = res.replace('--app-bg-img: url(dummy);', '');
     }
 
     return res;
@@ -167,11 +158,11 @@ async function patch(globalState: ExtensionContext['globalState'], bypassMessage
 
     const styleTags = await getCSSTag();
     // Inject style tag into <head>
-    html = html.replace(/(<\/head>)/, '\n' + styleTags + '\n</head>');
+    html = html.replace(/(<\/head>)/, `\n${styleTags}\n</head>`);
 
     await buildJsFile(workbenchJsFile);
     // Inject JS tag into <body>
-    html = html.replace(/(<\/html>)/, '\n' + '<script src="fui.js"></script>' + '\n</html>');
+    html = html.replace(/(<\/html>)/, '\n<script src="fui.js"></script>\n</html>');
 
     try {
         await writeFile(htmlFile, html, 'utf-8');
@@ -211,7 +202,7 @@ async function clearPatch(globalState: ExtensionContext['globalState']) {
  * This function checks the current 'window.controlsStyle' configuration setting. If it's set to 'native',
  * it displays an information message to the user and automatically updates the setting to 'custom'
  * in the global configuration.
- * 
+ *
  * Note: This setting only exists on Windows. On other platforms, this function returns false immediately.
  *
  * @returns `true` if the controls style was updated, `false` if it was already set to 'custom' or on unsupported platforms.

@@ -245,6 +245,17 @@ Details on the available settings can be found in the [Settings](/STEEING.md) pa
     "fluentui.enableWallpaper": false,
     // Path to image. By default, it will use the default Windows 11 wallpaper for the Windows light theme.
     "fluentui.wallpaperPath": "C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg",
+    // Blur amount for the background wallpaper (0-100). Lower values result in sharper images.
+    "fluentui.wallpaperBlurAmount": 50,
+    // Quality of the background wallpaper image (1-100). Higher values result in better quality but larger file size.
+    // Note: High quality images may increase VS Code startup time.
+    "fluentui.wallpaperQuality": 80,
+    // Resolution for the background wallpaper. 'original' preserves the source image resolution.
+    // Lower resolutions reduce memory usage and improve performance.
+    "fluentui.wallpaperResolution": "original",
+    // Output format for the background wallpaper.
+    // JPEG offers best compression, PNG offers lossless quality, WebP offers balanced compression.
+    "fluentui.wallpaperFormat": "jpeg",
     // Accent color. Only HEX values are supported.
     "fluentui.accent": "#005fb8",
     // Background color for dark mode. Only HEX values are supported.
