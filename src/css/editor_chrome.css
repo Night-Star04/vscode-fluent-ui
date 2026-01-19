@@ -36,11 +36,14 @@
     --depth-2: 0 0 2px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.14);
     --depth-4: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108);
     /* Cards */
-    --depth-8: 0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132), 0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108); /* Command bars/Command dropdowns/Context menus */
-    --depth-16: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108); /*Hover cards
+    --depth-8:
+        0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132), 0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108); /* Command bars/Command dropdowns/Context menus */
+    --depth-16:
+        0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108); /*Hover cards
 Tooltips */
     --depth-28: 0 0 8px rgba(0, 0, 0, 0.12), 0 14px 28px rgba(0, 0, 0, 0.14);
-    --depth-64: 0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22), 0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18); /* Panels/Dialogs/Popups */
+    --depth-64:
+        0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22), 0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18); /* Panels/Dialogs/Popups */
 
     /* The following variables are dynamic */
     --accent: ACCENT_COLOR;
@@ -96,7 +99,8 @@ Tooltips */
 
     --notification-toast-bg: var(--flyout-bg);
     --notification-border-radius: 6px;
-    --notification-transition: opacity var(--easing-timing-fast) var(--easing-curve-in),
+    --notification-transition:
+        opacity var(--easing-timing-fast) var(--easing-curve-in),
         transform var(--easing-timing-fast) var(--easing-curve-in);
 
     --quick-input-widget-bg: var(--flyout-bg);
@@ -266,7 +270,8 @@ html {
     padding-right: var(--s4) !important;
     position: relative;
     transition: borderColor var(--easing-timing-fast) var(--easing-curve-in);
-    transition: borderRadius var(--easing-timing-fast) var(--easing-curve-in),
+    transition:
+        borderRadius var(--easing-timing-fast) var(--easing-curve-in),
         transform var(--easing-timing-fast) var(--easing-curve-in);
     will-change: borderRadius;
     z-index: 1;
@@ -290,7 +295,8 @@ html {
     z-index: -1;
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
-    transition: transform var(--easing-timing-fast) var(--easing-curve-in),
+    transition:
+        transform var(--easing-timing-fast) var(--easing-curve-in),
         opacity var(--easing-timing-fast) var(--easing-curve-in);
 }
 
@@ -441,7 +447,8 @@ html {
     z-index: -1;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    transition: transform var(--easing-timing-fast) var(--easing-curve-in),
+    transition:
+        transform var(--easing-timing-fast) var(--easing-curve-in),
         opacity var(--easing-timing-fast) var(--easing-curve-in);
     margin: 0 !important;
 }
@@ -534,7 +541,8 @@ html {
 
 .sidebar > .title {
     position: absolute;
-    width: 90%;
+    left: var(--s5);
+    right: var(--s4);
     height: auto !important;
     background-color: transparent !important;
     margin-top: var(--s3);
@@ -568,7 +576,7 @@ html {
 
 .sidebar > .content {
     position: relative;
-    top: 2.15rem;
+    top: var(--s7);
     max-width: 100% !important;
     max-height: 100% !important;
 }
@@ -589,7 +597,8 @@ html {
 }
 
 .monaco-list-rows .monaco-list-row {
-    transition: background var(--easing-timing-normal) var(--easing-curve-in),
+    transition:
+        background var(--easing-timing-normal) var(--easing-curve-in),
         color var(--easing-timing-normal) var(--easing-curve-in);
 }
 
@@ -606,7 +615,8 @@ html {
     transform: translateY(-6px) scaleY(0);
     opacity: 0;
     transform-origin: center;
-    transition: transform var(--easing-timing-faster) var(--easing-curve-in),
+    transition:
+        transform var(--easing-timing-faster) var(--easing-curve-in),
         opacity var(--easing-timing-faster) var(--easing-curve-in);
     transition-delay: 25ms;
     z-index: 1;
@@ -787,7 +797,8 @@ html {
 .monaco-action-bar .action-item {
     background: transparent;
     border-radius: var(--s3) !important;
-    transition: background var(--easing-timing-fast) var(--easing-curve-in),
+    transition:
+        background var(--easing-timing-fast) var(--easing-curve-in),
         color var(--easing-timing-faster) var(--easing-curve-in);
 }
 
@@ -820,7 +831,8 @@ html {
     transform: translateY(-10px) scaleY(0);
     opacity: 0;
     transform-origin: center;
-    transition: transform var(--easing-timing-faster) var(--easing-curve-in),
+    transition:
+        transform var(--easing-timing-faster) var(--easing-curve-in),
         opacity var(--easing-timing-faster) var(--easing-curve-in);
     transition-delay: 25ms;
 }
