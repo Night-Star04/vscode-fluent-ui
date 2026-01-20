@@ -540,10 +540,14 @@ html {
 }
 
 .sidebar > .title {
+    position: absolute;
+    left: var(--s5);
+    right: var(--s4);
     height: auto !important;
     background-color: transparent !important;
-    margin-top: var(--s4);
+    margin-top: var(--s3);
     margin-bottom: var(--s2);
+    padding: 0;
     border-bottom: var(--border);
 }
 
@@ -571,8 +575,10 @@ html {
 }
 
 .sidebar > .content {
+    position: relative;
+    top: var(--s7);
     max-width: 100% !important;
-    max-height: 96% !important;
+    max-height: 100% !important;
 }
 
 .sidebar > .split-view-view {
