@@ -1444,6 +1444,42 @@ canvas.decorationsOverviewRuler {
     }
 }
 
+/* Secondary sidebar */
+.monaco-workbench .part.auxiliarybar {
+    background: transparent !important;
+    overflow-y: auto;
+    height: var(--content-height);
+
+    > .composite.title {
+        background-color: transparent;
+        padding-left: var(--s4) !important;
+        padding-right: 0 !important;
+
+        > .composite-bar-container .action-item {
+            border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+            border: 1px solid transparent !important;
+            transition:
+                border-radius var(--easing-timing-fast) var(--easing-curve-in),
+                transform var(--easing-timing-fast) var(--easing-curve-in);
+        }
+    }
+
+    > .content {
+        background: var(--noise-bg) repeat var(--card-bg) !important;
+        border-radius: var(--border-radius);
+        padding: var(--s2) var(--s3) 0;
+        width: calc(100% - var(--s4)) !important;
+    }
+}
+
+.part.auxiliarybar.left {
+    margin-left: var(--s4) !important;
+}
+
+.part.auxiliarybar.right {
+    margin-right: var(--s4) !important;
+}
+
 :root {
     --flyout-bg: rgba(252, 252, 252, 0.5);
     --menu-bg: rgba(252, 252, 252, 0.5);
