@@ -1,5 +1,20 @@
 # Fluent UI for VsCode ChangeLog
 
+## 4.9.0 - 2026-01-21
+
+### ✨ Features
+
+- Added customizable wallpaper image processing options, allowing users to fine-tune visual quality,
+  performance, and memory usage. (#81)
+- Refactored the wallpaper image processing pipeline for improved flexibility and adaptability.
+- Added full Fluent UI styling support for the secondary (auxiliary) sidebar, including transparent
+  backgrounds, rounded corners, token-based spacing, and smooth transitions. (#80)
+
+### 🐛 Fixes
+
+- Reduced vertical spacing between sidebar titles and content to improve visibility and usability of
+  bottom-most views, without modifying VS Code’s internal layout engine. (#82)
+
 ## 4.8.0 - 2025-08-28
 
 ### ✨ Features
