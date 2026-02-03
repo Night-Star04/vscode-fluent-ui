@@ -314,25 +314,20 @@ the [Troubleshooting](/TROUBLESHOOTING.md) page or open an new issue on the gith
 ### Latest version changes
 
 ```markdown
-# [4.8.0] - 2025-08-28
+# 4.9.0 - 2026-01-21
 
 ## ✨ Features
 
--   Added support for **Windows 11 ARM** and **Ubuntu 24.04 ARM**, upgraded `sharp` for ARM builds,
-    and improved CI release workflow. (#67)
--   Introduced an **update detection system** with centralized patch management and user
-    notifications for extension/editor updates. (#69)
+- Added customizable wallpaper image processing options, allowing users to fine-tune visual quality,
+  performance, and memory usage. (#81)
+- Refactored the wallpaper image processing pipeline for improved flexibility and adaptability.
+- Added full Fluent UI styling support for the secondary (auxiliary) sidebar, including transparent
+  backgrounds, rounded corners, token-based spacing, and smooth transitions. (#80)
 
 ## 🐛 Fixes
 
--   Restricted `window.controlsStyle` updates to supported platforms only, with improved error
-    handling. (#66)
-
-## ⬆️ Dependency Updates
-
--   Upgraded 10 development dependencies (including eslint, typescript, mocha, esbuild). (#68)
--   Removed deprecated `@types/glob` and patched vulnerabilities.
--   Added Dependabot configuration for automated grouped updates.
+- Reduced vertical spacing between sidebar titles and content to improve visibility and usability of
+  bottom-most views, without modifying VS Code’s internal layout engine. (#82)
 ```
 
 You can find the full changelog in the [Changelog](/CHANGELOG.md) page.
